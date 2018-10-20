@@ -2,14 +2,21 @@
 #include<d3d9.h>
 #include<d3dx9.h>
 
+graphics * graphics::__instance = NULL;
+
+LPDIRECT3DTEXTURE9 graphics::LoadTexture(char * filename, D3DCOLOR tran)
+{
+	return LPDIRECT3DTEXTURE9();
+}
+
 void graphics::InitDirect(HWND hwnd, int width, int height, bool isfull)
 {
 	
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d)
 	{
-		MessageBox(hwnd, "Loi qua trinh cai Direct3d", "Loi",MB_OK);
-		return ;
+		OutputDebugString(L"[ERROR] create d3d failed\n");
+		return;
 	}
 	// khai báo d3d parameters,set zeromemory trước khi truyền
 	D3DPRESENT_PARAMETERS d3dpp;
@@ -39,11 +46,11 @@ void graphics::InitDirect(HWND hwnd, int width, int height, bool isfull)
 
 		if (d3ddv==NULL)
 		{
-			MessageBox(hwnd, "error create d3d device", "Loi", MB_OK);
+			OutputDebugString(L"[ERROR] create device false failed\n");
 			return ;
 		}
 		
-		MessageBox(hwnd, "Done", "Complete", MB_OK);
+		OutputDebugString(L"[Complete] complete\n");
 		return ;
 
 
@@ -59,11 +66,39 @@ void graphics::safeRelease()
 
 void graphics::ShowBackBuffer()
 {
-		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	// pointer to the back buffer
-			d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
+			d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);	
+}
+
+graphics * graphics::GetInstance()
+{
+	if (__instance==NULL)
+	{
+		__instance = new graphics();
+	}
+	return __instance;
+}
+
+void graphics::Present()
+{
 	// hien thi back buffer len screen
-			d3ddv->Present(NULL, NULL, NULL, NULL);
+	d3ddv->Present(NULL, NULL, NULL, NULL);
+}
+
+void graphics::Begin()
+{
+	d3ddv->BeginScene();
+}
+
+void graphics::End()
+{
+	d3ddv->EndScene();
+}
+
+void graphics::Clear()
+{
+	//D3DCOLOR_XRGB(0, 0, 0) black
+	d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 }
 
 graphics::graphics()

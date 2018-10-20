@@ -3,7 +3,7 @@
 ////#include<Windows.h>
 #define Default_Window_Height 600
 #define Default_Window_Width 800
-#define APPNAME "Casle Vania"
+#define APPNAME L"Casle Vania"
 
 #define FULLSCREEN  0 // windowed or fullscreen
 

@@ -12,6 +12,8 @@ private:
 	// dùng để tạo device
 	LPDIRECT3DDEVICE9 d3ddv=NULL;
 	LPDIRECT3DSURFACE9 backBuffer;
+	LPDIRECT3DTEXTURE9 LoadTexture(char *filename,D3DCOLOR tran);
+	static graphics *__instance;
 //	HWND hwnd;
 	// các biến về kích thước màn hình;
 	bool isFullScene;
@@ -22,6 +24,13 @@ public:
 	void InitDirect(HWND hwnd, int width, int height, bool isfull);
 	void safeRelease();
 	void ShowBackBuffer();
+	static graphics *GetInstance();
+	LPDIRECT3DDEVICE9  getDevice() { return d3ddv; };
+	void Present();
+	void Begin();
+	void End();
+	void Clear();
+	
 	graphics();
 	~graphics();
 };

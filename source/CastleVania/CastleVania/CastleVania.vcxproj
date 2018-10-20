@@ -123,15 +123,17 @@
   <ItemGroup>
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="ViewPort.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

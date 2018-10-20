@@ -15,7 +15,8 @@ LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 bool CreateMainWindow(HWND &,HINSTANCE,int);
 // hàm setup windown properties
-HINSTANCE hinst;graphics *graphic;
+HINSTANCE hinst;
+graphics *graphic;
 	
 //=======================================================================
 // Starting point for a Windows application
@@ -52,12 +53,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 				else
 					graphic->ShowBackBuffer();
 			}
-			SAFE_DELETE(graphic); // Free memory before exit
+			// loi operator
+			//SAFE_DELETE(graphic); // Free memory before exit
 			return msg.wParam;
 		}
 		catch (...)
 		{
-			MessageBox(NULL, "Unknown error occurred in game.", "Error", MB_OK);
+			OutputDebugString(L"[ERROR]Unknowt\n");
 		}
 		SAFE_DELETE(graphic); // Free memory before exit
 		return 0;
@@ -134,7 +136,6 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_DESTROY:
 		// Tell Windows to kill this program
-
 		PostQuitMessage(0);
 		return 0;
 	
