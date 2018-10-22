@@ -81,7 +81,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dxerr.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="..\..\..\idm\gamedev-intro-tutorials-master\01-Skeleton\mario.png" />
     <Image Include="C:\Users\nguyrn\Desktop\source\1.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +126,8 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="Objects.h" />
+    <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="ViewPort.h" />
   </ItemGroup>
@@ -132,9 +135,15 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="winmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="C:\Users\nguyrn\Desktop\Readme.txt" />
+    <Text Include="Surface_Texture.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

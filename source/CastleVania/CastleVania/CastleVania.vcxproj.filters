@@ -13,23 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Readme">
+      <UniqueIdentifier>{65bade27-7dfd-4563-8011-fa0e5c3b821d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SEngine">
+      <UniqueIdentifier>{670f7863-07e8-48af-8c9f-db33b9276d79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="C:\Users\nguyrn\Desktop\source\1.gif">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\idm\gamedev-intro-tutorials-master\01-Skeleton\mario.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="define.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewPort.h">
@@ -38,25 +38,54 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="winmain.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="graphics.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="ViewPort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="graphics.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="C:\Users\nguyrn\Desktop\Readme.txt">
+      <Filter>Readme</Filter>
+    </Text>
+    <Text Include="Surface_Texture.txt">
+      <Filter>Readme</Filter>
+    </Text>
   </ItemGroup>
 </Project>

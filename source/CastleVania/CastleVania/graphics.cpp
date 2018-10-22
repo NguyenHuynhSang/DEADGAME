@@ -2,17 +2,15 @@
 #include<d3d9.h>
 #include<d3dx9.h>
 
+//ví dụ :D
+#define SPRITE_PATH L"mario.png"
 graphics * graphics::__instance = NULL;
-
-LPDIRECT3DTEXTURE9 graphics::LoadTexture(char * filename, D3DCOLOR tran)
-{
-	return LPDIRECT3DTEXTURE9();
-}
 
 void graphics::InitDirect(HWND hwnd, int width, int height, bool isfull)
 {
+
 	
-	d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	d3d=Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d)
 	{
 		OutputDebugString(L"[ERROR] create d3d failed\n");
@@ -40,20 +38,18 @@ void graphics::InitDirect(HWND hwnd, int width, int height, bool isfull)
 		hwnd,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&d3dpp,
-		&d3ddv
+		&d3ddc
 	);
 	//clear backbuffer to black
 
-		if (d3ddv==NULL)
+		if (d3ddc==NULL)
 		{
 			OutputDebugString(L"[ERROR] create device false failed\n");
 			return ;
 		}
 		
 		OutputDebugString(L"[Complete] complete\n");
-		return ;
-
-
+		return;
 }
 
 void graphics::safeRelease()
@@ -61,13 +57,13 @@ void graphics::safeRelease()
 	//dùng câu lệnh trong macro để xóa an toàn
 	//ex:#define SAFE_RELEASE(ptr) { if(ptr) { (ptr)->Release(); (ptr)=NULL; } }
 	SAFE_RELEASE(d3d);
-	SAFE_DELETE(d3ddv);
+	SAFE_DELETE(d3ddc);
 }
 
 void graphics::ShowBackBuffer()
 {
 	// pointer to the back buffer
-			d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);	
+			d3ddc->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);	
 }
 
 graphics * graphics::GetInstance()
@@ -79,32 +75,100 @@ graphics * graphics::GetInstance()
 	return __instance;
 }
 
+void graphics::render_frame(void)
+{
+	d3ddc->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 40, 100), 1.0f, 0);
+
+	d3ddc->BeginScene();
+
+	drawSprite(20,20,tex,1,1,200,200);	// draw sprite
+
+	d3ddc->EndScene();
+
+	// displays the created frame on the screen
+	// translate backbuffer to frontbuffer
+	d3ddc->Present(NULL, NULL, NULL, NULL);
+}
+
 void graphics::Present()
 {
-	// hien thi back buffer len screen
-	d3ddv->Present(NULL, NULL, NULL, NULL);
+	// hien thi back buffer len screen// front buffer
+	d3ddc->Present(NULL, NULL, NULL, NULL);
 }
 
 void graphics::Begin()
 {
-	d3ddv->BeginScene();
+	d3ddc->BeginScene();
 }
 
 void graphics::End()
 {
-	d3ddv->EndScene();
+	d3ddc->EndScene();
 }
 
 void graphics::Clear()
 {
 	//D3DCOLOR_XRGB(0, 0, 0) black
-	d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	d3ddc->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+}
+
+void graphics::initsprite(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
+{
+	// biến kiểm tra thành công
+	HRESULT rs;
+	// kết nối sprite handler với device và Direct3D
+	rs=D3DXCreateSprite(d3ddc, &spriteHandler);
+
+	rs = D3DXGetImageInfoFromFile(filePath, &info);
+	rs = D3DXCreateTextureFromFileEx(
+		d3ddc,                   // device liên kết với texture 
+		filePath,		      // đường dẫn của sprite
+		info.Width,			      // chiều dài của sprite
+		info.Height,		      // chiều rộng của sprite
+		1,
+		D3DPOOL_DEFAULT,	      // kiểu surface
+		D3DFMT_UNKNOWN,	          // định dạng surface
+		D3DPOOL_DEFAULT,	      // lớp bộ nhớ cho texture
+		D3DX_DEFAULT,		      // bộ lọc ảnh
+		D3DX_DEFAULT,		      // bộ lọc mip
+		transparentColor,   // chỉ ra màu trong suốt
+		&info,			          // thông tin của sprite
+		NULL,			          // đổ màu
+		&tex			      // texture sẽ chứa sprite
+	);
+
+}
+
+void graphics::drawSprite(float x,float y, LPDIRECT3DTEXTURE9 texture, int left,int top, int right, int button)
+{
+	// khóa surface để sprite có thể vẽ 
+	// D3DXSPRITE_ALPHABLEND hỗ trợ vẽ trong suốt nếu không thì để giá trị NULL
+	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+
+	// cài đặt vị trí cần hiển thị lên màn hình
+	D3DXVECTOR3 position(x, y, 0);
+	// chỉ hiển thị một phần
+	RECT rt;
+	rt.bottom = button;
+	rt.left = left;
+	rt.right = right;
+	rt.top = top;
+	spriteHandler->Draw(
+		texture,				        // texture lưu sprite
+		&rt,				            // diện tích cần hiển thị 
+		NULL,				            // tâm dùng để vẽ, xoay
+		&position,			            // vị trí sprite
+		D3DCOLOR_XRGB(255, 255, 255)	// màu thay thế
+	);
+
+	// mở khóa surface để tiến trình khác sử dụng
+	spriteHandler->End();
 }
 
 graphics::graphics()
 {
 	d3d = NULL;
-	d3ddv = NULL;
+	d3ddc = NULL;
 	backBuffer = NULL;
 	isFullScene = false;
 	this->width = Default_Window_Width;

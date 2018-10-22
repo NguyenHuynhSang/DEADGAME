@@ -11,12 +11,13 @@
 #include<d3dx9.h>
 #include<Windows.h>
 #include"graphics.h"
+#include"Game.h"
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 bool CreateMainWindow(HWND &,HINSTANCE,int);
 // hàm setup windown properties
 HINSTANCE hinst;
-graphics *graphic;
+CGame *myGame;
 	
 //=======================================================================
 // Starting point for a Windows application
@@ -30,12 +31,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 		HWND hwnd=NULL;
 		if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
 			return 1;
+		myGame = new CGame();
+		myGame->Init(hwnd);
 		try {
 			// Create Graphics object
-			graphic = new graphics;
+		//	graphic = new graphics;
 			// Initialize Graphics, throws GameError
-			graphic->InitDirect(hwnd, 800, 600, FULLSCREEN);
+		//	graphic->InitDirect(hwnd, 800, 600, FULLSCREEN);
 			// Main message loop
+			
 			int done = 0;
 			while (!done)
 			{
@@ -50,8 +54,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
-				else
-					graphic->ShowBackBuffer();
+				myGame->render();
+				//else
+					//myGame->Draw();
 			}
 			// loi operator
 			//SAFE_DELETE(graphic); // Free memory before exit
@@ -61,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 		{
 			OutputDebugString(L"[ERROR]Unknowt\n");
 		}
-		SAFE_DELETE(graphic); // Free memory before exit
+	//	SAFE_DELETE(graphic); // Free memory before exit
 		return 0;
 	}
 bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)

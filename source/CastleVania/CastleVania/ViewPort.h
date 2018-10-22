@@ -14,7 +14,7 @@ Flip theo trục Ox ==>y đảo ngược
 class CViewPort
 {
 	D3DXMATRIX mt;
-	
+	D3DVECTOR cposition;
 public:
 	//D3DXMatrixIdentity(&mt);
 	CViewPort();
