@@ -5,13 +5,14 @@
 *
 ************************************************************/
 
-
 #include"define.h"
 #include<d3d9.h>
 #include<d3dx9.h>
 #include<Windows.h>
+#include"Input.h"
 #include"graphics.h"
 #include"Game.h"
+#include"Global.h"
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 bool CreateMainWindow(HWND &,HINSTANCE,int);
@@ -19,6 +20,77 @@ bool CreateMainWindow(HWND &,HINSTANCE,int);
 HINSTANCE hinst;
 CGame *myGame;
 	
+CInput *input;
+
+///================================
+//key
+//======================
+class CSampleKeyHander : public CKeyEventHandler
+{
+	virtual void KeyState(BYTE *states);
+	virtual void OnKeyDown(int KeyCode);
+	virtual void OnKeyUp(int KeyCode);
+};
+
+CSampleKeyHander * keyHandler;
+
+void CSampleKeyHander::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		//mario->SetState(MARIO_STATE_JUMP);
+		break;
+	case DIK_A: // reset
+		//mario->SetState(MARIO_STATE_IDLE);
+		//mario->SetLevel(MARIO_LEVEL_BIG);
+		//mario->SetPosition(50.0f, 0.0f);
+		//mario->SetSpeed(0, 0);
+		break;
+	}
+}
+
+void CSampleKeyHander::OnKeyUp(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+}
+void CSampleKeyHander::KeyState(BYTE *states)
+{
+
+	Global *t = Global::GetInstance();
+	if (input->isKeyDown(VK_LEFT))
+	{
+		t->Set(1);
+		OutputDebugString(L"Player press left arrow");
+		//DebugOut("Player press left arrow");
+	}
+	else
+	{
+		t->Set(0);
+	}
+
+	// disable control key when Mario die 
+	/*if (mario->GetState() == MARIO_STATE_DIE) return;
+	if (game->IsKeyDown(DIK_RIGHT))
+		mario->SetState(MARIO_STATE_WALKING_RIGHT);
+	else if (game->IsKeyDown(DIK_LEFT))
+		mario->SetState(MARIO_STATE_WALKING_LEFT);
+	else
+		mario->SetState(MARIO_STATE_IDLE);*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
 //=======================================================================
 // Starting point for a Windows application
 //=======================================================================
@@ -31,7 +103,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 		HWND hwnd=NULL;
 		if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
 			return 1;
+		keyHandler = new CSampleKeyHander();
 		myGame = new CGame();
+		input = CInput::GetInstance();
+		input->InitKeyboard(hwnd,keyHandler);
 		myGame->Init(hwnd);
 		try {
 			// Create Graphics object
@@ -54,6 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
+				input->ProcessKeyboard();
 				myGame->render();
 				//else
 					//myGame->Draw();

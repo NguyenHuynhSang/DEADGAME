@@ -13,7 +13,7 @@ Sprites::Sprites(int id, int left, int top, int right, int bottom, LPDIRECT3DTEX
 
 }
 
-void Sprites::Draw(float x, float y)
+void Sprites::Draw(float x, float y,int amlpa)
 {
 
 	graphics *graphic = graphics::GetInstance();

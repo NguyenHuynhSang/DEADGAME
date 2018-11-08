@@ -17,7 +17,6 @@ public:
 	void Init(HWND hwnd);
 	void Draw();
 	void render();
-	void GameRun(HWND _hwnd);
 	void GameUpdate(HWND _hwnd);
 	void GameEnd(HWND _hwnd);
 	// load resource 1 lần ==> xử lý nhanh hơn nhưng nặng máy

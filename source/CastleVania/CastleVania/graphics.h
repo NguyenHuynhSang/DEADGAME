@@ -32,17 +32,20 @@ public:
 	void safeRelease();
 	void ShowBackBuffer();
 	static graphics *GetInstance();
+	// bien trung gian
 	LPDIRECT3DTEXTURE9 tex;
-	LPDIRECT3DDEVICE9  getDevice() { return d3ddc; };
-	void render_frame(void);
+	//LPDIRECT3DDEVICE9  getDevice() { return d3ddc; };
+	//ex render a single scene
+	void render_frame();
 
 	void Present();
 	void Begin();
 	void End();
 	void Clear();
 
-	//ví dụ về initsprite
-	void initsprite(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
+	// init tex
+	void initsprite(LPDIRECT3DTEXTURE9 &tex, LPCWSTR filePath, D3DCOLOR transparentColor);
+	//draw sprite
 	void drawSprite(float x, float y,LPDIRECT3DTEXTURE9 texture, int left, int right, int top, int button);
 	graphics();
 	~graphics();

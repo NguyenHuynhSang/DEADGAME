@@ -19,6 +19,9 @@
     <Filter Include="Header Files\SEngine">
       <UniqueIdentifier>{670f7863-07e8-48af-8c9f-db33b9276d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{c1566165-ab21-4bd3-ba30-94e32e8f5a96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="C:\Users\nguyrn\Desktop\source\1.gif">
@@ -29,16 +32,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewPort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="define.h">
@@ -53,15 +47,30 @@
     <ClInclude Include="Sprites.h">
       <Filter>Header Files\SEngine</Filter>
     </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Canimation.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewPort.h">
+      <Filter>Header Files\SEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="winmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewPort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -70,14 +79,32 @@
     <ClCompile Include="graphics.cpp">
       <Filter>Header Files\SEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Objects.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Header Files\SEngine</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Canimation.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects.cpp">
+      <Filter>Header Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewPort.cpp">
+      <Filter>Header Files\SEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Header Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

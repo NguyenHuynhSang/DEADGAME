@@ -63,7 +63,7 @@ void graphics::safeRelease()
 void graphics::ShowBackBuffer()
 {
 	// pointer to the back buffer
-			d3ddc->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);	
+	d3ddc->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);	
 }
 
 graphics * graphics::GetInstance()
@@ -74,14 +74,14 @@ graphics * graphics::GetInstance()
 	}
 	return __instance;
 }
-
-void graphics::render_frame(void)
+//ex rander a single scene
+void graphics::render_frame()
 {
 	d3ddc->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 40, 100), 1.0f, 0);
 
 	d3ddc->BeginScene();
 
-	drawSprite(20,20,tex,1,1,200,200);	// draw sprite
+	//drawSprite(20,20,tex,1,1,100,100);	// draw sprite
 
 	d3ddc->EndScene();
 
@@ -109,17 +109,26 @@ void graphics::End()
 void graphics::Clear()
 {
 	//D3DCOLOR_XRGB(0, 0, 0) black
-	d3ddc->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	d3ddc->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 40, 100), 1.0f, 0);
 }
 
-void graphics::initsprite(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
+void graphics::initsprite(LPDIRECT3DTEXTURE9 &tex, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	// biến kiểm tra thành công
 	HRESULT rs;
 	// kết nối sprite handler với device và Direct3D
 	rs=D3DXCreateSprite(d3ddc, &spriteHandler);
-
+	if (rs!=D3D_OK)
+	{
+		OutputDebugString(L"[Error] Loi ket noi sprite handler voi device");
+		return;
+	}
 	rs = D3DXGetImageInfoFromFile(filePath, &info);
+	if (rs != D3D_OK)
+	{
+		OutputDebugString(L"[Error] Loi get imate from file");
+		return;
+	}
 	rs = D3DXCreateTextureFromFileEx(
 		d3ddc,                   // device liên kết với texture 
 		filePath,		      // đường dẫn của sprite
@@ -136,7 +145,17 @@ void graphics::initsprite(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		NULL,			          // đổ màu
 		&tex			      // texture sẽ chứa sprite
 	);
-
+	if (rs != D3D_OK)
+	{
+		OutputDebugString(L"[Error] Loi create texture");
+		return;
+	}
+	else
+	{
+		OutputDebugString(L"[Complete] Complete create texture");
+	}
+	// cẩn thận khúc này
+	this->tex = tex;
 }
 
 void graphics::drawSprite(float x,float y, LPDIRECT3DTEXTURE9 texture, int left,int top, int right, int button)

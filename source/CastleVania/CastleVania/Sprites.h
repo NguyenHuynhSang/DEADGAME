@@ -16,7 +16,7 @@ private:
 public:
 	Sprites(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	// vị trí vẽ sprite
-	void Draw(float x, float y);
+	void Draw(float x, float y,int almpa=255);
 	Sprites();
 	~Sprites();
 };
@@ -26,7 +26,6 @@ typedef Sprites * LPSPRITE;
 class CSprites
 {
 	static CSprites * __instance;
-	
 	unordered_map<int, LPSPRITE> _sprites;
 public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);

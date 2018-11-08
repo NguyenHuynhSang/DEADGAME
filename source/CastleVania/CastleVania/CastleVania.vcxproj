@@ -122,20 +122,28 @@
     <Image Include="C:\Users\nguyrn\Desktop\source\1.gif" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Canimation.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Objects.h" />
+    <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="ViewPort.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Canimation.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="ViewPort.cpp" />
