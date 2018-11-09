@@ -1,9 +1,0 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CastleVania.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  winmain.cpp
-c:\program files (x86)\windows kits\8.1\include\um\winuser.h(482): warning C4005: 'VK_LEFT': macro redefinition
-  d:\my code\castlevania\castlevania\define.h(28): note: see previous definition of 'VK_LEFT'
-  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\my code\castlevania\castlevania\define.h(28): warning C4005: 'VK_LEFT': macro redefinition
-  c:\program files (x86)\windows kits\8.1\include\um\winuser.h(482): note: see previous definition of 'VK_LEFT'
-  CastleVania.vcxproj -> D:\my code\CastleVania\Debug\Project Game.exe
-  CastleVania.vcxproj -> D:\my code\CastleVania\Debug\Project Game.pdb (Partial PDB)
