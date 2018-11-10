@@ -1,7 +1,3 @@
-﻿  main.cpp
-d:\my code\gamecode\projectgame\projectgame\main.cpp(295): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\main.cpp(311): warning C4018: '<': signed/unsigned mismatch
-d:\my code\gamecode\projectgame\projectgame\main.cpp(316): warning C4018: '<': signed/unsigned mismatch
-d:\my code\gamecode\projectgame\projectgame\main.cpp(339): warning C4018: '<': signed/unsigned mismatch
+﻿  Zombie.cpp
   ProjectGame.vcxproj -> D:\my code\GameCode\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\my code\GameCode\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)
