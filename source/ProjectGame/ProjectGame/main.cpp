@@ -31,6 +31,7 @@ CGameObject::GetBoundingBox
 #include "Brick.h"
 #include "Zombie.h">
 #include "Torch.h"
+#include "TileMap.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 ///Clear background to black
@@ -52,7 +53,7 @@ CGame *game;
 
 CSIMON *SIMON;
 CGoomba *goomba;
-
+CTileMap *tileG;
 vector<LPGAMEOBJECT> objects;
 
 class CSampleKeyHander : public CKeyEventHandler
@@ -81,27 +82,38 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		SIMON->SetSpeed(0, 0);
 		break;
 	}
+
+		
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
+bool stupidFlag = false;
+bool isLeft, isRight, isJump, isFire;
+bool idle = true;
 
 ///bắt sự kiện bàn phím và cập nhật trạng thái
 void CSampleKeyHander::KeyState(BYTE *states)
 {
+	// Nên dùng time để xử lý vì dùng frame cuối vừa đến frame cuối ani sẽ dừng
+	//mất delay time cần có phương pháp hiệu quả hon
+
+	DWORD t2 = 0;
 	SIMON->getStateforAniSitandJump=false;
 	// code chi danh cho scene dau tien
 	if (SIMON->x>=640/2-60 && SIMON->x<=1550-640/2-60)
 	{
 
-		game->setCam(SIMON->x - 640 / 2 + 60, NULL);
+		game->setCam(SIMON->x - SCREEN_WIDTH/2 +62, NULL);
 	}
 	
 	
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+
+
 
 	if (game->IsKeyDown(DIK_SPACE))
 	{
@@ -110,7 +122,13 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		return;
 	}
 
-
+	if (game->IsKeyDown(DIK_LCONTROL))
+	{
+//		bool flag = CAnimations::GetInstance()->Get(502)->end;
+		stupidFlag = true;
+		SIMON->SetState(SIMON_STAGE_STAND_FIRE);
+	
+	}
 
 //disable move when sit
 	if (game->IsKeyDown(DIK_DOWN))
@@ -120,22 +138,57 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		SIMON->SetState(SIMON_STATE_IDLE);
 		return;
 	}
-//arrow right
-	if (game->IsKeyDown(DIK_RIGHT))
+
+
+	if (game->IsKeyDown(DIK_RIGHT))         //arrow right
 	{
-		SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
-		//isleft = false;
+		//chan phim di chuyen toi neu dang o mat dat va dang fire
+		
+		if (stupidFlag==false && SIMON->vy!=0)
+		{
+			SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
+			//return;
+		}
+		
 	}
-	//arrow left	
-	else if (game->IsKeyDown(DIK_LEFT))
+	else if (game->IsKeyDown(DIK_LEFT))       //arrow left
 	{
-		SIMON->SetState(SIMON_STATE_WALKING_LEFT);
-	//	isleft = true;
+		if (stupidFlag == false && SIMON->vy != 0)
+		{
+			SIMON->SetState(SIMON_STATE_WALKING_LEFT);
+			//return;
+		}
+		
 	}
 		
-	else
-		SIMON->SetState(SIMON_STATE_IDLE);
-	///Bat su kien khi simon ngoi` xuong
+	else {
+		if (stupidFlag==true )
+		{
+				SIMON->SetState(SIMON_STAGE_STAND_FIRE);
+				DWORD t1 = GetTickCount();
+				DWORD t2= t1 - CAnimations::GetInstance()->Get(502)->getlastFrameTime();
+				DebugOut(L"time  %d  \n",t2);
+				if (CAnimations::GetInstance()->Get(502)->getlastFrameTime() >0)
+				{
+					if (CAnimations::GetInstance()->Get(502)->getCurrentFrame()==2 && t2>300)
+					{
+						DebugOut(L"current frame %d", CAnimations::GetInstance()->Get(502)->getCurrentFrame());
+						stupidFlag = false;
+						SIMON->SetState(SIMON_STATE_IDLE);
+						//set lai current frame ve frame dau de tiep tuc play ani
+						CAnimations::GetInstance()->Get(502)-> setCurrentFrame(-1);
+						
+					}
+				
+				}
+		}
+		else
+		{
+				SIMON->SetState(SIMON_STATE_IDLE);
+	
+		}
+	
+	}
 
 }
 
@@ -173,34 +226,45 @@ void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
 
-	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\SIMON.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\Simon\\Simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_MISC, L"Resource\\sprites\\Ground\\2.png", D3DCOLOR_XRGB(225, 0, 248));
 	textures->Add(ID_TEX_ENEMY, L"Resource\\sprites\\Enemies\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_TORCH, L"Resource\\sprites\\Ground\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
+	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
 
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
+
+	LPDIRECT3DTEXTURE9 texMap = textures->Get(-10);
+	tileG = new CTileMap();
+	tileG->SetMSize(1536, 384);
+	tileG->SetTileSetHeight(640, 128);
+	tileG->LoadTile("data\\map\\tileset.txt", texMap);
+	
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-
+	// Cần flipping hình sau
+	// cách này khá củ chuối
 	// big
-	sprites->Add(10001, 432, 199, 470, 260, texSimon);		// idle right
-	sprites->Add(10002, 374, 199, 402, 260, texSimon);		// walk
-	sprites->Add(10003, 315, 199, 346, 260, texSimon);
-	sprites->Add(10004, 255, 199, 286, 260, texSimon);
+	sprites->Add(10001, 435-14, 3, 468+14, 64, texSimon);		// idle right
+	sprites->Add(10002, 389-30, 3, 400+22, 64, texSimon);		// walk
+	sprites->Add(10003, 313-14, 3, 345+14, 64, texSimon);
+	sprites->Add(10004, 271-30, 3, 282+22, 64, texSimon);
 
 
-	sprites->Add(10011, 11, 3, 46, 64, texSimon);		// idle left
-	sprites->Add(10012, 76, 3, 105, 64, texSimon);		// walk
-	sprites->Add(10013, 133, 3, 167, 64, texSimon);
-	sprites->Add(10014, 193, 3, 222, 64, texSimon);
+	sprites->Add(10011, 11-14, 201, 44+14, 262, texSimon);		// idle left
+	sprites->Add(10012, 79-30, 201, 90+22, 262, texSimon);		// walk
+	sprites->Add(10013, 134-14, 201, 166+14, 262, texSimon);
+	sprites->Add(10014, 197-30, 201, 208+22, 262, texSimon);
 
 
 	sprites->Add(10015, 252, 3, 283, 65, texSimon);//Simon sit left
-	sprites->Add(10016, 194, 199, 229, 262, texSimon);//Simon sit Right
+	sprites->Add(10016, 195-14, 3, 228+14, 64, texSimon);//Simon sit Right
+	sprites->Add(10017, 135-14, 3, 168+14, 64, texSimon);//Simon stand fire
+	sprites->Add(10018, 75-14, 3, 108+10, 64, texSimon);//Simon stand fire
+	sprites->Add(10019, 15-14, 3, 48+14, 64, texSimon);//Simon stand fire
 
 
 
@@ -210,15 +274,7 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texTch = textures->Get(ID_TEX_TORCH);
 	sprites->Add(40000,0,0,32,64, texTch);
 	sprites->Add(40001, 32, 0, 64, 64, texTch);
-	//														// small
-	//sprites->Add(10021, 247, 0, 259, 15, texSimon);			// idle small right
-	//sprites->Add(10022, 275, 0, 291, 15, texSimon);			// walk 
-	//sprites->Add(10023, 306, 0, 320, 15, texSimon);			// 
 
-	//sprites->Add(10031, 187, 0, 198, 15, texSimon);			// idle small left
-
-	//sprites->Add(10032, 155, 0, 170, 15, texSimon);			// walk
-	//sprites->Add(10033, 125, 0, 139, 15, texSimon);			// 
 
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
@@ -236,47 +292,35 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	ani = new CAnimation(100);	// idle big right
+	ani = new CAnimation(150);	// idle big right
 	ani->Add(10001);
 	animations->Add(400, ani);
 
-	ani = new CAnimation(100);	// idle big left
+	ani = new CAnimation(150);	// idle big left
 	ani->Add(10011);
 	animations->Add(401, ani);
 
-	//ani = new CAnimation(100);	// idle small right
-	//ani->Add(10021);
-	//animations->Add(402, ani);
 
-	//ani = new CAnimation(100);	// idle small left
-	//ani->Add(10031);
-	//animations->Add(403, ani);
-
-	ani = new CAnimation(100);	// walk right big
+	ani = new CAnimation(150);	// walk right big
 	ani->Add(10001);
 	ani->Add(10002);
 	ani->Add(10003);
 	ani->Add(10004);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(100);	// // walk left big
+	ani = new CAnimation(150);	// // walk left big
 	ani->Add(10011);
 	ani->Add(10012);
 	ani->Add(10013);
 	ani->Add(10014);
 	animations->Add(501, ani);
 
-	//ani = new CAnimation(100);	// walk right small
-	//ani->Add(10021);
-	//ani->Add(10022);
-	//ani->Add(10023);
-	//animations->Add(502, ani);
-
-	//ani = new CAnimation(100);	// walk left small
-	//ani->Add(10031);
-	//ani->Add(10032);
-	//ani->Add(10033);
-	//animations->Add(503, ani);
+	ani = new CAnimation(300);//simon stand fires
+	ani->Add(10017);
+	ani->Add(10018);
+	ani->Add(10019);
+	animations->Add(502, ani);
+;
 
 	ani = new CAnimation(100); //simon sit left
 	ani->Add(10015);
@@ -314,6 +358,11 @@ void LoadResources()
 	animations->Add(702, ani);
 
 
+	//loadMapHere
+	
+
+
+
 	for (int i = 0; i < 10; i++)
 	{
 		CTorch* Torch = new CTorch();
@@ -329,32 +378,14 @@ void LoadResources()
 	SIMON->AddAnimation(500);		// walk right big   /2
 	SIMON->AddAnimation(501);		// walk left big    /3
 	SIMON->AddAnimation(504); //Idle sit left           /4
-	SIMON->AddAnimation(505); //Idle sit right          /5
-
+	SIMON->AddAnimation(505);  //Idle sit right          /5
+	SIMON->AddAnimation(502);//SIMON Stand fire        /6
 
 	SIMON->AddAnimation(599);		// die
 
 	SIMON->SetPosition(100.0f, 0);
 	objects.push_back(SIMON);
 	
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	CBrick *brick = new CBrick();
-	//	brick->AddAnimation(601);
-	//	brick->SetPosition(100 + i*48.0f, 74);
-	//	objects.push_back(brick);
-
-	//	brick = new CBrick();
-	//	brick->AddAnimation(601);
-	//	brick->SetPosition(100 + i*48.0f, 90);
-	//	objects.push_back(brick);
-
-	//	brick = new CBrick();
-	//	brick->AddAnimation(601);
-	//	brick->SetPosition(84 + i*48.0f, 90);
-	//	objects.push_back(brick);
-	//}
-
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -416,8 +447,8 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
-
+		//game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
+		tileG->DrawMap();
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
 
@@ -507,6 +538,7 @@ int Run()
 
 			Update(dt);
 			Render();
+			
 		}
 		else
 			Sleep(tickPerFrame - dt);
@@ -528,6 +560,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 	/// hien ra giua man hinh may tinh 
+	// chua sua duoc
 
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT , SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);

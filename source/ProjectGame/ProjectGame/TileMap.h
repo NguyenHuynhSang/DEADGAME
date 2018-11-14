@@ -1,35 +1,39 @@
 ﻿#pragma once
+#include"debug.h"
+#include"Sprites.h"
 
+#include<fstream>
 
 ///=========================================================
 // Chia map ra tile để tiết kiệm bộ nhớ khi vẽ map
 // tải lên ma trận tile map sau đó dựa vào đó để vẽ map
+//=========================================================
+// chiều dài và rộng của mỗi tile
+#define  TILE_WIDTH 32
+#define  TILE_HEIGHT 32
+
 class CTileMap
 {
 
-
-	int **matrix; //ma tran tiles map
-	// số tiles 
+	// ham va cot tiles 
 	int rows; 
 	int cols;
-
+	int **matrix; //ma tran tiles map
 	// chiều dài và rộng của map
 	float mapWidth;
 	float mapHeight;
-	// chiều dài và rộng của mỗi tile
-	float tilesWidth;
-	float tileHeight;
+
+
+	float tileSetWidth;
+	float tileSetHeight;
 
 
 
 public:
-	void Init();
-	void LoadTile();
-	void Draw();
-
-
-
-	CTileMap();
-	~CTileMap();
+	// load tile  tu file sau do luu vao ma tran
+	void LoadTile(char *name, LPDIRECT3DTEXTURE9 tex);
+	void DrawMap();
+	void SetMSize(float mW, float mH) { mapWidth = mW; mapHeight = mH; };
+	void SetTileSetHeight(float tsW, float tsH) { tileSetWidth = tsW; tileSetHeight = tsH; };
+	void GetSize(float &mW, float &mH) { mW = this->mapWidth; mH = this->mapHeight; }
 };
-

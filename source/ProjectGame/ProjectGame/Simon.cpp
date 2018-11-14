@@ -1,9 +1,8 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Simon.h"
 #include "Game.h"
-
 #include "Zombie.h"
 
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -90,19 +89,19 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-
 void CSIMON::Render()
 {
 	int ani;
+
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
 	else
 	{
-		//check Simon sits
-		if (getStateforAniSitandJump==true )
-		{
 
-			if (nx>0)
+		//check Simon sits
+		if (getStateforAniSitandJump == true)
+		{
+			if (nx > 0)
 			{
 				ani = SIMON_ANI_SITorJump_RIGHT;
 			}
@@ -113,31 +112,38 @@ void CSIMON::Render()
 		}
 		else
 		{
+
 			if (vx == 0)
 			{
-				if (nx>0) ani = SIMON_ANI_BIG_IDLE_RIGHT;
+				if (nx > 0) 
+				{
+					if (state==SIMON_STAGE_STAND_FIRE)
+					{
+						DWORD timeFire = GetTickCount();
+						//DebugOut(L" timefire %d",timeFire);
+						ani = SIMON_ANI_STAND_FIRE;
+					}
+					else
+					{
+						ani = SIMON_ANI_BIG_IDLE_RIGHT;
+					
+					}
+					
+				} 
 				else ani = SIMON_ANI_BIG_IDLE_LEFT;
 			}
 			else if (vx > 0)
 				ani = SIMON_ANI_BIG_WALKING_RIGHT;
 			else ani = SIMON_ANI_BIG_WALKING_LEFT;
+
 		}
 
 
+
+
 	}
-			
-		
-		//else if (level == SIMON_LEVEL_SMALL)
-		//{
-		//	if (vx == 0)
-		//	{
-		//		if (nx>0) ani = SIMON_ANI_SMALL_IDLE_RIGHT;
-		//		else ani = SIMON_ANI_SMALL_IDLE_LEFT;
-		//	}
-		//	else if (vx > 0)
-		//		ani = SIMON_ANI_SMALL_WALKING_RIGHT;
-		//	else ani = SIMON_ANI_SMALL_WALKING_LEFT;
-		//}
+	
+
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -150,7 +156,7 @@ void CSIMON::Render()
 void CSIMON::SetState(int state)
 {
 	CGameObject::SetState(state);
-
+	
 	switch (state)
 	{
 	case SIMON_STATE_WALKING_RIGHT:
@@ -174,17 +180,24 @@ void CSIMON::SetState(int state)
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
+	case SIMON_STAGE_STAND_FIRE:
+		
+		vx = 0;	// dung khi simon dung vampie killer
+		break;
 	}
 }
 
+//get bounding box dùng để xét va chạm vì khi vẽ sprite lên khung hình thường
+//to hơn hình ảnh bên trong,
 void CSIMON::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	left = x;
+	//x y của SIMON sẽ xét lại
+	left = x+14;
 	top = y;
 
 	if (level == SIMON_LEVEL_BIG)
 	{
-		right = x + SIMON_BIG_BBOX_WIDTH;
+		right = x + SIMON_BIG_BBOX_WIDTH-14;
 		bottom = y + SIMON_BIG_BBOX_HEIGHT;
 	}
 	else

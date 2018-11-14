@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
@@ -14,8 +14,10 @@ class CSprite
 	int right;
 	int bottom;
 
+
 	LPDIRECT3DTEXTURE9 texture;
 public:
+	
 	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(float x, float y, int alpha = 255);
@@ -62,9 +64,18 @@ class CAnimation
 	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
 public:
+	bool isEndScene=false;
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	void Render(float x, float y, int alpha = 255);
+
+	void setCurrentFrame(float x) { currentFrame = x; };
+	int getCurrentFrame();
+	int getDefaultTime();
+	int getlastFrameTime();
+	int math();
+	DWORD getTime;
+	int countTime = 0;
 };
 
 typedef CAnimation *LPANIMATION;

@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 #include "debug.h"
-
+#include"TileMap.h"
 CGame * CGame::__instance = NULL;
 
 /*
@@ -12,7 +12,7 @@ rendering 2D images
 void CGame::Init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
-
+	
 	this->hWnd = hWnd;
 
 	D3DPRESENT_PARAMETERS d3dpp;
@@ -57,7 +57,31 @@ Utility function to wrap LPD3DXSPRITE::Draw
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(x-camX, y-camY, 0);
+	
+	//// khai báo ma trận mặc định
+	//D3DXMATRIX matCombined;
+
+	//// ma trận lưu thông tin tỉ lệ
+	//D3DXMATRIX matScale;
+	//// ma trận lưu thông tin xoay
+	////D3DXMATRIX matRotate;
+	//// ma trận lưu thông tin dịch chuyển
+	////D3DXMATRIX matTranslate;
+
+	// //khởi tạo ma trận mặc định.
+	//D3DXMatrixIdentity(&matCombined);
+	//// khởi tạo ma trận phóng to theo trục Ox 1 lần, trục Oy 1 lần.
+	//// flip theo OX
+	//D3DXMatrixScaling(&matScale, -1.0, -1.0, .0f);
+	//matCombined *= matScale;
+
+	//spriteHandler->SetTransform(&matCombined);
+	//spriteHandler->SetTransform(&(matScale));
+	//sửa lỗi tearing tile map
+	int xx = (int)x - (int)camX;
+	int yy = (int)y - (int)camY;
+
+	D3DXVECTOR3 p(xx, yy, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -174,7 +198,7 @@ void CGame::ProcessKeyboard()
 		}
 	}
 
-	keyHandler->KeyState((BYTE *)&keyStates);
+		keyHandler->KeyState((BYTE *)&keyStates);
 
 
 
