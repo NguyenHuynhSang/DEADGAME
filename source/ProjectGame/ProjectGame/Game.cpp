@@ -55,9 +55,17 @@ void CGame::Init(HWND hWnd)
 /*
 Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha)
 {
-	
+	//sửa lỗi tearing tile map
+	int xx = (int)x - (int)camX;
+	int yy = (int)y - (int)camY;
+	D3DXVECTOR3 p(xx, yy, 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
 	//// khai báo ma trận mặc định
 	//D3DXMATRIX matCombined;
 
@@ -68,26 +76,40 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	//// ma trận lưu thông tin dịch chuyển
 	////D3DXMATRIX matTranslate;
 
-	// //khởi tạo ma trận mặc định.
-	//D3DXMatrixIdentity(&matCombined);
-	//// khởi tạo ma trận phóng to theo trục Ox 1 lần, trục Oy 1 lần.
-	//// flip theo OX
-	//D3DXMatrixScaling(&matScale, -1.0, -1.0, .0f);
-	//matCombined *= matScale;
+	
+	//D3DXMATRIX mPre;
+	//D3DXMATRIX mFlipped;
+	//spriteHandler->GetTransform(&mPre);
+	// neu di chuyen nguoc thi xoay sprite
+	//if (nx <0) {
+	//	spriteHandler->GetTransform(&mFlipped);
+	//	D3DXMatrixScaling(&mFlipped, -1.0f, 1.0f, .0f);
+	//	spriteHandler->SetTransform(&mFlipped);
+	//	 cap nhat vai vi tri x khi xoay
+	//	p.x = -p.x - (right - left);
+	//}
 
-	//spriteHandler->SetTransform(&matCombined);
-	//spriteHandler->SetTransform(&(matScale));
-	//sửa lỗi tearing tile map
-	int xx = (int)x - (int)camX;
-	int yy = (int)y - (int)camY;
+	D3DXMATRIX oldTransform;
+	D3DXMATRIX newTransform;
 
-	D3DXVECTOR3 p(xx, yy, 0);
-	RECT r;
-	r.left = left;
-	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
+	spriteHandler->GetTransform(&oldTransform);
+	int a = (right - left) / 2;
+	int b = (bottom - top) / 2;
+	b = b < 0 ? -b : b;
+	a = a < 0 ? -a : a;
+
+	D3DXVECTOR2 center = D3DXVECTOR2(p.x + a,p.y + b);
+	D3DXVECTOR2 rotate = D3DXVECTOR2(nx > 0 ? -1 : 1, 1);
+
+	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
+
+	D3DXMATRIX finalTransform = newTransform * oldTransform;
+	spriteHandler->SetTransform(&finalTransform);
+
+
+	
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->SetTransform(&oldTransform);
 }
 
 int CGame::IsKeyDown(int KeyCode)

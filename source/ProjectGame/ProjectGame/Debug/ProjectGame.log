@@ -1,9 +1,13 @@
-﻿  TileMap.cpp
-d:\my code\gamecode\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\tilemap.cpp(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\tilemap.cpp(15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\tilemap.cpp(44): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\tilemap.cpp(45): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\my code\gamecode\projectgame\projectgame\tilemap.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  ProjectGame.vcxproj -> D:\my code\GameCode\ProjectGame\Debug\ProjectGame.exe
-  ProjectGame.vcxproj -> D:\my code\GameCode\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)
+﻿  main.cpp
+d:\test\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(32): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\test\projectgame\projectgame\torch.h(9): warning C4005: 'TORCH_STATE_BURNING': macro redefinition
+  d:\test\projectgame\projectgame\torch.h(8): note: see previous definition of 'TORCH_STATE_BURNING'
+d:\test\projectgame\projectgame\main.cpp(374): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(390): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(395): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(418): warning C4018: '<': signed/unsigned mismatch
+  ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.exe
+  ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

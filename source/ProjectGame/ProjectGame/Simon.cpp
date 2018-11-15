@@ -4,7 +4,7 @@
 #include "Simon.h"
 #include "Game.h"
 #include "Zombie.h"
-
+#include"Whip.h"
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
@@ -103,11 +103,11 @@ void CSIMON::Render()
 		{
 			if (nx > 0)
 			{
-				ani = SIMON_ANI_SITorJump_RIGHT;
+				ani = SIMON_ANI_SIT_JUMP;
 			}
 			else
 			{
-				ani = SIMON_ANI_SITorJump_LEFT;
+				ani = SIMON_ANI_SIT_JUMP;
 			}
 		}
 		else
@@ -117,6 +117,7 @@ void CSIMON::Render()
 			{
 				if (nx > 0) 
 				{
+		
 					if (state==SIMON_STAGE_STAND_FIRE)
 					{
 						DWORD timeFire = GetTickCount();
@@ -125,16 +126,29 @@ void CSIMON::Render()
 					}
 					else
 					{
-						ani = SIMON_ANI_BIG_IDLE_RIGHT;
+						ani = SIMON_ANI_BIG_IDLE;
 					
 					}
 					
 				} 
-				else ani = SIMON_ANI_BIG_IDLE_LEFT;
+				else {
+				
+					if (state == SIMON_STAGE_STAND_FIRE)
+					{
+						DWORD timeFire = GetTickCount();
+						//DebugOut(L" timefire %d",timeFire);
+						ani = SIMON_ANI_STAND_FIRE;
+					}
+					else
+					{
+						ani = SIMON_ANI_BIG_IDLE;
+					}
+					
+				}
 			}
 			else if (vx > 0)
-				ani = SIMON_ANI_BIG_WALKING_RIGHT;
-			else ani = SIMON_ANI_BIG_WALKING_LEFT;
+				ani = SIMON_ANI_BIG_WALKING;
+			else ani = SIMON_ANI_BIG_WALKING;
 
 		}
 
@@ -147,8 +161,13 @@ void CSIMON::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	animations[ani]->Render(x, y, alpha);
-
+	if (state==SIMON_STAGE_STAND_FIRE)
+	{
+		whip->setnx(nx);
+		whip->SetPosition(x-88, y);
+		whip->Render();
+	}
+	animations[ani]->Render(nx,x, y, alpha);
 	RenderBoundingBox();
 }
 
@@ -181,8 +200,11 @@ void CSIMON::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	case SIMON_STAGE_STAND_FIRE:
+		if (vy==0)
+		{
+			vx = 0;	// dung khi simon dung vampie killer
+		}
 		
-		vx = 0;	// dung khi simon dung vampie killer
 		break;
 	}
 }

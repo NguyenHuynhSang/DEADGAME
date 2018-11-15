@@ -66,7 +66,7 @@ void CTileMap::DrawMap()
 		for (int j = 0; j < cols; j++)
 		{
 
-			CSprites::GetInstance()->Get(matrix[i][j])->Draw(j*TILE_HEIGHT,i*TILE_HEIGHT+25);
+			CSprites::GetInstance()->Get(matrix[i][j])->Draw(0,j*TILE_HEIGHT,i*TILE_HEIGHT+25);
 
 
 		}

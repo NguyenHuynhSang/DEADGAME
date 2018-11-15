@@ -22,6 +22,18 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{66bae467-216d-487d-b12f-75a2791aaca4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Main">
+      <UniqueIdentifier>{894f2280-94d9-431c-b5a6-a4a0fcd3f67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Static">
+      <UniqueIdentifier>{4dc32c00-dcba-4b67-9238-300e65d9033c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Weapon">
+      <UniqueIdentifier>{6a83faea-3c68-4010-86ff-7c856454258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Enermy">
+      <UniqueIdentifier>{da60b89b-4b03-47c0-b9e0-2d4d703974ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,15 +44,6 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>GameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Simon.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Zombie.cpp">
-      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Engine</Filter>
@@ -54,8 +57,20 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>GameObjects\Main</Filter>
+    </ClCompile>
     <ClCompile Include="Torch.cpp">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Whip.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>GameObjects\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>GameObjects\Enermy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,23 +86,26 @@
     <ClInclude Include="Game.h">
       <Filter>GameManager</Filter>
     </ClInclude>
-    <ClInclude Include="Simon.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Zombie.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>GameObjects\Main</Filter>
+    </ClInclude>
     <ClInclude Include="Torch.h">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

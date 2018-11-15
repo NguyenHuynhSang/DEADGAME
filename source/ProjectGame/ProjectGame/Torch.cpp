@@ -21,7 +21,7 @@ void CTorch::Render()
 		/*ani = TORCH_ANI_BURNING;*/
 	}
 
-	animations[ani]->Render(x, y);
+	animations[ani]->Render(0,x, y);
 	//RenderBoundingBox();
 }
 
