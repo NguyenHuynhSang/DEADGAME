@@ -18,8 +18,8 @@
 #define SIMON_STATE_JUMP			300
 #define SIMON_STATE_DIE				400
 #define SIMON_STATE_SIT             500
-#define SIMON_STAGE_STAND_FIRE			600
-#define SIMON_STAGE_SIT_FIRE			700
+#define SIMON_STAGE_STAND_FIGHTING			600
+#define SIMON_STAGE_SIT_FIGHTING			700
 
 
 #define SIMON_ANI_BIG_IDLE		0
@@ -72,7 +72,7 @@ public:
 		sprites->Add(20001, 0, 0, 240, 66, texWhip); // normal whip
 		sprites->Add(20002, 240, 0, 480, 66, texWhip);
 		sprites->Add(20003, 480, 0, 720, 66, texWhip);
-		sprites->Add(20004, 0, 0, 0, 0, texWhip);
+		sprites->Add(20004, 0, 1, 2, 3, texWhip);
 
 		LPANIMATION ani;
 		ani = new CAnimation(150); //WHIP ani

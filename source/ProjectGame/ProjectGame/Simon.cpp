@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Zombie.h"
 #include"Whip.h"
+#include"Torch.h"
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
@@ -17,7 +18,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
+	coEventsResult.clear();
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -27,6 +28,10 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+	if (state==SIMON_STAGE_STAND_FIGHTING)
+	{
+		whip->Update(dt, coObjects);
 	}
 
 	// No collision occured, proceed normally
@@ -38,7 +43,12 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-
+		for (UINT i = 0; i < coEvents.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEvents[i];
+			if (dynamic_cast<CTorch *> (e->obj))
+				coEvents.erase(coEvents.begin() + i);
+		}
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
@@ -118,7 +128,7 @@ void CSIMON::Render()
 				if (nx > 0) 
 				{
 		
-					if (state==SIMON_STAGE_STAND_FIRE)
+					if (state==SIMON_STAGE_STAND_FIGHTING)
 					{
 						DWORD timeFire = GetTickCount();
 						//DebugOut(L" timefire %d",timeFire);
@@ -133,7 +143,7 @@ void CSIMON::Render()
 				} 
 				else {
 				
-					if (state == SIMON_STAGE_STAND_FIRE)
+					if (state == SIMON_STAGE_STAND_FIGHTING)
 					{
 						DWORD timeFire = GetTickCount();
 						//DebugOut(L" timefire %d",timeFire);
@@ -161,11 +171,16 @@ void CSIMON::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	if (state==SIMON_STAGE_STAND_FIRE)
+	if (state==SIMON_STAGE_STAND_FIGHTING)
 	{
 		whip->setnx(nx);
 		whip->SetPosition(x-88, y);
 		whip->Render();
+	}
+	else
+	{
+		//reset current frame
+		CAnimations::GetInstance()->Get(555)->setCurrentFrame(-1);
 	}
 	animations[ani]->Render(nx,x, y, alpha);
 	RenderBoundingBox();
@@ -199,7 +214,7 @@ void CSIMON::SetState(int state)
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	case SIMON_STAGE_STAND_FIRE:
+	case SIMON_STAGE_STAND_FIGHTING:
 		if (vy==0)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
@@ -214,18 +229,10 @@ void CSIMON::SetState(int state)
 void CSIMON::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	//x y của SIMON sẽ xét lại
-	left = x+14;
+	left = x;
 	top = y;
+	right = x + SIMON_BIG_BBOX_WIDTH;
+	bottom = y + SIMON_BIG_BBOX_HEIGHT;
 
-	if (level == SIMON_LEVEL_BIG)
-	{
-		right = x + SIMON_BIG_BBOX_WIDTH-14;
-		bottom = y + SIMON_BIG_BBOX_HEIGHT;
-	}
-	else
-	{
-	/*	right = x + SIMON_SMALL_BBOX_WIDTH;
-		bottom = y + SIMON_SMALL_BBOX_HEIGHT;*/
-	}
 }
 

@@ -4,6 +4,11 @@
 ///get boundingbox xet va cham 
 void CTorch::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
+	left = x;
+	top = y;
+	right = x +  TORCH_BBOX_WIDTH;
+	bottom = y + TORCH_BBOX_HEIGHT;
+
 }
 
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -20,8 +25,11 @@ void CTorch::Render()
 	{
 		/*ani = TORCH_ANI_BURNING;*/
 	}
+	if (state!= TORCH_STATE_DISAPPEAR)
+	{
+		animations[ani]->Render(0, x, y);
+	}
 
-	animations[ani]->Render(0,x, y);
 	//RenderBoundingBox();
 }
 

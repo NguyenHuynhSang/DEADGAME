@@ -72,7 +72,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	{
 
 	case DIK_F:
-		SIMON->SetState(SIMON_STAGE_STAND_FIRE);
+		SIMON->SetState(SIMON_STAGE_STAND_FIGHTING);
 		break;
 	case DIK_SPACE:
 		SIMON->SetState(SIMON_STATE_JUMP);
@@ -121,7 +121,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		return;
 	}
 
-	if (SIMON->GetState() == SIMON_STAGE_STAND_FIRE)
+	if (SIMON->GetState() == SIMON_STAGE_STAND_FIGHTING)
 	{
 
 		if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
@@ -201,9 +201,9 @@ void LoadResources()
 	textures->Add(ID_TEX_ENEMY, L"Resource\\sprites\\Enemies\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_TORCH, L"Resource\\sprites\\Ground\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(200, 191, 231));
 	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(55, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 1, 255));
+	textures->Add(55, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
@@ -332,11 +332,11 @@ void LoadResources()
 
 
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		CTorch* Torch = new CTorch();
 		Torch->AddAnimation(801);
-		Torch->SetPosition(0 + i*300.0f, 350 - 60);
+		Torch->SetPosition(0 + i*350.0f+100, 350 - 60);
 		Torch->SetState(TORCH_STATE_BURNING);
 		objects.push_back(Torch);
 	}
@@ -366,15 +366,15 @@ void LoadResources()
 
 
 	// and Goombas 
-	for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGoomba();
-		goomba->AddAnimation(701);
-		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i * 60, 350-30*2);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
-	}
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	goomba = new CGoomba();
+	//	goomba->AddAnimation(701);
+	//	goomba->AddAnimation(702);
+	//	goomba->SetPosition(200 + i * 60, 350-30*2);
+	//	goomba->SetState(GOOMBA_STATE_WALKING);
+	//	objects.push_back(goomba);
+	//}
 
 }
 
