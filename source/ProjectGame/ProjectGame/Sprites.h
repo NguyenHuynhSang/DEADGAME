@@ -64,11 +64,10 @@ class CAnimation
 	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
 public:
-	bool isEndScene=false;
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	void Render(int nx,float x, float y, int alpha = 255);
-
+	void ResetCurrentFrame() { currentFrame = -1; };
 	void setCurrentFrame(float x) { currentFrame = x; };
 	int getCurrentFrame();
 	int getDefaultTime();

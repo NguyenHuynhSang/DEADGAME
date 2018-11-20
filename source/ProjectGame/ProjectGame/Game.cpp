@@ -58,9 +58,9 @@ Utility function to wrap LPD3DXSPRITE::Draw
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha)
 {
 	//sửa lỗi tearing tile map
-	int xx = (int)x - (int)camX;
-	int yy = (int)y - (int)camY;
-	D3DXVECTOR3 p(xx, yy, 0);
+	int xx = x - camX;
+	int yy = y - camY;
+	D3DXVECTOR3 p(xx,yy, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -81,18 +81,12 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	//D3DXMATRIX mFlipped;
 	//spriteHandler->GetTransform(&mPre);
 	// neu di chuyen nguoc thi xoay sprite
-	//if (nx <0) {
-	//	spriteHandler->GetTransform(&mFlipped);
-	//	D3DXMatrixScaling(&mFlipped, -1.0f, 1.0f, .0f);
-	//	spriteHandler->SetTransform(&mFlipped);
-	//	 cap nhat vai vi tri x khi xoay
-	//	p.x = -p.x - (right - left);
-	//}
+	D3DXMATRIX mPre;
+	D3DXMATRIX mFlipped;
+	spriteHandler->GetTransform(&mPre);
 
-	D3DXMATRIX oldTransform;
-	D3DXMATRIX newTransform;
 
-	spriteHandler->GetTransform(&oldTransform);
+	// xoay từ giữa sprite ==>dễ kiểm xoát vị trí hơn
 	int a = (right - left) / 2;
 	int b = (bottom - top) / 2;
 	b = b < 0 ? -b : b;
@@ -101,15 +95,16 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXVECTOR2 center = D3DXVECTOR2(p.x + a,p.y + b);
 	D3DXVECTOR2 rotate = D3DXVECTOR2(nx > 0 ? -1 : 1, 1);
 
-	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
+	D3DXMatrixTransformation2D(&mFlipped, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
 
-	D3DXMATRIX finalTransform = newTransform * oldTransform;
+	D3DXMATRIX finalTransform = mFlipped * mPre;
 	spriteHandler->SetTransform(&finalTransform);
-
 
 	
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-	spriteHandler->SetTransform(&oldTransform);
+
+	//set lại mt
+	spriteHandler->SetTransform(&mPre);
 }
 
 int CGame::IsKeyDown(int KeyCode)

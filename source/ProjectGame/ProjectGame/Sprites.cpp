@@ -52,7 +52,6 @@ void CAnimation::Add(int spriteId, DWORD time)
 
 void CAnimation::Render(int nx,float x, float y, int alpha)
 {
-	isEndScene = false;
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -69,8 +68,6 @@ void CAnimation::Render(int nx,float x, float y, int alpha)
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) 
 			{
-				
-				isEndScene = true;
 				currentFrame = 0;
 				getTime = now;
 			}

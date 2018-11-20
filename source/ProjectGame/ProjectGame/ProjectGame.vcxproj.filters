@@ -22,9 +22,6 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{66bae467-216d-487d-b12f-75a2791aaca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Main">
-      <UniqueIdentifier>{894f2280-94d9-431c-b5a6-a4a0fcd3f67c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects\Static">
       <UniqueIdentifier>{4dc32c00-dcba-4b67-9238-300e65d9033c}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="GameObjects\Enermy">
       <UniqueIdentifier>{da60b89b-4b03-47c0-b9e0-2d4d703974ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Main">
+      <UniqueIdentifier>{894f2280-94d9-431c-b5a6-a4a0fcd3f67c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +47,6 @@
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Engine</Filter>
@@ -71,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
       <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,14 +98,14 @@
     <ClInclude Include="Torch.h">
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Whip.h">
-      <Filter>GameObjects\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>GameObjects\Enermy</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

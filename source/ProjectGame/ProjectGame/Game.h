@@ -51,6 +51,7 @@ public:
 
 	void InitKeyboard(LPKEYEVENTHANDLER handler);
 	void setCam(float x, float y);
+	void getCam(float &x, float &y) { x = camX; y = camY; };
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int botton,int nx, int alpha = 255);
 

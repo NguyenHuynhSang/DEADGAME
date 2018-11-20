@@ -28,7 +28,7 @@ void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 			if (f>>n)
 			{
 				matrix[k1][j] = n;
-				DebugOut(L"M[%d][%d]=%d  \n", k1, j, n);
+				//DebugOut(L"M[%d][%d]=%d  \n", k1, j, n);
 				j++;
 				if (j>cols-1)
 				{
@@ -61,6 +61,7 @@ void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 
 void CTileMap::DrawMap()
 {
+	
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < cols; j++)
@@ -71,9 +72,6 @@ void CTileMap::DrawMap()
 
 		}
 	}
-
-
-
 
 
 

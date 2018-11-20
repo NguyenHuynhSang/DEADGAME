@@ -1,9 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
 #include "Sprites.h"
 
 
@@ -58,9 +57,24 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	
+
+	//AABB: kiểm tra xem 2 cái boundingbox có chồng nhau hay không , nếu có là có va chạm
+	// dùng để xét va chạm khi vx=0
+	bool isColliding(CGameObject *a,CGameObject *b) {
+		float top, left, right, button;
+		a->GetBoundingBox(left, top, right, button);
+		float l, t, r, bt;
+		b->GetBoundingBox(l, t, r, bt);
+		return AABB(l, t, r, bt, left, top, right, button);
+	}
+	// thuat toan xu ly va cham AABB
+	bool AABB(float l, float t, float r, float b, float l1, float t1, float r1, float b1);
+
+
+
 
 	void RenderBoundingBox();
-
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(

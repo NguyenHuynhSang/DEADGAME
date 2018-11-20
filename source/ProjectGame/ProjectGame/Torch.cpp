@@ -1,5 +1,5 @@
 #include "Torch.h"
-
+#include"debug.h"
 
 ///get boundingbox xet va cham 
 void CTorch::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -11,9 +11,7 @@ void CTorch::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 }
 
-void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-}
+
 
 void CTorch::Render()
 {
@@ -30,7 +28,8 @@ void CTorch::Render()
 		animations[ani]->Render(0, x, y);
 	}
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
+	//DebugOut(L"x=%d y=%d \n");
 }
 
 void CTorch::setNumOfTorchPerScene()

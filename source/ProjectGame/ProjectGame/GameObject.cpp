@@ -1,4 +1,4 @@
-#include <d3dx9.h>
+﻿#include <d3dx9.h>
 #include <algorithm>
 
 
@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
-
 CGameObject::CGameObject()
 {
 	x = y = 0;
@@ -21,6 +20,7 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	dx = vx*dt;
 	dy = vy*dt;
 }
+
 
 /*
 Extension of original SweptAABB to deal with two moving objects
@@ -124,6 +124,16 @@ void CGameObject::FilterCollision(
 }
 
 
+bool CGameObject::AABB(float l, float t, float r, float b, float l1, float t1, float r1, float b1)
+{
+	float left = l1-r;
+	float top = b1-t;
+	float right = r1 - l;
+	float bottom = t1 - b;
+	//  xét ngược lại cho nhanh hơn
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
+
 void CGameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);
@@ -139,7 +149,7 @@ void CGameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom,nx, 128);
 }
 
 void CGameObject::AddAnimation(int aniId)

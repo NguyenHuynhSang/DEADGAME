@@ -2,10 +2,10 @@
 #include "GameObject.h"
 #include"Whip.h"
 #include"Textures.h"
-#define SIMON_WALKING_SPEED		0.15f 
+#define SIMON_WALKING_SPEED		0.1f 
 #define SIMON_FIRE_TIME			300
 //0.1f
-#define SIMON_JUMP_SPEED_Y		0.54f
+#define SIMON_JUMP_SPEED_Y		0.52f
 #define SIMON_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_GRAVITY			0.002f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
@@ -32,11 +32,9 @@
 #define	SIMON_LEVEL_SMALL	1
 #define	SIMON_LEVEL_BIG		2
 
-#define SIMON_BIG_BBOX_WIDTH  30
+#define SIMON_BIG_BBOX_WIDTH  32
 #define SIMON_BIG_BBOX_HEIGHT 60
-//
-//#define SIMON_SMALL_BBOX_WIDTH  13
-//#define SIMON_SMALL_BBOX_HEIGHT 15
+
 
 // có thể sửa lại thành invisible 
 #define SIMON_UNTOUCHABLE_TIME 5000
@@ -56,6 +54,7 @@ class CSIMON : public CGameObject
 
 public:
 	bool isFighting = false;
+	bool isTouchGr() { return vy == 0 ? true : false; };
 	CSIMON() : CGameObject()
 	{
 		level = SIMON_LEVEL_BIG;
@@ -80,8 +79,8 @@ public:
 		ani->Add(20002);
 		ani->Add(20003);
 		ani->Add(20004);
-		animations->Add(555, ani);
-		whip->AddAnimation(555);
+		animations->Add(ID_WHIP_ANI, ani);
+		whip->AddAnimation(ID_WHIP_ANI);
 
 
 
