@@ -4,7 +4,7 @@
 #include <d3dx9.h>
 #include <vector>
 #include "Sprites.h"
-
+#include"Game.h"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ public:
 	vector<LPANIMATION> animations;
 
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
+	void SetPosition(float x, float y) { this->x = x, this->y = y;}
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
@@ -94,8 +94,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
-
+	//load resource
+	//virtual void LoadResource() = 0;
 	~CGameObject();
 };
 

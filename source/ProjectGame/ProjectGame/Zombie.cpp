@@ -1,6 +1,6 @@
 #include "Zombie.h"
 
-void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
 	top = y;
@@ -12,7 +12,7 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 		bottom = y + GOOMBA_BBOX_HEIGHT;
 }
 
-void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
@@ -32,7 +32,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 }
 
-void CGoomba::Render()
+void CGhoul::Render()
 {
 	int ani = GOOMBA_ANI_WALKING;
 	if (state == GOOMBA_STATE_DIE) {
@@ -43,7 +43,7 @@ void CGoomba::Render()
 	RenderBoundingBox();
 }
 
-void CGoomba::SetState(int state)
+void CGhoul::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)

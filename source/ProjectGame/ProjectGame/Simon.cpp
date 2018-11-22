@@ -7,8 +7,10 @@
 #include"Whip.h"
 #include"Torch.h"
 #include"Brick.h"
+#include"Item.h"
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -30,7 +32,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//	untouchable_start = 0;
 	//	untouchable = 0;
 	//}
-	if (state==SIMON_STAGE_STAND_FIGHTING)
+	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
 		//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
 		// chi update khi dang o frame cuoi ==> luc roi danh ra
@@ -52,10 +54,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		// block 
-		
-
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -73,10 +71,29 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 
 			}
-
-
-
-
+			// xử lý va chạm giữa Simon và item
+			// trường hợp nếu item xuất hiện đúng vị trí
+			//bbox của simon thuật toán sẽ chạy sai
+			// cần có pp cho trường hợp đó ex:AABB
+			if (dynamic_cast<CItem *>(e->obj))
+			{
+				CItem * f = dynamic_cast<CItem*> (e->obj);
+				if (e->nx!=0)
+				{
+					DebugOut(L"Col with item \n");
+					f->colSimon = true;
+					f->isShow = false;
+					x += dx;
+					
+				}
+				if (e->ny!=0)
+				{
+					DebugOut(L"Col with item \n");
+					f->colSimon = true;
+					f->isShow = false;
+					y += dy;
+				}
+			}
 
 			//va cham voi candle
 			//khi Simon đi qua CTorch, set chỉ số alpha lại thành 128
@@ -85,12 +102,14 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//	DebugOut(L"Tourch \n");
 				if (e->nx!=0)
 				{
+					
 					x += dx;//Vẫn cho simon đi tới khi va chạm theo phương ngang
-					untouchable == true; // cho simon trở nên mờ ảo 
+				//	Citem=new CItem()
+					
 				}
 				if (e->ny!=0)// xét nếu va chạm theo phương thẳng đứng
 				{
-					y += dy;// vẫn cho simon rơi xuống bị delay khi rơi xuống tại đây??
+					y += dy;// vẫn cho simon rơi xuống 
 				}
 				
 			}
@@ -98,9 +117,9 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			//Va cham voi ghost
-			if (dynamic_cast<CGoomba *>(e->obj))
+			if (dynamic_cast<CGhoul *>(e->obj))
 			{
-				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				CGhoul *goomba = dynamic_cast<CGhoul *>(e->obj);
 				if (e->nx!=0)
 				{
 					//
@@ -163,26 +182,26 @@ void CSIMON::Render()
 		{
 			if (vx!=0)
 			{
-				if (state == SIMON_STAGE_STAND_FIGHTING)
+				if (state == SIMON_STATE_STAND_FIGHTING)
 				{
 					//DebugOut(L"simon fi");
 					ani = SIMON_ANI_STAND_FIRE;
 				}
 				else
 				{
-					ani = SIMON_ANI_BIG_WALKING;
+					ani = SIMON_ANI_WALKING;
 				}
 			}
 			else
 			{
-				if (state == SIMON_STAGE_STAND_FIGHTING)
+				if (state == SIMON_STATE_STAND_FIGHTING)
 				{
 					//DebugOut(L"simon fi");
 					ani = SIMON_ANI_STAND_FIRE;
 				}
 				else
 				{
-					ani = SIMON_ANI_BIG_IDLE;
+					ani = SIMON_ANI_IDLE;
 				}
 			}
 
@@ -190,7 +209,7 @@ void CSIMON::Render()
 	}
 
 	// Xu ly whip
-	if (state == SIMON_STAGE_STAND_FIGHTING)
+	if (state == SIMON_STATE_STAND_FIGHTING)
 	{
 		whip->setnx(nx);
 		whip->SetPosition(x - 88, y);
@@ -208,7 +227,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	RenderBoundingBox();
+//	RenderBoundingBox();
 	
 }
 
@@ -238,14 +257,12 @@ void CSIMON::SetState(int state)
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	case SIMON_STAGE_STAND_FIGHTING:
+	case SIMON_STATE_STAND_FIGHTING:
 		if (getStateforAniSitandJump==false)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
 		}
 		
-		
-	
 		break;
 	}
 }

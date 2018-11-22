@@ -48,8 +48,6 @@ void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 		{
 			for (int j = 0; j < tsCols; j++)
 			{
-				int a = j*TILE_HEIGHT;
-				int b = i*TILE_HEIGHT;
 				CSprites::GetInstance()->Add(id,j*TILE_HEIGHT,i*TILE_HEIGHT, j*TILE_HEIGHT + TILE_HEIGHT, i*TILE_HEIGHT + TILE_HEIGHT,tex);
 				id++;
 			}

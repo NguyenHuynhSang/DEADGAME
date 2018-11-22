@@ -26,12 +26,14 @@ CGameObject::GetBoundingBox
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
-
+#include "Global.h"
 #include "Simon.h"
 #include "Brick.h"
-#include "Zombie.h">
+#include "Zombie.h"
 #include "Torch.h"
 #include "TileMap.h"
+#include "Item.h"
+#include "Effect.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 ///Clear background to black
@@ -50,11 +52,9 @@ CGameObject::GetBoundingBox
 #define ID_BACKGROUND 1000
 
 CGame *game;
-
 CSIMON *SIMON;
-CGoomba *goomba;
+CGhoul *goomba;
 CTileMap *tileG;
-vector<LPGAMEOBJECT> objects;
 
 class CSampleKeyHander : public CKeyEventHandler
 {
@@ -72,11 +72,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	{
 
 	case DIK_F:
-		DebugOut(L"Press Fighting  \n");
-		SIMON->SetState(SIMON_STAGE_STAND_FIGHTING);
+		//DebugOut(L"Press Fighting  \n");
+		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
 		break;
 	case DIK_SPACE:
-		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STAGE_STAND_FIGHTING)
+		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING )
 		{
 			return;
 		}
@@ -85,8 +85,8 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A: // reset
 		SIMON->SetState(SIMON_STATE_IDLE);
-		SIMON->SetLevel(SIMON_LEVEL_BIG);
-		SIMON->SetPosition(100.0f, 0.0f);
+//		SIMON->SetLevel(SIMON_LEVEL_BIG);
+		SIMON->SetPosition(100.0f, 300.0f);
 		///fix cam when reset
 		game->setCam(SCREEN_WIDTH / 2,NULL);
 		SIMON->SetSpeed(0, 0);
@@ -106,22 +106,14 @@ void CSampleKeyHander::KeyState(BYTE *states)
 {
 	// Nên dùng time để xử lý vì dùng frame cuối vừa đến frame cuối ani sẽ dừng
 	//mất delay time cần có phương pháp hiệu quả hon
-
+	/// xong
 	SIMON->getStateforAniSitandJump=false;
-	// code chi danh cho scene dau tien
-	if (SIMON->x>=640/2-60 && SIMON->x<=1550-640/2-60)
-	{
 
-		game->setCam(SIMON->x - SCREEN_WIDTH/2 +62, NULL);
-	}
-	
-
-	
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
 
 
-	if (SIMON->GetState() == SIMON_STAGE_STAND_FIGHTING)
+	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
 	
 		if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
@@ -216,6 +208,10 @@ void LoadResources()
 	textures->Add(ID_TEX_TORCH, L"Resource\\sprites\\Ground\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
+	//item tex load
+	textures->Add(ID_TEX_ITEM_BHEAR, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_DANGER, L"Resource\\sprites\\Items\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_NWHIP, L"Resource\\sprites\\Items\\MORNING_STAR.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(55, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	CSprites * sprites = CSprites::GetInstance();
@@ -228,13 +224,6 @@ void LoadResources()
 	tileG->SetTileSetHeight(640, 128);
 	tileG->LoadTile("data\\map\\tileset.txt", texMap);
 	
-
-
-	
-
-
-
-
 
 
 
@@ -255,6 +244,11 @@ void LoadResources()
 	sprites->Add(10018, 388-28, 3, 388+31, 64, texSimon);//Simon stand fire
 	sprites->Add(10019, 448-31-1, 3, 448+31, 64, texSimon);//Simon stand fire
 
+
+	sprites->Add(10020, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);//Simon Up whip
+	sprites->Add(10021, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
+	sprites->Add(10022, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
+	sprites->Add(10023, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
 
 
 	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
@@ -280,10 +274,8 @@ void LoadResources()
 
 	LPANIMATION ani;
 
+
 	
-
-
-
 
 
 	ani = new CAnimation(150);	// idle big right
@@ -302,23 +294,36 @@ void LoadResources()
 	ani->Add(10004);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(150);//simon stand fires
+	ani = new CAnimation(WHIP_DELAY_TIME);//simon stand fires
 	ani->Add(10017);
 	ani->Add(10018);
 	ani->Add(10019);
 	ani->Add(10001);
 	animations->Add(502, ani);
-;
+
 	ani = new CAnimation(100); //simon sit right
 	ani->Add(10016);
 	animations->Add(505, ani);
 
+
+	ani = new CAnimation(100); //simon up whip
+	ani->Add(10020);
+	ani->Add(10021);
+	ani->Add(10022);
+	ani->Add(10023);
+	animations->Add(506, ani);
 
 
 	ani = new CAnimation(100);		// SIMON die
 	ani->Add(10099);
 	animations->Add(599, ani);
 	
+
+
+
+
+
+
 
 	ani = new CAnimation(200);  //torch
 	ani->Add(40000);
@@ -351,8 +356,9 @@ void LoadResources()
 
 	SIMON->AddAnimation(599);		// die
 
-	SIMON->SetPosition(100.0f, 0);
-	objects.push_back(SIMON);
+	SIMON->SetPosition(100.0f, 250.0f);
+	CGlobal::GetInstance()->objects.push_back(SIMON);
+
 
 	
 
@@ -360,34 +366,44 @@ void LoadResources()
 	Torch->AddAnimation(801);
 	Torch->SetPosition(0 + 450, 350 - 60);
 	Torch->SetState(TORCH_STATE_BURNING);
-	objects.push_back(Torch);
+	Torch->setItemState(ITEM_STATE_BHEART);
+	CGlobal::GetInstance()->objects.push_back(Torch);
 
 
 	Torch = new CTorch();
 	Torch->AddAnimation(801);
-	Torch->SetPosition(550, 350 - 60);
+	Torch->SetPosition(750, 350 - 60);
 	Torch->SetState(TORCH_STATE_BURNING);
-	objects.push_back(Torch);
+	Torch->setItemState(ITEM_STATE_NWHIP);
+	CGlobal::GetInstance()->objects.push_back(Torch);
 
 
 
+	Torch = new CTorch();
+	Torch->AddAnimation(801);
+	Torch->SetPosition(950, 350 - 60);
+	Torch->SetState(TORCH_STATE_BURNING);
+	Torch->setItemState(ITEM_STATE_NWHIP);
+	CGlobal::GetInstance()->objects.push_back(Torch);
 
 
 
-
+	Torch = new CTorch();
+	Torch->AddAnimation(801);
+	Torch->SetPosition(1200, 350 - 60);
+	Torch->SetState(TORCH_STATE_BURNING);
+	Torch->setItemState(ITEM_STATE_DANGER);
+	CGlobal::GetInstance()->objects.push_back(Torch);
 
 
 	
-	
-	
-	
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1536/32+4; i++)
 	{
 		CBrick *brick = new CBrick();
 		brick->AddAnimation(601);
 		brick->SetPosition(0 + i*30.0f, 350);
-		objects.push_back(brick);
+		CGlobal::GetInstance()->objects.push_back(brick);
 	}
 
 
@@ -397,12 +413,12 @@ void LoadResources()
 	// and Goombas 
 	for (int i = 0; i < 4; i++)
 	{
-		goomba = new CGoomba();
+		goomba = new CGhoul();
 		goomba->AddAnimation(701);
 		goomba->AddAnimation(702);
 		goomba->SetPosition(200 + i * 60, 350-30*2);
 		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
+		CGlobal::GetInstance()->objects.push_back(goomba);
 	}
 
 }
@@ -415,15 +431,21 @@ void Update(DWORD dt)
 {
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 1; i < objects.size(); i++)
+	if (SIMON->x >= 640 / 2 - 60 && SIMON->x <= 1550 - 640 / 2 - 60)
 	{
-		coObjects.push_back(objects[i]);
+
+		game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, NULL);
+
+	}
+	vector<LPGAMEOBJECT> coObjects;
+	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+		coObjects.push_back(CGlobal::GetInstance()->objects[i]);
 	}
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
 	}
 }
 
@@ -444,8 +466,8 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		//game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
 		tileG->DrawMap();
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Render();
+		for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
+		CGlobal::GetInstance()->objects[i]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();

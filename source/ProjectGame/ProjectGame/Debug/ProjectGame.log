@@ -1,7 +1,10 @@
-﻿  Whip.cpp
+﻿  main.cpp
 d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\test\projectgame\projectgame\whip.cpp(33): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\whip.h(25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(419): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(441): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(446): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(469): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

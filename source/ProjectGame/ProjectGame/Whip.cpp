@@ -1,10 +1,12 @@
 #include "Whip.h"	
 #include"Torch.h"
 #include"Debug.h"
+#include"Item.h"
+#include"Global.h"
 void CWhip::Render()
 {
 	animations[state]->Render(nx, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -32,20 +34,21 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 // neu co thi co xay ra va cham
 	for (int i = 0; i < cobjects->size(); i++)
 	{
+		
 		LPGAMEOBJECT e = cobjects->at(i);
 		if (dynamic_cast<CTorch *>(e))
 		{
 			CTorch * f = dynamic_cast<CTorch*> (e);
 			
-			if (CGameObject::isColliding(f, this)==true)
+			if (CGameObject::isColliding(this, f)==true)
 			{
-				//DebugOut(L"Co va cham ");
-				// thuc ra chi ngung render neu va cham chua remove han can toi uu
-				f->SetState(TORCH_STATE_DISAPPEAR);
-				
+					//DebugOut(L"Co va cham ");
+					// thuc ra chi ngung render neu va cham chua remove han can toi uu
+					f->SetState(TORCH_STATE_DISAPPEAR);
 			}
 		}
 	}
+
 
 
 }

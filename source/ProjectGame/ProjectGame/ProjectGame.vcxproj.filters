@@ -34,6 +34,9 @@
     <Filter Include="GameObjects\Main">
       <UniqueIdentifier>{894f2280-94d9-431c-b5a6-a4a0fcd3f67c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Effect">
+      <UniqueIdentifier>{fbe4366c-9c8b-4a13-80af-06bd2cc8fda4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +75,18 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Dagger.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -106,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="Whip.h">
       <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Dagger.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

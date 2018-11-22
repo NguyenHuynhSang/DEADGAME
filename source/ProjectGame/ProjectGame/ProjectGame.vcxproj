@@ -117,9 +117,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
@@ -131,9 +135,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Dagger.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />

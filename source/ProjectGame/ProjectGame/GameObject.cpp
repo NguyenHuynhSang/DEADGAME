@@ -136,13 +136,11 @@ bool CGameObject::AABB(float l, float t, float r, float b, float l1, float t1, f
 
 void CGameObject::RenderBoundingBox()
 {
+	
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
-
 	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
-
 	float l, t, r, b;
-
 	GetBoundingBox(l, t, r, b);
 	rect.left = 0;
 	rect.top = 0;
