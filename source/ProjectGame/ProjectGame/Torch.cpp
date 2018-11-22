@@ -48,7 +48,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		item->SetPosition(x, y);
 	}
-	if (state==TORCH_STATE_DISAPPEAR && item->colSimon == false)
+	if (state==TORCH_STATE_DISAPPEAR)
 	{
 		item->isShow = true;
 	}

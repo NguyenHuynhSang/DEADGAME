@@ -73,10 +73,14 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	case DIK_F:
 		//DebugOut(L"Press Fighting  \n");
+		if (SIMON->GetState()==SIMON_STATE_UPWHIP)
+		{
+			return;
+		}
 		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
 		break;
 	case DIK_SPACE:
-		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING )
+		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING || SIMON->GetState() == SIMON_STATE_UPWHIP)
 		{
 			return;
 		}
@@ -107,30 +111,50 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// Nên dùng time để xử lý vì dùng frame cuối vừa đến frame cuối ani sẽ dừng
 	//mất delay time cần có phương pháp hiệu quả hon
 	/// xong
-	SIMON->getStateforAniSitandJump=false;
 
+	SIMON->getStateforAniSitandJump=false;
+	if (SIMON->isUpWhip == true)
+	{
+		SIMON->SetState(SIMON_STATE_UPWHIP);
+		DebugOut(L"UpWHIP\n");
+		return;
+	}
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
 
 
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
-	
-		if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
+		if (SIMON->isSitting==true)
 		{
-			//DebugOut(L"State fighting but ani not working \n");
-			return;
+			if (CAnimations::GetInstance()->Get(506)->getCurrentFrame() != 3)
+			{
+				return;
+			}
+			else
+			{
+				CAnimations::GetInstance()->Get(506)->setCurrentFrame(-1);
+			}
 		}
 		else
 		{
-			// sửa lỗi bị delay
-			CAnimations::GetInstance()->Get(502)->setCurrentFrame(-1);
+			if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
+			{
+				//DebugOut(L"State fighting but ani not working \n");
+				return;
+			}
+			else
+			{
+				// sửa lỗi bị delay
+				CAnimations::GetInstance()->Get(502)->setCurrentFrame(-1);
+			}
 		}
-	
+
+		
 	}
 	if (SIMON->GetState()==SIMON_STATE_JUMP && SIMON->isTouchGr()==false)
 	{
-
+	
 			SIMON->getStateforAniSitandJump = true;
 			return;
 	}
@@ -143,26 +167,24 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		SIMON->getStateforAniSitandJump = true;
 		// set state tranh truong hop nguoi dung bam cung luc ngoi va toi
 		SIMON->SetState(SIMON_STATE_IDLE);
+		SIMON->isSitting = true;
 		return;
 	}
+	else { SIMON->isSitting = false; }
+
 
 
 	if (game->IsKeyDown(DIK_RIGHT))         //arrow right
 	{
 		SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
-
-
 	}
 	else if (game->IsKeyDown(DIK_LEFT))       //arrow left
 	{
 		SIMON->SetState(SIMON_STATE_WALKING_LEFT);
-
 	}
 
 	else {
-	
 		SIMON->SetState(SIMON_STATE_IDLE);
-
 	}
 	
 
@@ -240,15 +262,22 @@ void LoadResources()
 	sprites->Add(10016, 268-31, 3, 268+31, 64, texSimon);//Simon sit Right
 
 
-	sprites->Add(10017, 328-31-1, 3, 328 +31, 64, texSimon);//Simon stand fire
-	sprites->Add(10018, 388-28, 3, 388+31, 64, texSimon);//Simon stand fire
-	sprites->Add(10019, 448-31-1, 3, 448+31, 64, texSimon);//Simon stand fire
+	sprites->Add(10017, 328-31-1, 3, 328 +31, 64, texSimon);//Simon stand fight
+	sprites->Add(10018, 388-28, 3, 388+31, 64, texSimon);
+	sprites->Add(10019, 448-31-1, 3, 448+31, 64, texSimon);
 
 
-	sprites->Add(10020, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);//Simon Up whip
-	sprites->Add(10021, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
-	sprites->Add(10022, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
-	sprites->Add(10023, 448 - 31 - 1, 3, 448 + 31, 64, texSimon);
+
+	sprites->Add(10021, 450-30, 67, 450+30, 130, texSimon);//Simon sit fight
+	sprites->Add(10022, 28-30 , 134, 28+30, 196, texSimon);
+	sprites->Add(10023, 88-30 , 134, 88+30, 196, texSimon);
+
+
+
+	sprites->Add(10051, 30, 198, 60, 264, texSimon);//Simon Up whip
+	sprites->Add(10052, 90 - 30, 198, 90 + 30, 264, texSimon);
+	sprites->Add(10053, 150 - 30, 198, 150 + 30, 264, texSimon);
+	sprites->Add(10054, 210-30, 198, 210+30, 264, texSimon);
 
 
 	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
@@ -282,11 +311,6 @@ void LoadResources()
 	ani->Add(10001);
 	animations->Add(400, ani);
 
-	ani = new CAnimation(150);	// idle big left
-	ani->Add(10011);
-	animations->Add(401, ani);
-
-
 	ani = new CAnimation(150);	// walk right big
 	ani->Add(10001);
 	ani->Add(10002);
@@ -294,24 +318,36 @@ void LoadResources()
 	ani->Add(10004);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(WHIP_DELAY_TIME);//simon stand fires
+	ani = new CAnimation(100); //simon sit 
+	ani->Add(10016);
+	animations->Add(505, ani);
+
+
+	ani = new CAnimation(WHIP_DELAY_TIME);//simon stand fight
 	ani->Add(10017);
 	ani->Add(10018);
 	ani->Add(10019);
 	ani->Add(10001);
 	animations->Add(502, ani);
 
-	ani = new CAnimation(100); //simon sit right
-	ani->Add(10016);
-	animations->Add(505, ani);
 
 
-	ani = new CAnimation(100); //simon up whip
-	ani->Add(10020);
+	ani = new CAnimation(WHIP_DELAY_TIME); //simon sit  fight
 	ani->Add(10021);
 	ani->Add(10022);
 	ani->Add(10023);
+	ani->Add(10016);
 	animations->Add(506, ani);
+
+
+
+	ani = new CAnimation(100); //simon up whip
+	ani->Add(10051);
+	ani->Add(10052);
+	ani->Add(10053);
+	ani->Add(10054);	
+	ani->Add(10001);
+	animations->Add(507, ani);
 
 
 	ani = new CAnimation(100);		// SIMON die
@@ -354,7 +390,10 @@ void LoadResources()
 	SIMON->AddAnimation(505);  //Idle sit right          /2
 	SIMON->AddAnimation(502);//SIMON Stand fire        /3
 
-	SIMON->AddAnimation(599);		// die
+
+	SIMON->AddAnimation(506);//Simon sit fight         /4
+	SIMON->AddAnimation(507);//Simon up whip           /5
+	SIMON->AddAnimation(599);		// die  /6
 
 	SIMON->SetPosition(100.0f, 250.0f);
 	CGlobal::GetInstance()->objects.push_back(SIMON);

@@ -78,20 +78,31 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CItem *>(e->obj))
 			{
 				CItem * f = dynamic_cast<CItem*> (e->obj);
+				bool iscol = false;
 				if (e->nx!=0)
 				{
 					DebugOut(L"Col with item \n");
 					f->colSimon = true;
-					f->isShow = false;
-					x += dx;
 					
+					x += dx;
+					if (f->GetState()==ITEM_STATE_NWHIP && f->isShow==true)
+					{
+						isUpWhip = true;
+						DebugOut(L"Upwhiphere \n");
+					}
+					f->isShow = false;
 				}
 				if (e->ny!=0)
 				{
 					DebugOut(L"Col with item \n");
 					f->colSimon = true;
-					f->isShow = false;
+				
 					y += dy;
+					if (f->GetState() == ITEM_STATE_NWHIP && f->isShow == true)
+					{
+						isUpWhip = true;
+					}
+					f->isShow = false;
 				}
 			}
 
@@ -175,7 +186,7 @@ void CSIMON::Render()
 		//check Simon sits
 		if (getStateforAniSitandJump == true)
 		{
-				ani = SIMON_ANI_SIT_JUMP;
+				ani = SIMON_ANI_SIT_JUMP;				
 				
 		}
 		else
@@ -212,16 +223,32 @@ void CSIMON::Render()
 	if (state == SIMON_STATE_STAND_FIGHTING)
 	{
 		whip->setnx(nx);
-		whip->SetPosition(x - 88, y);
+		
+		if (isSitting==true)
+		{
+			ani = SIMON_ANI_SIT_FIRE;
+			whip->SetPosition(x - 88, y+12);
+		}
+		else
+		{
+			whip->SetPosition(x - 88, y);
+		}
+		
 		whip->Render();
 	}
 	else
 	{
 		//reset current frame
+		
 		CAnimations::GetInstance()->Get(555)->setCurrentFrame(-1);
 	}
 
 
+	if (state==SIMON_STATE_UPWHIP)
+	{
+		ani = SIMON_ANI_UPWHIP;
+		DebugOut(L"Ani running \n");
+	}
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
@@ -248,14 +275,25 @@ void CSIMON::SetState(int state)
 		break;
 	case SIMON_STATE_JUMP:
 
-			DebugOut(L"[Line]:%d SIMON state jump",__LINE__);
-			vy = -SIMON_JUMP_SPEED_Y;
+		DebugOut(L"[Line]:%d SIMON state jump", __LINE__);
+		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
 		vx = 0;
 		break;
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
+		break;
+	case SIMON_STATE_UPWHIP:
+		if (CAnimations::GetInstance()->Get(507)->getCurrentFrame()==4)
+		{
+			state = SIMON_STATE_IDLE;
+			isUpWhip = false;
+			//reset current frame
+			CAnimations::GetInstance()->Get(507)->setCurrentFrame(-1);
+		}
+		vx = 0;
+		vy = 0;
 		break;
 	case SIMON_STATE_STAND_FIGHTING:
 		if (getStateforAniSitandJump==false)

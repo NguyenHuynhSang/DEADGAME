@@ -35,6 +35,7 @@
 #define SIMON_BIG_BBOX_HEIGHT 60
 
 
+
 // có thể sửa lại thành invisible 
 #define SIMON_UNTOUCHABLE_TIME 5000
 
@@ -44,9 +45,11 @@ class CSIMON : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 	CWhip* whip;
-
+	
 public:
+	bool isUpWhip=false;
 	bool isFighting = false;
+	bool isSitting = false;
 	bool isTouchGr() { return vy == 0 ? true : false; };
 	CSIMON() : CGameObject()
 	{
