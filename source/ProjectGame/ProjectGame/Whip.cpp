@@ -3,10 +3,11 @@
 #include"Debug.h"
 #include"Item.h"
 #include"Global.h"
+
 void CWhip::Render()
 {
 	animations[state]->Render(nx, x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -24,6 +25,22 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 		left = 190 - WHIP_BBOX_WIDTH + x;
 		right = left + WHIP_BBOX_WIDTH;
 	}
+	
+	if (state==WHIP_STATE_RED)
+	{
+		if (nx < 0)
+		{
+			left = x + 50+30;
+			right = left + WHIP_RED_BBOX_WIDTH;
+		}
+		else if (nx > 0)
+		{
+			left = 190 - WHIP_RED_BBOX_WIDTH+30 + x;
+			right = left + WHIP_RED_BBOX_WIDTH;
+		}
+	}
+
+
 }
 //phai them cwhip vao object neu k se k update dc coevent
 //cách 2 dùng AABB
@@ -42,9 +59,10 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 			
 			if (CGameObject::isColliding(this, f)==true)
 			{
-					//DebugOut(L"Co va cham ");
+					DebugOut(L"Co va cham \n");
 					// thuc ra chi ngung render neu va cham chua remove han can toi uu
 					f->SetState(TORCH_STATE_DISAPPEAR);
+					
 			}
 		}
 	}

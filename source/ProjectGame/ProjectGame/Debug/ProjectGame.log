@@ -1,9 +1,22 @@
 ﻿  Simon.cpp
 d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(225): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(230): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(234): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\simon.cpp(247): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\simon.cpp(252): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\simon.cpp(256): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  main.cpp
+d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(458): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\test\projectgame\projectgame\main.cpp(480): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(485): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\main.cpp(508): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Whip.cpp
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

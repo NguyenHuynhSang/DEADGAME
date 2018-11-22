@@ -26,19 +26,31 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	// reset untouchable timer if untouchable time has passed
-	//if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
-	//{
-	//	untouchable_start = 0;
-	//	untouchable = 0;
-	//}
+
 	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
 		//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
 		// chi update khi dang o frame cuoi ==> luc roi danh ra
-		if (CAnimations::GetInstance()->Get(ID_WHIP_ANI)->getCurrentFrame() == 2)
+		if (whip->GetState()==WHIP_STATE_WHITE)
 		{
-			whip->Update(dt, coObjects);
+			if (CAnimations::GetInstance()->Get(WHIP_NOLMAL_ANI_ID)->getCurrentFrame() == 2)
+			{
+				whip->Update(dt, coObjects);
+			}
+		}
+		else if (whip->GetState()==WHIP_STATE_BLUE)
+		{
+			if (CAnimations::GetInstance()->Get(WHIP_BLUE_ANI_ID)->getCurrentFrame() == 2)
+			{
+				whip->Update(dt, coObjects);
+			}
+		}
+		else if (whip->GetState() == WHIP_STATE_RED)
+		{
+			if (CAnimations::GetInstance()->Get(WHIP_RED_ANI_ID)->getCurrentFrame() == 8)
+			{
+				whip->Update(dt, coObjects);
+			}
 		}
 		
 	}
@@ -104,6 +116,17 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					f->isShow = false;
 				}
+				if (isUpWhip==true)
+				{
+					if (whip->GetState()==WHIP_STATE_WHITE)
+					{
+						whip->SetState(WHIP_STATE_BLUE);
+					}
+					else if (whip->GetState() == WHIP_STATE_BLUE)
+					{
+						whip->SetState(WHIP_STATE_RED);
+					}
+				}
 			}
 
 			//va cham voi candle
@@ -115,7 +138,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					
 					x += dx;//Vẫn cho simon đi tới khi va chạm theo phương ngang
-				//	Citem=new CItem()
 					
 				}
 				if (e->ny!=0)// xét nếu va chạm theo phương thẳng đứng
@@ -227,11 +249,11 @@ void CSIMON::Render()
 		if (isSitting==true)
 		{
 			ani = SIMON_ANI_SIT_FIRE;
-			whip->SetPosition(x - 88, y+12);
+			whip->SetPosition(x - 85, y+12);
 		}
 		else
 		{
-			whip->SetPosition(x - 88, y);
+			whip->SetPosition(x - 85, y);
 		}
 		
 		whip->Render();
@@ -239,8 +261,10 @@ void CSIMON::Render()
 	else
 	{
 		//reset current frame
-		
+
 		CAnimations::GetInstance()->Get(555)->setCurrentFrame(-1);
+		CAnimations::GetInstance()->Get(556)->setCurrentFrame(-1);
+		CAnimations::GetInstance()->Get(557)->setCurrentFrame(-1);
 	}
 
 
