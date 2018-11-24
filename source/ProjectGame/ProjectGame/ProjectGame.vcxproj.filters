@@ -87,6 +87,9 @@
     <ClCompile Include="Global.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -132,6 +135,9 @@
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>

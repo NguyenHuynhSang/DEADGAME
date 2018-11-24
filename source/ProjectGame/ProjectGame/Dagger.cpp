@@ -1,6 +1,6 @@
-#include "Dagger.h"
-
-
+﻿#include "Dagger.h"
+#include"Camera.h"
+#include"Global.h"
 
 void CDagger::Render()
 {
@@ -16,6 +16,14 @@ void CDagger::GetBoundingBox(float & left, float & top, float & right, float & b
 
 void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 {
+	float camx, camy;
+	CCamera::GetInstance()->getCamera(camx, camy);
+	//remove danger khi ra khỏi ViewPort
+	if (x<(int)camx || x>(int)camx+SCREEN_WIDTH)
+	{
+		this->isRemove = true;
+	}
+
 }
 
 CDagger::CDagger()

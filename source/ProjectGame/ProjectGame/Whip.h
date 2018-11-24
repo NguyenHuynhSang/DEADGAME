@@ -2,14 +2,14 @@
 #include "GameObject.h"
 
 
-#define WHIP_BBOX_WIDTH 72
-#define WHIP_BBOX_HEIGHT 12
+#define WHIP_BBOX_WIDTH 42
+#define WHIP_BBOX_HEIGHT 15
 
-#define WHIP_BLUE_BBOX_WIDTH 100 
-#define WHIP_BLUE_BBOX_HEIGHT 100 
+#define WHIP_BLUE_BBOX_WIDTH 42 
+#define WHIP_BLUE_BBOX_HEIGHT 12 
 
 
-#define WHIP_RED_BBOX_WIDTH 100 
+#define WHIP_RED_BBOX_WIDTH 73 
 #define WHIP_RED_BBOX_HEIGHT 12 
 
 

@@ -40,7 +40,7 @@ void CGhoul::Render()
 	}
 
 	animations[ani]->Render(nx,x, y);
-	RenderBoundingBox();
+	RenderBoundingBox(x,y);
 }
 
 void CGhoul::SetState(int state)

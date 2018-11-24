@@ -134,10 +134,9 @@ bool CGameObject::AABB(float l, float t, float r, float b, float l1, float t1, f
 	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
 }
 
-void CGameObject::RenderBoundingBox()
+void CGameObject::RenderBoundingBox(float a,float c)
 {
 	
-	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
 	float l, t, r, b;
@@ -147,7 +146,7 @@ void CGameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom,nx, 128);
+	CGame::GetInstance()->Draw(a, c, bbox, rect.left, rect.top, rect.right, rect.bottom,nx, 128);
 }
 
 void CGameObject::AddAnimation(int aniId)

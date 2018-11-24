@@ -34,14 +34,14 @@ CGameObject::GetBoundingBox
 #include "TileMap.h"
 #include "Item.h"
 #include "Effect.h"
+#include"Camera.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 ///Clear background to black
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 
 // kích thước mặc định của Window
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+
 
 #define MAX_FRAME_RATE 120
 
@@ -254,30 +254,30 @@ void LoadResources()
 	// Cần flipping hình sau
 	// cách này khá củ chuối
 	// big
-	sprites->Add(10001, 28-30, 3, 28+30,64, texSimon);		// idle right
-	sprites->Add(10002, 92-30, 3, 92+30, 64, texSimon);		// walk
-	sprites->Add(10003, 150-30, 3, 150 + 30, 64, texSimon);
-	sprites->Add(10004, 210-30, 3, 210+30, 64, texSimon);
+	sprites->Add(10001, 28+27-30, 3, 28+27+30,64, texSimon);		// idle right
+	sprites->Add(10002, 92-30 + 27, 3, 92+30 + 27, 64, texSimon);		// walk
+	sprites->Add(10003, 150-30 + 27, 3, 150 + 30 + 27, 64, texSimon);
+	sprites->Add(10004, 210-30 + 27, 3, 210+30 + 27, 64, texSimon);
 
-	sprites->Add(10016, 268-31, 3, 268+31, 64, texSimon);//Simon sit Right
-
-
-	sprites->Add(10017, 328-31-1, 3, 328 +31, 64, texSimon);//Simon stand fight
-	sprites->Add(10018, 388-28, 3, 388+31, 64, texSimon);
-	sprites->Add(10019, 448-31-1, 3, 448+31, 64, texSimon);
+	sprites->Add(10016, 268-31 + 27, 3, 268+31 + 27, 64, texSimon);//Simon sit Right
 
 
-
-	sprites->Add(10021, 450-30, 67, 450+30, 130, texSimon);//Simon sit fight
-	sprites->Add(10022, 28-30 , 134, 28+30, 196, texSimon);
-	sprites->Add(10023, 88-30 , 134, 88+30, 196, texSimon);
+	sprites->Add(10017, 356-30, 3, 356 +30, 64, texSimon);//Simon stand fight
+	sprites->Add(10018, 427-30, 3, 427+30, 64, texSimon);
+	sprites->Add(10019, 501-30, 3, 501+30, 64, texSimon);
 
 
 
-	sprites->Add(10051, 30, 198, 60, 264, texSimon);//Simon Up whip
-	sprites->Add(10052, 90 - 30, 198, 90 + 30, 264, texSimon);
-	sprites->Add(10053, 150 - 30, 198, 150 + 30, 264, texSimon);
-	sprites->Add(10054, 210-30, 198, 210+30, 264, texSimon);
+	sprites->Add(10021, 450-30+27, 67, 450+30 + 27, 130, texSimon);//Simon sit fight
+	sprites->Add(10022, 28-30 + 27, 134, 28+30 + 27, 196, texSimon);
+	sprites->Add(10023, 88-30 + 27, 134, 88+30 + 27, 196, texSimon);
+
+
+
+	sprites->Add(10051, 58-30, 198, 58+30, 264, texSimon);//Simon Up whip
+	sprites->Add(10052, 90 - 30 + 27, 198, 90 + 30 + 27, 264, texSimon);
+	sprites->Add(10053, 150 - 30 + 27, 198, 150 + 30 + 27, 264, texSimon);
+	sprites->Add(10054, 210-30 + 27, 198, 210+30 + 27, 264, texSimon);
 
 
 	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
@@ -387,12 +387,12 @@ void LoadResources()
 	SIMON = new CSIMON();
 	SIMON->AddAnimation(400);		// idle right big   /0
 	SIMON->AddAnimation(500);		// walk right big   /1
-	SIMON->AddAnimation(505);  //Idle sit right          /2
-	SIMON->AddAnimation(502);//SIMON Stand fire        /3
+	SIMON->AddAnimation(505);		 //Idle sit right          /2
+	SIMON->AddAnimation(502);		//SIMON Stand fire        /3
 
 
-	SIMON->AddAnimation(506);//Simon sit fight         /4
-	SIMON->AddAnimation(507);//Simon up whip           /5
+	SIMON->AddAnimation(506);		//Simon sit fight         /4
+	SIMON->AddAnimation(507);		//Simon up whip           /5
 	SIMON->AddAnimation(599);		// die  /6
 
 	SIMON->SetPosition(100.0f, 250.0f);
@@ -468,17 +468,28 @@ dt: time period between beginning of last frame and beginning of this frame
 */
 void Update(DWORD dt)
 {
+
+
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-	if (SIMON->x >= 640 / 2 - 60 && SIMON->x <= 1550 - 640 / 2 - 60)
+	if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 1530 - 640 / 2 - 60)
 	{
 
-		game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, NULL);
-
+		game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
+		CCamera::GetInstance()->isCamMove = true;
+	}
+	else
+	{
+		CCamera::GetInstance()->isCamMove = false;
 	}
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
+		//dọn rác
+		if (CGlobal::GetInstance()->objects[i]->isRemove==true)
+		{
+			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
+		}
 		coObjects.push_back(CGlobal::GetInstance()->objects[i]);
 	}
 

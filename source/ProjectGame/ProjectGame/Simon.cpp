@@ -80,6 +80,10 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
+					if (state==SIMON_STATE_STAND_FIGHTING)
+					{
+						vx=0;
+					}
 				}
 
 			}
@@ -89,13 +93,16 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			// cần có pp cho trường hợp đó ex:AABB
 			if (dynamic_cast<CItem *>(e->obj))
 			{
+				DebugOut(L"\n ITEM HERE");
 				CItem * f = dynamic_cast<CItem*> (e->obj);
-				bool iscol = false;
+	
 				if (e->nx!=0)
 				{
+					if (f->isShow==true)
+					{
+						f->isRemove = true;
+					}
 					DebugOut(L"Col with item \n");
-					f->colSimon = true;
-					
 					x += dx;
 					if (f->GetState()==ITEM_STATE_NWHIP && f->isShow==true)
 					{
@@ -106,9 +113,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				if (e->ny!=0)
 				{
+					if (f->isShow == true)
+					{
+						f->isRemove = true;
+					}
 					DebugOut(L"Col with item \n");
-					f->colSimon = true;
-				
 					y += dy;
 					if (f->GetState() == ITEM_STATE_NWHIP && f->isShow == true)
 					{
@@ -136,7 +145,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//	DebugOut(L"Tourch \n");
 				if (e->nx!=0)
 				{
-					
 					x += dx;//Vẫn cho simon đi tới khi va chạm theo phương ngang
 					
 				}
@@ -262,10 +270,22 @@ void CSIMON::Render()
 	{
 		//reset current frame
 
-		CAnimations::GetInstance()->Get(555)->setCurrentFrame(-1);
-		CAnimations::GetInstance()->Get(556)->setCurrentFrame(-1);
-		CAnimations::GetInstance()->Get(557)->setCurrentFrame(-1);
+		
+		
+		if (whip->GetState()==WHIP_STATE_RED)
+		{
+			CAnimations::GetInstance()->Get(557)->setCurrentFrame(-1);
+		}
+		else if (whip->GetState() == WHIP_STATE_WHITE)
+		{
+			CAnimations::GetInstance()->Get(555)->setCurrentFrame(-1);
+		}
+		else
+		{
+			CAnimations::GetInstance()->Get(556)->setCurrentFrame(-1);
+		}
 	}
+		
 
 
 	if (state==SIMON_STATE_UPWHIP)
@@ -278,7 +298,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-//	RenderBoundingBox();
+	RenderBoundingBox(x+14,y);
 	
 }
 
@@ -334,9 +354,9 @@ void CSIMON::SetState(int state)
 void CSIMON::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	//x y của SIMON sẽ xét lại
-	left = x-12;
+	left = x+14;
 	top = y;
-	right = x + SIMON_BIG_BBOX_WIDTH+10;
+	right = x + SIMON_BIG_BBOX_WIDTH+14;
 	bottom = y + SIMON_BIG_BBOX_HEIGHT;
 }
 

@@ -7,12 +7,12 @@
 #include "Game.h"
 #include "textures.h"
 
-CTextures * CTextures::__instance = NULL;
 
 CTextures::CTextures()
 {
 
 }
+CTextures * CTextures::__instance = NULL;
 
 CTextures *CTextures::GetInstance()
 {

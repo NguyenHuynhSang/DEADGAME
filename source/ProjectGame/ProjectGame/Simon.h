@@ -31,8 +31,11 @@
 #define SIMON_ANI_DIE				8
 
 
-#define SIMON_BIG_BBOX_WIDTH  32
+#define SIMON_BIG_BBOX_WIDTH  30
 #define SIMON_BIG_BBOX_HEIGHT 60
+
+#define SIMON_MAX_LIFE_BAR 20
+#define SIMON_MAX_HEART_BAR 20
 
 
 
@@ -40,23 +43,43 @@
 #define SIMON_UNTOUCHABLE_TIME 5000
 
 
+
+
+
+
+
 class CSIMON : public CGameObject
 {
 	int untouchable;
 	DWORD untouchable_start;
 	CWhip* whip;
-	
+	int nLife;
+	int nHeart;
 public:
+
+
+
+
 	bool isUpWhip=false;
 	bool isFighting = false;
 	bool isSitting = false;
 	bool isTouchGr() { return vy == 0 ? true : false; };
+
+	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }
+	int getLife() { return nLife; }
+	void setHeart(int _heart){ nHeart = nHeart + _heart > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nHeart + _heart; }
+	int getHeart(){ return nHeart; }
+
 	CSIMON() : CGameObject()
 	{
-	
-
-		whip = new CWhip();
+		nLife = SIMON_MAX_LIFE_BAR;
+		nHeart = 0;
 		untouchable = 0;
+
+
+#pragma region whip
+		whip = new CWhip();
+
 		CSprites * sprites = CSprites::GetInstance();
 		CAnimations * animations = CAnimations::GetInstance();
 
@@ -88,7 +111,7 @@ public:
 		sprites->Add(20017, 0, 330, 240, 396, texWhip);
 		sprites->Add(20018, 240, 330, 480, 396, texWhip);
 		sprites->Add(20019, 480, 330, 720, 396, texWhip);
-
+		sprites->Add(20020, 0, 0, 1, 1, texWhip);
 		LPANIMATION ani;
 
 		ani = new CAnimation(WHIP_DELAY_TIME); //NOLMAL WHIP
@@ -98,7 +121,7 @@ public:
 		ani->Add(20004);
 		animations->Add(WHIP_NOLMAL_ANI_ID, ani);
 
-	
+
 
 		ani = new CAnimation(WHIP_DELAY_TIME); //BLUE WHIP
 		ani->Add(20005);
@@ -108,19 +131,24 @@ public:
 		animations->Add(WHIP_BLUE_ANI_ID, ani);
 
 		ani = new CAnimation(8); //red WHIP
+
 		ani->Add(20008);
 		ani->Add(20009);
 		ani->Add(20010);
+
 		ani->Add(20011);
 		ani->Add(20012);
 		ani->Add(20013);
+
 		ani->Add(20014);
 		ani->Add(20015);
 		ani->Add(20016);
+
 		ani->Add(20017);
 		ani->Add(20018);
 		ani->Add(20019);
-		ani->Add(20008);
+
+		ani->Add(20020);
 		animations->Add(WHIP_RED_ANI_ID, ani);
 
 
@@ -128,6 +156,17 @@ public:
 		whip->AddAnimation(WHIP_NOLMAL_ANI_ID); //Nomal Whip /0
 		whip->AddAnimation(WHIP_BLUE_ANI_ID); //blue whip /1
 		whip->AddAnimation(WHIP_RED_ANI_ID); //red 2
+#pragma endregion 
+
+#pragma region Dagger
+
+
+
+
+#pragma endregion
+
+
+		
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();

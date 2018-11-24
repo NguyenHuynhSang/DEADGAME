@@ -1,5 +1,6 @@
 ﻿#include "TileMap.h"
-
+#include"Camera.h"
+#include"Global.h"
 using namespace std;
 void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 {
@@ -59,15 +60,32 @@ void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 
 void CTileMap::DrawMap()
 {
+	// Dựa vào vị trí Cam để tìm ô đầu ô cuối trong Map, 
+	//sau đó ta vẽ ra.
+	float camX, camY;
+	CCamera::GetInstance()->getCamera(camX, camY);
+	// lấy ra cột đầu và cột cuối trong Cam;
+	int beginCol =((int)camX)/32;
+	//+1 vì nếu vẽ vừa đủ cột cuối cùng mỗi khi render sẽ nhấp nháy
 	
+	int endCol=0;
+	if (CCamera::GetInstance()->isCamMove==true)
+	{
+		endCol = ((int)camX + SCREEN_WIDTH) / 32+1;
+		//Có lỗi nếu đi đến hết map vì +1 sẽ tạo thêm một cột nhưng k có 
+		//trong ma trận
+		//==>đã fix nhưng cần cách tối ưu hơn
+	}
+	else
+	{
+		endCol = ((int)camX + SCREEN_WIDTH)/32;
+	}
 	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < cols; j++)
+		for (int j = beginCol; j < endCol; j++)
 		{
 
 			CSprites::GetInstance()->Get(matrix[i][j])->Draw(0,j*TILE_HEIGHT,i*TILE_HEIGHT+25);
-
-
 		}
 	}
 

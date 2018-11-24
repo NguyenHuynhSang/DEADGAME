@@ -30,7 +30,7 @@ void CTorch::Render()
 	}
 
 
-	//RenderBoundingBox();
+	RenderBoundingBox(x,y);
 	//DebugOut(L"x=%d y=%d \n");
 }
 
@@ -40,14 +40,7 @@ void CTorch::SetState(int state)
 }
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) 
 {
-	if (item->isShow == false && item->colSimon == true)
-	{
-		return;
-	}
-	if (item->isShow==false && item->colSimon==false)
-	{
-		item->SetPosition(x, y);
-	}
+
 	if (state==TORCH_STATE_DISAPPEAR)
 	{
 		item->isShow = true;
@@ -55,6 +48,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 		item->isShow = false;
+		item->SetPosition(x, y);
 	}
 
 

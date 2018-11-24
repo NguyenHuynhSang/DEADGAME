@@ -27,7 +27,7 @@ class CTileMap
 	float tileSetWidth;
 	float tileSetHeight;
 
-
+	
 
 public:
 	// load tile  tu file sau do luu vao ma tran

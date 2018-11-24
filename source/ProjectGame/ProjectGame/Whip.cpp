@@ -1,4 +1,4 @@
-#include "Whip.h"	
+ï»¿#include "Whip.h"	
 #include"Torch.h"
 #include"Debug.h"
 #include"Item.h"
@@ -6,14 +6,44 @@
 
 void CWhip::Render()
 {
-	animations[state]->Render(nx, x, y);
-	RenderBoundingBox();
+	if (state == WHIP_STATE_RED)
+	{
+		if (CAnimations::GetInstance()->Get(WHIP_RED_ANI_ID)->getCurrentFrame() != 11)
+		{
+			animations[state]->Render(nx, x, y);
+			if (nx>0)
+			{
+				RenderBoundingBox(220 - WHIP_RED_BBOX_WIDTH + x, y + 15);
+			}
+			else
+			{
+				RenderBoundingBox(x+25, y + 15);
+			}
+			
+		}
+	}
+	else
+	{
+		animations[state]->Render(nx, x, y);
+		if (nx>0)
+		{
+			RenderBoundingBox(190 - WHIP_BBOX_WIDTH + x, y + 15);
+		}
+		else
+		{
+			RenderBoundingBox(x + 50,y+15);
+		}
+		
+	}
+	
+//	RenderBoundingBox();
 }
 
 void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 
-	top = y + 15;
+
+	top = y + 15;	
 	bottom = top + WHIP_BBOX_HEIGHT;
 	if (nx < 0)
 	{
@@ -30,7 +60,7 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 	{
 		if (nx < 0)
 		{
-			left = x + 50+30;
+			left = x+25;
 			right = left + WHIP_RED_BBOX_WIDTH;
 		}
 		else if (nx > 0)
@@ -43,7 +73,7 @@ void CWhip::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 }
 //phai them cwhip vao object neu k se k update dc coevent
-//cách 2 dùng AABB
+//cÃ¡ch 2 dÃ¹ng AABB
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 {
 	//duyet het cac objects, neu la Ctourch thi
@@ -62,7 +92,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 					DebugOut(L"Co va cham \n");
 					// thuc ra chi ngung render neu va cham chua remove han can toi uu
 					f->SetState(TORCH_STATE_DISAPPEAR);
-					
+					f->isRemove = true;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿#include "Game.h"
 #include "debug.h"
 #include"TileMap.h"
+#include"Camera.h"
 CGame * CGame::__instance = NULL;
 
 /*
@@ -58,9 +59,9 @@ Utility function to wrap LPD3DXSPRITE::Draw
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha)
 {
 	//sửa lỗi tearing tile map
-	int xx = x - camX;
-	int yy = y - camY;
-	D3DXVECTOR3 p(xx,yy, 0);
+	float CamX, CamY;
+	CCamera::GetInstance()->getCamera(CamX,CamY);
+	D3DXVECTOR3 p((int)(x-CamX),(int)(y-CamY), 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -185,8 +186,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 
 void CGame::setCam(float x, float y)
 {
-	camX = x;
-	camY = y;
+	CCamera::GetInstance()->setCamera(x, 0);
 
 }
 

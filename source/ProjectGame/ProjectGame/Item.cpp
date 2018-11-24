@@ -9,7 +9,7 @@ void CItem::Render()
 	{
 		animations[state]->Render(0, x, y);
 	}
-	//RenderBoundingBox();
+	RenderBoundingBox(x,y);
 }
 void CItem::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
