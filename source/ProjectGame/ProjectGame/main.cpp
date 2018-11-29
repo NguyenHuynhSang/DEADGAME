@@ -29,7 +29,7 @@ CGameObject::GetBoundingBox
 #include "Global.h"
 #include "Simon.h"
 #include "Brick.h"
-#include "Zombie.h"
+#include "ghoul.h"
 #include "Torch.h"
 #include "TileMap.h"
 #include "Item.h"

@@ -60,8 +60,6 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CTorch::setItemState(int nstate)
 {
 	item->SetState(nstate);
-
-
 }
 
 //CTorch::CTorch()

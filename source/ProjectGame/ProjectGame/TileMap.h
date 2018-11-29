@@ -1,14 +1,17 @@
-﻿#pragma once
+﻿///=========================================================
+// Chia map ra tile để tiết kiệm bộ nhớ khi vẽ map
+// slip map ra tileset bằng tool
+// tải lên ma trận tilemap và tileset sau đó dựa vào đó để vẽ map
+//=========================================================
+// chiều dài và rộng của mỗi tile
+
+#pragma once
 #include"debug.h"
 #include"Sprites.h"
 
 #include<fstream>
 
-///=========================================================
-// Chia map ra tile để tiết kiệm bộ nhớ khi vẽ map
-// tải lên ma trận tile map sau đó dựa vào đó để vẽ map
-//=========================================================
-// chiều dài và rộng của mỗi tile
+
 #define  TILE_WIDTH 32
 #define  TILE_HEIGHT 32
 

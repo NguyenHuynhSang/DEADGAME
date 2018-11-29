@@ -37,6 +37,9 @@
     <Filter Include="GameObjects\Effect">
       <UniqueIdentifier>{fbe4366c-9c8b-4a13-80af-06bd2cc8fda4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tutorials">
+      <UniqueIdentifier>{81f0092d-4e1c-4a27-b0a0-a9e99b263ed5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,9 +72,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>GameObjects\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Zombie.cpp">
-      <Filter>GameObjects\Enermy</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
@@ -88,6 +88,12 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghoul.cpp">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,9 +122,6 @@
     <ClInclude Include="Torch.h">
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Zombie.h">
-      <Filter>GameObjects\Enermy</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
@@ -140,5 +143,16 @@
     <ClInclude Include="Camera.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="ghoul.h">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tutorials.txt">
+      <Filter>Tutorials</Filter>
+    </Text>
   </ItemGroup>
 </Project>

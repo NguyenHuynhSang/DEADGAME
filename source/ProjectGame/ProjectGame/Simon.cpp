@@ -3,7 +3,7 @@
 
 #include "Simon.h"
 #include "Game.h"
-#include "Zombie.h"
+#include "ghoul.h"
 #include"Whip.h"
 #include"Torch.h"
 #include"Brick.h"
@@ -298,7 +298,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	RenderBoundingBox(x+14,y);
+//	RenderBoundingBox(x+14,y);
 	
 }
 

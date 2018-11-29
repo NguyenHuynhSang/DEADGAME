@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -128,7 +129,7 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
-    <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="Ghoul.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Effect.h" />
@@ -147,10 +149,13 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />
-    <ClInclude Include="Zombie.h" />
+    <ClInclude Include="ghoul.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tutorials.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

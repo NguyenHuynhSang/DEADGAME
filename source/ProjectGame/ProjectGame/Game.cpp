@@ -58,6 +58,8 @@ Utility function to wrap LPD3DXSPRITE::Draw
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha)
 {
+	//tearing tile vì vận tốc của simon là số thực
+	//==> d=st là lẽ nên vẽ ra sai
 	//sửa lỗi tearing tile map
 	float CamX, CamY;
 	CCamera::GetInstance()->getCamera(CamX,CamY);

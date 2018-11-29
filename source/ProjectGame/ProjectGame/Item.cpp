@@ -1,7 +1,8 @@
-#include "Item.h"
+﻿#include "Item.h"
 #include"debug.h"
 #include"Brick.h"
 #include"Global.h"
+#include"Textures.h"
 void CItem::Render()
 {
 
@@ -9,7 +10,7 @@ void CItem::Render()
 	{
 		animations[state]->Render(0, x, y);
 	}
-	RenderBoundingBox(x,y);
+	//RenderBoundingBox(x,y);
 }
 void CItem::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
@@ -66,7 +67,38 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 CItem::CItem()
 {
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+	LPDIRECT3DTEXTURE9 texBHear = textures->Get(ID_TEX_ITEM_BHEAR);
+	sprites->Add(70000, 0, 0, 24, 20, texBHear);
+	LPDIRECT3DTEXTURE9 texDanger = textures->Get(ID_TEX_ITEM_DANGER);
+	sprites->Add(70001, 0, 0, 24, 20, texDanger);
+	PDIRECT3DTEXTURE9 texNWhip = textures->Get(ID_TEX_ITEM_NWHIP);
+	sprites->Add(70002, 0, 0, 32, 32, texNWhip);
+	LPANIMATION ani;
 
+	ani = new CAnimation(10000);		// BHEART
+	ani->Add(70000);
+	animations->Add(901, ani);
+
+	ani = new CAnimation(100);		// danger
+	ani->Add(70001);
+	animations->Add(902, ani);
+
+	ani = new CAnimation(100);		// NWhip
+	ani->Add(70002);
+	animations->Add(903, ani);
+
+	this->AddAnimation(901);
+	this->AddAnimation(902);
+	this->AddAnimation(903);
+	//carefull
+	//item->GetPosition(x, y);
+	//thêm vào object mới có thể update, hay bắt sự kiện va chạm
+	//vì cái coobject dc lay ra tu object
+	//k thêm vào lấy đâu ra mà xét.
+	CGlobal::GetInstance()->objects.push_back(this);
 }
 
 

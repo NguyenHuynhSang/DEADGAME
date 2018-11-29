@@ -64,10 +64,9 @@ void CTileMap::DrawMap()
 	//sau đó ta vẽ ra.
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX, camY);
-	// lấy ra cột đầu và cột cuối trong Cam;
+	// lấy ra cột đầu và cột cuối trong Viewport ;
 	int beginCol =((int)camX)/32;
 	//+1 vì nếu vẽ vừa đủ cột cuối cùng mỗi khi render sẽ nhấp nháy
-	
 	int endCol=0;
 	if (CCamera::GetInstance()->isCamMove==true)
 	{
@@ -84,7 +83,6 @@ void CTileMap::DrawMap()
 	{
 		for (int j = beginCol; j < endCol; j++)
 		{
-
 			CSprites::GetInstance()->Get(matrix[i][j])->Draw(0,j*TILE_HEIGHT,i*TILE_HEIGHT+25);
 		}
 	}

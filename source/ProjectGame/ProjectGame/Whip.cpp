@@ -104,6 +104,86 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 
 CWhip::CWhip()
 {
+#pragma region whip
+
+
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+
+	CTextures * textures = CTextures::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
+
+	sprites->Add(20001, 0, 0, 240, 66, texWhip); // normal whip
+	sprites->Add(20002, 240, 0, 480, 66, texWhip);
+	sprites->Add(20003, 480, 0, 720, 66, texWhip);
+	sprites->Add(20004, 0, 1, 2, 3, texWhip);
+
+	sprites->Add(20005, 0, 66, 240, 132, texWhip); // Blue Whip
+	sprites->Add(20006, 240, 66, 480, 132, texWhip);
+	sprites->Add(20007, 480, 66, 720, 132, texWhip);
+
+
+	sprites->Add(20008, 0, 132, 240, 198, texWhip); // Red whip
+	sprites->Add(20009, 240, 132, 480, 198, texWhip);
+	sprites->Add(20010, 480, 132, 720, 198, texWhip);
+	sprites->Add(20011, 0, 198, 240, 264, texWhip);
+
+	sprites->Add(20012, 240, 198, 480, 264, texWhip);
+	sprites->Add(20013, 480, 198, 720, 264, texWhip);
+	sprites->Add(20014, 0, 264, 240, 330, texWhip);
+	sprites->Add(20015, 240, 264, 480, 330, texWhip);
+
+	sprites->Add(20016, 480, 264, 720, 330, texWhip);
+	sprites->Add(20017, 0, 330, 240, 396, texWhip);
+	sprites->Add(20018, 240, 330, 480, 396, texWhip);
+	sprites->Add(20019, 480, 330, 720, 396, texWhip);
+	sprites->Add(20020, 0, 0, 1, 1, texWhip);
+	LPANIMATION ani;
+
+	ani = new CAnimation(WHIP_DELAY_TIME); //NOLMAL WHIP
+	ani->Add(20001);
+	ani->Add(20002);
+	ani->Add(20003);
+	ani->Add(20004);
+	animations->Add(WHIP_NOLMAL_ANI_ID, ani);
+
+
+
+	ani = new CAnimation(WHIP_DELAY_TIME); //BLUE WHIP
+	ani->Add(20005);
+	ani->Add(20006);
+	ani->Add(20007);
+	ani->Add(20004);
+	animations->Add(WHIP_BLUE_ANI_ID, ani);
+
+	ani = new CAnimation(8); //red WHIP
+
+	ani->Add(20008);
+	ani->Add(20009);
+	ani->Add(20010);
+
+	ani->Add(20011);
+	ani->Add(20012);
+	ani->Add(20013);
+
+	ani->Add(20014);
+	ani->Add(20015);
+	ani->Add(20016);
+
+	ani->Add(20017);
+	ani->Add(20018);
+	ani->Add(20019);
+
+	ani->Add(20020);
+	animations->Add(WHIP_RED_ANI_ID, ani);
+
+
+
+	this->AddAnimation(WHIP_NOLMAL_ANI_ID); //Nomal Whip /0
+	this->AddAnimation(WHIP_BLUE_ANI_ID); //blue whip /1
+	this->AddAnimation(WHIP_RED_ANI_ID); //red 2
+#pragma endregion 
 }
 
 

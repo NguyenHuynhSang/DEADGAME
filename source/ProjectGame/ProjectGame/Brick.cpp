@@ -1,10 +1,21 @@
 #include "Brick.h"
-
+#include"Camera.h"
+#include"Global.h"
 void CBrick::Render()
 {
-	animations[0]->Render(0,x, y);
-	//RenderBoundingBox();
-}
+	float camX,camY;
+	CCamera::GetInstance()->getCamera(camX,camY);
+	if (x<0||x>camX+SCREEN_WIDTH)
+	{
+
+	}
+	else
+	{
+		animations[0]->Render(0, x, y);
+		//RenderBoundingBox();
+	}
+	}
+
 
 void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 {

@@ -24,6 +24,11 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 		this->isRemove = true;
 	}
 
+
+
+
+
+
 }
 
 CDagger::CDagger()

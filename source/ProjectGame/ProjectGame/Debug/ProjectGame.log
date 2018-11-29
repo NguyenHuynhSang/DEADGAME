@@ -1,9 +1,26 @@
-﻿  Simon.cpp
+﻿  TileMap.cpp
 d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(255): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(260): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\test\projectgame\projectgame\simon.cpp(264): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\tilemap.cpp(15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\tilemap.cpp(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\tilemap.cpp(45): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\tilemap.cpp(46): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\tilemap.cpp(86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Game.cpp
+d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\game.cpp(66): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+d:\test\projectgame\projectgame\game.cpp(99): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+d:\test\projectgame\projectgame\game.cpp(311): warning C4305: '=': truncation from '__int64' to 'float'
+d:\test\projectgame\projectgame\game.cpp(312): warning C4305: '=': truncation from '__int64' to 'float'
+d:\test\projectgame\projectgame\game.cpp(322): warning C4305: '=': truncation from '__int64' to 'float'
+d:\test\projectgame\projectgame\game.cpp(323): warning C4305: '=': truncation from '__int64' to 'float'
+  Generating Code...
+  Compiling...
+  Cell.cpp
+d:\test\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\cell.cpp(7): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\cell.cpp(15): warning C4018: '<': signed/unsigned mismatch
+d:\test\projectgame\projectgame\cell.cpp(39): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\test\projectgame\projectgame\cell.cpp(40): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\test\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)
