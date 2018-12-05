@@ -6,11 +6,12 @@
 void CItem::Render()
 {
 
-	if (isShow==true)
-	{
-		animations[state]->Render(0, x, y);
-	}
-	//RenderBoundingBox(x,y);
+	animations[state]->Render(0, x, y);
+	RenderBoundingBox(x,y);
+}
+void CItem::createItem()
+{
+	CGlobal::GetInstance()->objects.push_back(this);
 }
 void CItem::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
@@ -34,11 +35,6 @@ void CItem::GetBoundingBox(float & left, float & top, float & right, float & bot
 }
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (isShow ==false)
-	{
-		return;
-	}
-
 	CGameObject::Update(dt);
 	vy += ITEM_GRAVITY*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -98,10 +94,12 @@ CItem::CItem()
 	//thêm vào object mới có thể update, hay bắt sự kiện va chạm
 	//vì cái coobject dc lay ra tu object
 	//k thêm vào lấy đâu ra mà xét.
-	CGlobal::GetInstance()->objects.push_back(this);
+	DebugOut(L"\nCreate Items");
+
 }
 
 
 CItem::~CItem()
 {
+	
 }

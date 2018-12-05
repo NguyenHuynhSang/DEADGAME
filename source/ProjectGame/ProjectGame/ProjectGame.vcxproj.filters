@@ -96,6 +96,9 @@
     <ClCompile Include="Cell.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -149,9 +152,12 @@
     <ClInclude Include="Cell.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Tutorials.txt">
+    <Text Include="Grid.txt">
       <Filter>Tutorials</Filter>
     </Text>
   </ItemGroup>

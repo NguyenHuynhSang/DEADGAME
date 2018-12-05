@@ -126,6 +126,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />
@@ -155,7 +157,7 @@
     <ClInclude Include="Textures.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Tutorials.txt" />
+    <Text Include="Grid.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

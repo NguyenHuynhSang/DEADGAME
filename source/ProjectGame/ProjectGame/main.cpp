@@ -35,6 +35,7 @@ CGameObject::GetBoundingBox
 #include "Item.h"
 #include "Effect.h"
 #include"Camera.h"
+#include"Cell.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 ///Clear background to black
@@ -55,7 +56,7 @@ CGame *game;
 CSIMON *SIMON;
 CGhoul *goomba;
 CTileMap *tileG;
-
+Cells * cell;
 class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -70,6 +71,17 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
+	case DIK_D:
+		if (SIMON->GetState() == SIMON_STATE_UPWHIP)
+		{
+			return;
+		}
+		SIMON->isUsesW = true;
+		SIMON->isDelay = true;
+		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
+		
+		break;
+
 
 	case DIK_F:
 		//DebugOut(L"Press Fighting  \n");
@@ -112,7 +124,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	//mất delay time cần có phương pháp hiệu quả hon
 	/// xong
 
-	SIMON->getStateforAniSitandJump=false;
+	SIMON->isJump=false;
 	if (SIMON->isUpWhip == true)
 	{
 		SIMON->SetState(SIMON_STATE_UPWHIP);
@@ -133,6 +145,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 			else
 			{
+				SIMON->isDelay = false;
 				CAnimations::GetInstance()->Get(506)->setCurrentFrame(-1);
 			}
 		}
@@ -145,6 +158,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 			else
 			{
+				SIMON->isDelay = false;
 				// sửa lỗi bị delay
 				CAnimations::GetInstance()->Get(502)->setCurrentFrame(-1);
 			}
@@ -155,7 +169,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	if (SIMON->GetState()==SIMON_STATE_JUMP && SIMON->isTouchGr()==false)
 	{
 	
-			SIMON->getStateforAniSitandJump = true;
+			SIMON->isJump = true;
 			return;
 	}
 
@@ -164,7 +178,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 
 	if (game->IsKeyDown(DIK_DOWN))
 	{
-		SIMON->getStateforAniSitandJump = true;
+		SIMON->isJump = true;
 		// set state tranh truong hop nguoi dung bam cung luc ngoi va toi
 		SIMON->SetState(SIMON_STATE_IDLE);
 		SIMON->isSitting = true;
@@ -251,8 +265,6 @@ void LoadResources()
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-	// Cần flipping hình sau
-	// cách này khá củ chuối
 	// big
 	sprites->Add(10001, 28+27-30, 3, 28+27+30,64, texSimon);		// idle right
 	sprites->Add(10002, 92-30 + 27, 3, 92+30 + 27, 64, texSimon);		// walk
@@ -450,15 +462,15 @@ void LoadResources()
 
 
 	// and Goombas 
-	for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGhoul();
-		goomba->AddAnimation(701);
-		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i * 60, 350-30*2);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		CGlobal::GetInstance()->objects.push_back(goomba);
-	}
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	goomba = new CGhoul();
+	//	goomba->AddAnimation(701);
+	//	goomba->AddAnimation(702);
+	//	goomba->SetPosition(200 + i * 60, 350-30*2);
+	//	goomba->SetState(GOOMBA_STATE_WALKING);
+	//	CGlobal::GetInstance()->objects.push_back(goomba);
+	//}
 
 }
 
@@ -482,19 +494,27 @@ void Update(DWORD dt)
 	{
 		CCamera::GetInstance()->isCamMove = false;
 	}
+
 	vector<LPGAMEOBJECT> coObjects;
+	//dọn rác trc khi update
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-		//dọn rác
-		if (CGlobal::GetInstance()->objects[i]->isRemove==true)
+
+		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
 		{
 			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
 		}
+	}
+
+	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+	
 		coObjects.push_back(CGlobal::GetInstance()->objects[i]);
 	}
 
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
+	
 		CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
 	}
 }

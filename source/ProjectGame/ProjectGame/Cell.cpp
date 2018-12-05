@@ -63,8 +63,6 @@ void Cells::Update(DWORD dt)
 	for (int i = xs; i < xe; i++)
 		for (int j = ys; j < ye; j++)
 			cells[i][j].Update(dt);
-
-
 }
 
 void Cells::Render(float camX, float camY)
@@ -86,23 +84,38 @@ void Cells::Render(float camX, float camY)
 
 void Cells::getListObject(vector<LPGAMEOBJECT>* objects)
 {
-	objects->clear();
-	int xs, ys;
-	int xe, ye;
-	float camX, camY;
-	CCamera::GetInstance()->getCamera(camX, camY);
-	// cell đầu
-	xs = (int)camX / CELL_WIDTH;
-	ys = (int)camY / CELL_HEIGHT;// lưu ý phần thừa trên map
-								 //cell cuối
-	xe = (int)CCamera::GetInstance()->getVPWidth() / CELL_WIDTH;
-	ye = (int)CCamera::GetInstance()->getVPHeight() / CELL_HEIGHT;
-	for (int i = xs; i < xe; i++)
-		for (int j = ys; j< ye; j++)
-		{
-			// cập nhật lại object và 
-			LPGAMEOBJECT e = cells[i][j].GetObjects()[1];
-			objects->push_back(e);
-		}
-			
+	//objects->clear();
+	//int xs, ys;
+	//int xe, ye;
+	//float camX, camY;
+	//CCamera::GetInstance()->getCamera(camX, camY);
+	//// cell đầu
+	//xs = (int)camX / CELL_WIDTH;
+	//ys = (int)camY / CELL_HEIGHT;// lưu ý phần thừa trên map
+	//							 //cell cuối
+	//xe = (int)CCamera::GetInstance()->getVPWidth() / CELL_WIDTH;
+	//ye = (int)CCamera::GetInstance()->getVPHeight() / CELL_HEIGHT;
+	//for (int i = xs; i < xe; i++)
+	//	for (int j = ys; j< ye; j++)
+	//	{
+	//		if (cells[i][j].GetObjects().size!=0)
+	//		{
+	//			for (int k = 0; k < cells[i][j].GetObjects().size; k++)
+	//			{
+	//				LPGAMEOBJECT e = cells[i][j].GetObjects()[k];
+	//				int xx = e->x / CELL_WIDTH;
+	//				int yy = e->y / CELL_HEIGHT;
+	//				if (xx!=i || yy!=j)
+	//				{
+	//					cells[i][j].DeleteObject(k);
+	//				}
+	//				else
+	//				{
+	//					objects->push_back(e);
+	//				}
+	//			}
+	//		}
+	//		// cập nhật lại object 
+	//	}
+	//		
 }

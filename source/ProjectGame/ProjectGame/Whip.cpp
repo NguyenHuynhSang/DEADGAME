@@ -162,23 +162,20 @@ CWhip::CWhip()
 	ani->Add(20008);
 	ani->Add(20009);
 	ani->Add(20010);
-
 	ani->Add(20011);
+
 	ani->Add(20012);
 	ani->Add(20013);
-
 	ani->Add(20014);
 	ani->Add(20015);
-	ani->Add(20016);
 
+	ani->Add(20016);
 	ani->Add(20017);
 	ani->Add(20018);
 	ani->Add(20019);
 
 	ani->Add(20020);
 	animations->Add(WHIP_RED_ANI_ID, ani);
-
-
 
 	this->AddAnimation(WHIP_NOLMAL_ANI_ID); //Nomal Whip /0
 	this->AddAnimation(WHIP_BLUE_ANI_ID); //blue whip /1

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include"Whip.h"
 #include"Textures.h"
+#include"Dagger.h"
 #define SIMON_WALKING_SPEED		0.15f 
 #define SIMON_FIRE_TIME			300
 //0.1f
@@ -53,13 +54,15 @@ class CSIMON : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 	CWhip* whip;
+	CDagger* dagger;
 	int nLife;
 	int nHeart;
 public:
 
 
 
-
+	bool isUsesW=false;
+	bool isDelay = false;
 	bool isUpWhip=false;
 	bool isFighting = false;
 	bool isSitting = false;
@@ -92,7 +95,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 
-	bool getStateforAniSitandJump=false;
+	bool isJump=false;
 	void SetState(int state);
 	//void SetLevel(int l) { level = l; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }

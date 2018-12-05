@@ -9,7 +9,7 @@ void CEffect::Render()
 
 void CEffect::GetBoundingBox(float & l, float & t, float & r, float & b)
 {
-	return;
+		
 }
 
 CEffect::CEffect():CGameObject()

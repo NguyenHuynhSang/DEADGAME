@@ -29,29 +29,68 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
-		//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
-		// chi update khi dang o frame cuoi ==> luc roi danh ra
-		if (whip->GetState()==WHIP_STATE_WHITE)
+		if (isDelay==false)
 		{
-			if (CAnimations::GetInstance()->Get(WHIP_NOLMAL_ANI_ID)->getCurrentFrame() == 2)
+			//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
+			// chi update khi dang o frame cuoi ==> luc roi danh ra
+			if (whip->GetState() == WHIP_STATE_WHITE)
 			{
-				whip->Update(dt, coObjects);
+				if (CAnimations::GetInstance()->Get(WHIP_NOLMAL_ANI_ID)->getCurrentFrame() == 2)
+				{
+					whip->Update(dt, coObjects);
+				}
+			}
+			else if (whip->GetState() == WHIP_STATE_BLUE)
+			{
+				if (CAnimations::GetInstance()->Get(WHIP_BLUE_ANI_ID)->getCurrentFrame() == 2)
+				{
+					whip->Update(dt, coObjects);
+				}
+			}
+			else if (whip->GetState() == WHIP_STATE_RED)
+			{
+				if (CAnimations::GetInstance()->Get(WHIP_RED_ANI_ID)->getCurrentFrame() == 8)
+				{
+					whip->Update(dt, coObjects);
+				}
 			}
 		}
-		else if (whip->GetState()==WHIP_STATE_BLUE)
+		else
 		{
-			if (CAnimations::GetInstance()->Get(WHIP_BLUE_ANI_ID)->getCurrentFrame() == 2)
+			if (isSitting==true)
 			{
-				whip->Update(dt, coObjects);
+				if (CAnimations::GetInstance()->Get(506)->getCurrentFrame() == 0)
+				{
+					if (isUsesW == true)
+					{
+						dagger = new CDagger();
+						dagger->setNx(nx);
+						dagger->SetPosition(x+10, y+12);
+						CGlobal::GetInstance()->objects.push_back(dagger);
+					}
+
+					isUsesW = false;
+				}
 			}
-		}
-		else if (whip->GetState() == WHIP_STATE_RED)
-		{
-			if (CAnimations::GetInstance()->Get(WHIP_RED_ANI_ID)->getCurrentFrame() == 8)
+			else
 			{
-				whip->Update(dt, coObjects);
+				if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() == 0)
+				{
+					if (isUsesW == true)
+					{
+						dagger = new CDagger();
+						dagger->setNx(nx);
+						dagger->SetPosition(x, y);
+						CGlobal::GetInstance()->objects.push_back(dagger);
+					}
+
+					isUsesW = false;
+				}
 			}
+			
+
 		}
+		
 		
 	}
 
@@ -95,35 +134,26 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				DebugOut(L"\n ITEM HERE");
 				CItem * f = dynamic_cast<CItem*> (e->obj);
-	
 				if (e->nx!=0)
 				{
-					if (f->isShow==true)
-					{
-						f->isRemove = true;
-					}
 					DebugOut(L"Col with item \n");
 					x += dx;
-					if (f->GetState()==ITEM_STATE_NWHIP && f->isShow==true)
+					if (f->GetState()==ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
 						DebugOut(L"Upwhiphere \n");
 					}
-					f->isShow = false;
+					f->isRemove = true;
 				}
-				if (e->ny!=0)
+				else if (e->ny!=0)
 				{
-					if (f->isShow == true)
-					{
-						f->isRemove = true;
-					}
 					DebugOut(L"Col with item \n");
 					y += dy;
-					if (f->GetState() == ITEM_STATE_NWHIP && f->isShow == true)
+					if (f->GetState() == ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
 					}
-					f->isShow = false;
+					f->isRemove = true;
 				}
 				if (isUpWhip==true)
 				{
@@ -155,7 +185,17 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 			}
 
-
+			if (dynamic_cast<CDagger *>(e->obj))
+			{
+				if (e->nx!=0)
+				{
+					x += dx;
+				}
+				if (e->ny!=0)
+				{
+					y += dy;
+				}
+			}
 
 			//Va cham voi ghost
 			if (dynamic_cast<CGhoul *>(e->obj))
@@ -172,30 +212,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				if (e->ny < 0)
 				{
-
 					y += dy;
-
-				/*	if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -SIMON_JUMP_DEFLECT_SPEED*2;
-					}*/
 				}
 				else if (e->nx != 0)
 				{
-					/*if (untouchable==0)
-					{
-					if (goomba->GetState()!=GOOMBA_STATE_DIE)
-					{
-					if (level > SIMON_LEVEL_SMALL)
-					{
-					level = SIMON_LEVEL_SMALL;
-					StartUntouchable();
-					}
-					else
-					SetState(SIMON_STATE_DIE);
-					}
-					}*/
+	
 				}
 			}
 		}
@@ -214,7 +235,7 @@ void CSIMON::Render()
 	else
 	{
 		//check Simon sits
-		if (getStateforAniSitandJump == true)
+		if (isJump == true)
 		{
 				ani = SIMON_ANI_SIT_JUMP;				
 				
@@ -250,28 +271,31 @@ void CSIMON::Render()
 	}
 
 	// Xu ly whip
-	if (state == SIMON_STATE_STAND_FIGHTING)
+	if (state == SIMON_STATE_STAND_FIGHTING )
 	{
+	
 		whip->setnx(nx);
 		
 		if (isSitting==true)
 		{
 			ani = SIMON_ANI_SIT_FIRE;
 			whip->SetPosition(x - 85, y+12);
+
 		}
 		else
 		{
 			whip->SetPosition(x - 85, y);
 		}
-		
-		whip->Render();
+		if (isDelay == false)
+		{
+			whip->Render();
+		}
+	
 	}
 	else
 	{
 		//reset current frame
 
-		
-		
 		if (whip->GetState()==WHIP_STATE_RED)
 		{
 			CAnimations::GetInstance()->Get(557)->setCurrentFrame(-1);
@@ -298,7 +322,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-//	RenderBoundingBox(x+14,y);
+	RenderBoundingBox(x+14,y);
 	
 }
 
@@ -340,7 +364,7 @@ void CSIMON::SetState(int state)
 		vy = 0;
 		break;
 	case SIMON_STATE_STAND_FIGHTING:
-		if (getStateforAniSitandJump==false)
+		if (isJump==false)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
 		}

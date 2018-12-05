@@ -25,7 +25,6 @@ void CTorch::Render()
 	}
 	if (state!= TORCH_STATE_DISAPPEAR)
 	{
-		
 		animations[ani]->Render(0, x, y,255);
 	}
 
@@ -43,14 +42,10 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state==TORCH_STATE_DISAPPEAR)
 	{
-		item->isShow = true;
-	}
-	else
-	{
-		item->isShow = false;
+		item->createItem();
 		item->SetPosition(x, y);
+		isRemove = true;
 	}
-
 
 }
 
