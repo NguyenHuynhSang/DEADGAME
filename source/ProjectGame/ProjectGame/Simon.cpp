@@ -29,6 +29,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
+		DebugOut(L"[line][%d]   :State fighting \n",__LINE__);
 		if (isDelay==false)
 		{
 			//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
@@ -74,11 +75,13 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else
 			{
+
 				if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() == 0)
 				{
 					if (isUsesW == true)
 					{
 						dagger = new CDagger();
+						DebugOut(L"Create Dagger \n");
 						dagger->setNx(nx);
 						dagger->SetPosition(x, y);
 						CGlobal::GetInstance()->objects.push_back(dagger);

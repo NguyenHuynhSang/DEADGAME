@@ -74,12 +74,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (SIMON->GetState() == SIMON_STATE_UPWHIP)
 		{
+			DebugOut(L"State Upwhip \n");
 			return;
 		}
 		SIMON->isUsesW = true;
 		SIMON->isDelay = true;
 		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
-		
 		break;
 
 
@@ -153,7 +153,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		{
 			if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
 			{
-				//DebugOut(L"State fighting but ani not working \n");
+				DebugOut(L"State fighting but  working \n");
 				return;
 			}
 			else
