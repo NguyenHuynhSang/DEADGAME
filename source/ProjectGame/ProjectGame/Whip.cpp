@@ -91,8 +91,9 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 			{
 					DebugOut(L"Co va cham \n");
 					// thuc ra chi ngung render neu va cham chua remove han can toi uu
+					//xong
 					f->SetState(TORCH_STATE_DISAPPEAR);
-					f->isRemove = true;
+					
 			}
 		}
 	}

@@ -21,7 +21,10 @@ void CDagger::GetBoundingBox(float & left, float & top, float & right, float & b
 
 void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 {
-	if (x<0||x>1535)
+	float camX, camY;
+	CCamera::GetInstance()->getCamera(camX,camY);
+
+	if (x<camX-SCREEN_WIDTH|| x>camX + SCREEN_WIDTH)
 	{
 		isRemove = true;
 		return;

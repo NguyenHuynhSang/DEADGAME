@@ -1,22 +1,7 @@
-﻿  main.cpp
+﻿  Whip.cpp
 d:\git\projectx\source\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\main.cpp(500): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\main.cpp(509): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\main.cpp(515): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\main.cpp(539): warning C4018: '<': signed/unsigned mismatch
-  Simon.cpp
-d:\git\projectx\source\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(85): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(280): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(285): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(290): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+d:\git\projectx\source\projectgame\projectgame\whip.cpp(82): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)
