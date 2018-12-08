@@ -1,6 +1,6 @@
 ﻿#include "Dagger.h"
 #include"Camera.h"
-#include"Global.h"
+#include"ghoul.h"
 #include"Torch.h"
 #include"debug.h"
 void CDagger::Render()
@@ -23,10 +23,10 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 {
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX,camY);
-
-	if (x<camX-SCREEN_WIDTH|| x>camX + SCREEN_WIDTH)
+	if (x<(int)camX|| x>(int)camX + SCREEN_WIDTH)
 	{
 		isRemove = true;
+		DebugOut(L"Dagger Deleted \n");
 		return;
 	}
 	vx = DAGGER_SPEED;
@@ -68,6 +68,25 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 				}
 	
 			}
+			if (dynamic_cast<CGhoul *>(e->obj))
+			{
+				CGhoul * g = dynamic_cast<CGhoul*> (e->obj);
+				if (e->nx != 0)
+				{
+					g->isRemove = true;
+					//DebugOut(L"\nChay vao day");
+					this->isRemove = true;
+					isre = true;
+				}
+
+			}
+			if (dynamic_cast<CItem *>(e->obj))
+			{
+				if (e->nx!=0)
+				{
+					x += dx;
+				}
+			}
 			if (isre==true)
 			{
 				break;
@@ -77,21 +96,6 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	//for (int i = 0; i < co->size(); i++)
@@ -116,11 +120,13 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 	//// clean up collision events
 }
 
-CDagger::CDagger()
+void CDagger::LoadResource()
 {
+	
+
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
-	CTextures * textures = CTextures::GetInstance();	
+	CTextures * textures = CTextures::GetInstance();
 	LPDIRECT3DTEXTURE9 texDanger = textures->Get(202);
 	sprites->Add(70001, 0, 0, 24, 20, texDanger);
 	LPANIMATION ani;
@@ -128,16 +134,23 @@ CDagger::CDagger()
 	ani = new CAnimation(100);		// danger
 	ani->Add(70001);
 	animations->Add(902, ani);
+}
+
+CDagger::CDagger()
+{
+
 	this->AddAnimation(902);
 	//carefull
 	//item->GetPosition(x, y);
 	//thêm vào object mới có thể update, hay bắt sự kiện va chạm
 	//vì cái coobject dc lay ra tu object
 	//k thêm vào lấy đâu ra mà xét.
-	CGlobal::GetInstance()->objects.push_back(this);
 }
 
 
 CDagger::~CDagger()
 {
+
+
+
 }

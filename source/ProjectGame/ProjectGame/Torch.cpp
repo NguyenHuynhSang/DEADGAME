@@ -37,13 +37,17 @@ void CTorch::SetState(int state)
 {
 	CGameObject::SetState(state);
 }
+void CTorch::LoadResource()
+{
+}
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) 
 {
 
 	if (state==TORCH_STATE_DISAPPEAR)
 	{
-		item->createItem();
+		item = new CItem();
 		item->SetPosition(x, y);
+		item->createItem();
 		isRemove = true;
 	}
 
@@ -54,7 +58,11 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 // vì scene đầu item đc định sẵn k phải rank
 void CTorch::setItemState(int nstate)
 {
-	item->SetState(nstate);
+	if (state== TORCH_STATE_DISAPPEAR)
+	{
+		item->SetState(nstate);
+	}
+	
 }
 
 //CTorch::CTorch()

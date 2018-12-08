@@ -1,7 +1,9 @@
-﻿  Whip.cpp
+﻿  SceneManager.cpp
 d:\git\projectx\source\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(35): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.cpp(82): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Dagger.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

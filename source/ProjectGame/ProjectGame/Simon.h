@@ -79,22 +79,10 @@ public:
 		nHeart = 0;
 		untouchable = 0;
 		whip = new CWhip();
-
-
-
-#pragma region Dagger
-
-
-
-
-#pragma endregion
-
-
-		
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
-
+	virtual void LoadResource();
 	bool isJump=false;
 	void SetState(int state);
 	//void SetLevel(int l) { level = l; }

@@ -17,7 +17,7 @@ class CEffect:public CGameObject
 {
 public:
 	void setState(int st) { state = st; };
-
+	virtual void LoadResource();
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	CEffect();

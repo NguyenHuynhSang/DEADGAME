@@ -329,6 +329,10 @@ void CSIMON::Render()
 	
 }
 
+void CSIMON::LoadResource()
+{
+}
+
 
 void CSIMON::SetState(int state)
 {

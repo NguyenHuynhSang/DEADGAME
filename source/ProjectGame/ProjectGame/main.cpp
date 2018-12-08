@@ -32,10 +32,10 @@ CGameObject::GetBoundingBox
 #include "ghoul.h"
 #include "Torch.h"
 #include "TileMap.h"
-#include "Item.h"
 #include "Effect.h"
 #include"Camera.h"
 #include"Cell.h"
+#include"SceneManager.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 ///Clear background to black
@@ -57,6 +57,7 @@ CSIMON *SIMON;
 CGhoul *goomba;
 CTileMap *tileG;
 Cells * cell;
+CSceneManager *scene;
 class CSampleKeyHander : public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -71,7 +72,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_D:
+	case DIK_C:
 		if (SIMON->GetState() == SIMON_STATE_UPWHIP)
 		{
 			DebugOut(L"State Upwhip \n");
@@ -101,8 +102,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A: // reset
 		SIMON->SetState(SIMON_STATE_IDLE);
-//		SIMON->SetLevel(SIMON_LEVEL_BIG);
-		SIMON->SetPosition(100.0f, 300.0f);
+		SIMON->SetPosition(100.0f, 200.0f);
 		///fix cam when reset
 		game->setCam(SCREEN_WIDTH / 2,NULL);
 		SIMON->SetSpeed(0, 0);
@@ -246,7 +246,7 @@ void LoadResources()
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
 	//item tex load
 	textures->Add(ID_TEX_ITEM_BHEAR, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_ITEM_DANGER, L"Resource\\sprites\\Items\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+
 	textures->Add(ID_TEX_ITEM_NWHIP, L"Resource\\sprites\\Items\\MORNING_STAR.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_WHIP, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -462,15 +462,15 @@ void LoadResources()
 
 
 	// and Goombas 
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	goomba = new CGhoul();
-	//	goomba->AddAnimation(701);
-	//	goomba->AddAnimation(702);
-	//	goomba->SetPosition(200 + i * 60, 350-30*2);
-	//	goomba->SetState(GOOMBA_STATE_WALKING);
-	//	CGlobal::GetInstance()->objects.push_back(goomba);
-	//}
+	for (int i = 0; i < 4; i++)
+	{
+		goomba = new CGhoul();
+		goomba->AddAnimation(701);
+		goomba->AddAnimation(702);
+		goomba->SetPosition(400 + i * 100, 350-30*2);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		CGlobal::GetInstance()->objects.push_back(goomba);
+	}
 
 }
 
@@ -497,25 +497,39 @@ void Update(DWORD dt)
 
 	vector<LPGAMEOBJECT> coObjects;
 	//dọn rác trc khi update
-	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
 
 		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
 		{
 			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
+			DebugOut(L"==========Object bi xoa =================\n");
 		}
 	}
-
+	float camX, camY;
+	CCamera::GetInstance()->getCamera(camX, camY);
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-	
-		coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		{
+			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+		}
+		
 	}
 
+
+
+	//DebugOut(L"CoObsize=%d \n Obsize=%d \n", coObjects.size(), CGlobal::GetInstance()->objects.size());
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-	
-		CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
+		//-64,+64 có 1 số object nếu vượt khỏi vp sẽ xóa khỏi list,
+		// nếu k + và - thêm sẽ ngừng update nên k xét đc điều kiện
+		// bên trong các object
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX-64 &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
+		{
+			CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
+		}
+		
 	}
 }
 
@@ -536,8 +550,17 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		//game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
 		tileG->DrawMap();
+		float camX, camY;
+		CCamera::GetInstance()->getCamera(camX, camY);
 		for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
-		CGlobal::GetInstance()->objects[i]->Render();
+		{
+			if (CGlobal::GetInstance()->objects[i]->x>(int)camX-32&& CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+			{
+				CGlobal::GetInstance()->objects[i]->Render();
+			}
+			
+		}
+
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -643,9 +666,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
-
+	scene = CSceneManager::GetInstance();
 
 	LoadResources();
+	scene->GetInstance()->LoadResource();
 	/// hien ra giua man hinh may tinh 
 	// chua sua duoc
 

@@ -23,9 +23,10 @@ class CTorch:public CGameObject
 public:
 	void setItemState(int nstate);
 	virtual void SetState(int state);
+	virtual void LoadResource();
 	CTorch() :CGameObject()
 	{	
-		item = new CItem(); 
+		
 	};
 	//~CTorch();
 };

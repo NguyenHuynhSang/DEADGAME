@@ -34,7 +34,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* co);
 	void setnx(float nx) { this->nx = nx; }
 	void SetPosition(int x1, int y1) { x = x1; y = y1; };
-
+	virtual void LoadResource();
 	CWhip();
 	~CWhip();
 };

@@ -39,8 +39,12 @@ void CGhoul::Render()
 		ani = GOOMBA_ANI_DIE;
 	}
 
-	animations[ani]->Render(nx,x, y);
-	//RenderBoundingBox(x,y);
+	animations[ani]->Render(-1,x, y);
+	RenderBoundingBox(x,y);
+}
+
+void CGhoul::LoadResource()
+{
 }
 
 void CGhoul::SetState(int state)

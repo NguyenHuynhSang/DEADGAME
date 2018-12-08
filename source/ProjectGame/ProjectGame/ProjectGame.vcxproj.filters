@@ -99,6 +99,9 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameManager</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>GameObjects\Static</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

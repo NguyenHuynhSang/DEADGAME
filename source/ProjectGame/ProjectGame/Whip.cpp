@@ -2,7 +2,7 @@
 #include"Torch.h"
 #include"Debug.h"
 #include"Item.h"
-#include"Global.h"
+#include"ghoul.h"
 
 void CWhip::Render()
 {
@@ -96,12 +96,28 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 					
 			}
 		}
+		if (dynamic_cast<CGhoul *>(e))
+		{
+			CGhoul * g = dynamic_cast<CGhoul*> (e);
+			if (CGameObject::isColliding(this, g) == true)
+			{
+				DebugOut(L"Co va cham \n");
+				// thuc ra chi ngung render neu va cham chua remove han can toi uu
+				//xong
+				g->isRemove = true;
+				
+			}
+		}
 	}
 
 
 
 }
 
+
+void CWhip::LoadResource()
+{
+}
 
 CWhip::CWhip()
 {
