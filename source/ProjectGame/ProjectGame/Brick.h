@@ -4,6 +4,8 @@
 #define BRICK_BBOX_WIDTH  30
 #define BRICK_BBOX_HEIGHT 30
 
+#define BRICK_STATE_OLDFACTION 0
+#define BRICK_STATE_MODERN 1
 
 
 class CBrick : public CGameObject

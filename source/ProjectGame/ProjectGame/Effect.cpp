@@ -1,9 +1,13 @@
 #include "Effect.h"
-
+#include"Textures.h"
 
 
 void CEffect::LoadResource()
 {
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+
 }
 
 void CEffect::Render()

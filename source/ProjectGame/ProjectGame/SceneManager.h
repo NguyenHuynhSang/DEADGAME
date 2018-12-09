@@ -7,23 +7,29 @@
 #include"Torch.h"
 #include"ghoul.h"
 #include"Simon.h"
-
+#include"TileMap.h"
 #define SCENE_STATE_FIRST 100
 #define SCENE_STATE_SECOND 200
 #define SCENE_STATE_THIRD 300
 #define MAP_PATH_SCENE1 1
+#define MAP_MATRIXPATH_SCENE1  "data\\map\\tileset.txt"
+#define MAP_MATRIXPATH_SCENE2  "data\\map\\lv2.txt"
 //CGhoul *goomba;
 class CSceneManager
 {
 	int currentScene;
 	static CSceneManager * __instance;
+	CTileMap *tileG;
 public:
 	static CSceneManager * GetInstance();
 	 void GameUpdate();
 	 void LoadResource();
+	 void LoadMap();
+	 void RenderMap();
 	 void initScene();
+	 void sceneUpdate();
 	 int getScene() { return currentScene; }
-	 void ReplaceScene();
+	 bool ReplaceScene;
 	 void Render();
 	/*virtual void Draw();
 	virtual void LoadMap();

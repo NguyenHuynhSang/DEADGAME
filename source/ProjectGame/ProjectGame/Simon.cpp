@@ -72,6 +72,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (isUsesW == true)
 					{
+						nHeart--;
 						dagger = new CDagger();
 						dagger->setNx(nx);
 						dagger->SetPosition(x+10, y+12);
@@ -88,6 +89,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (isUsesW == true)
 					{
+						nHeart--;
 						dagger = new CDagger();
 						DebugOut(L"Create Dagger \n");
 						dagger->setNx(nx);
@@ -149,6 +151,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					DebugOut(L"Col with item \n");
 					x += dx;
+					if (f->GetState()==ITEM_STATE_BHEART)
+					{
+						nHeart += 5;
+					}
+					else
 					if (f->GetState()==ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
@@ -160,6 +167,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					DebugOut(L"Col with item \n");
 					y += dy;
+					if (f->GetState() == ITEM_STATE_BHEART)
+					{
+						nHeart += 5;
+					}
+					else
 					if (f->GetState() == ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
@@ -232,7 +244,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-
+	nHeart = nHeart < 0 ? 0: nHeart;
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

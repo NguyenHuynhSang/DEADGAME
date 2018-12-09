@@ -4,6 +4,14 @@
 #include"Item.h"
 #include"ghoul.h"
 
+
+CWhip * CWhip::__instance = NULL;
+
+CWhip *CWhip::GetInstance()
+{
+	if (__instance == NULL) __instance = new CWhip();
+	return __instance;
+}
 void CWhip::Render()
 {
 	if (state == WHIP_STATE_RED)
@@ -113,6 +121,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 
 
 }
+
 
 
 void CWhip::LoadResource()

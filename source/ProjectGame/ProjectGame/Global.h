@@ -7,7 +7,9 @@
 #define ID_TEX_ENEMY 10
 #define ID_TEX_BRICK 20
 #define ID_TEX_TORCH 30
-#define ID_BACKGROUND 1000
+#define ID_BACKGROUND_LV1 1000
+#define ID_BACKGROUND_LV2 2000
+
 class CGlobal
 {
 public:

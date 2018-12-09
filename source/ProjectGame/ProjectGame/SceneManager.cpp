@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-
+#include"Camera.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -14,7 +14,10 @@ void CSceneManager::GameUpdate()
 
 void CSceneManager::LoadResource()
 {
-
+	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
+	textures->Add(ID_BACKGROUND_LV1, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_BACKGROUND_LV2, L"data\\map\\lv2.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	CItem *items = new CItem();
 	items->LoadResource();
 
@@ -30,7 +33,41 @@ void CSceneManager::LoadResource()
 	CTorch *torch = new CTorch();
 	torch->LoadResource();
 
+}
 
+void CSceneManager::LoadMap()
+{
+	switch (currentScene)
+	{
+	case SCENE_STATE_FIRST: 
+	{
+	
+		CTextures * textures = CTextures::GetInstance();
+		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV1); //tex Map
+		tileG = new CTileMap();
+		tileG->SetMSize(1536, 384);
+		tileG->SetTileSetHeight(640, 128);
+		tileG->LoadTile(MAP_MATRIXPATH_SCENE1, texMap);
+
+		break;
+	}
+	case SCENE_STATE_SECOND:
+	{
+	
+		CTextures * textures = CTextures::GetInstance();
+		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV2); //tex Map
+		tileG = new CTileMap();
+		tileG->SetMSize(5632, 768);
+		tileG->SetTileSetHeight(640, 192);
+		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
+		break;
+	}
+	}
+}
+
+void CSceneManager::RenderMap()
+{
+	tileG->DrawMap();
 }
 
 void CSceneManager::initScene()
@@ -40,6 +77,7 @@ void CSceneManager::initScene()
 	{
 	case SCENE_STATE_FIRST:
 	{
+		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
 		simon->SetPosition(100, 250);
@@ -47,8 +85,7 @@ void CSceneManager::initScene()
 		for (int i = 0; i < 1536 / 32 + 4; i++)
 		{
 			CBrick *brick = new CBrick();
-			brick->AddAnimation(601);
-			brick->SetPosition(0 + i*30.0f, 350);
+			brick->SetPosition(0 + i*32.0f, 350);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
@@ -80,15 +117,16 @@ void CSceneManager::initScene()
 	}
 	case SCENE_STATE_SECOND:
 	{
+		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(100, 100);
+		simon->SetPosition(100, 200);
 		CGlobal::GetInstance()->objects.push_back(simon);
-		for (int i = 0; i < 1536 / 32 + 4; i++)
+		for (int i = 0; i < 5000 / 32 + 4; i++)
 		{
 			CBrick *brick = new CBrick();
-			brick->AddAnimation(601);
-			brick->SetPosition(0 + i*30.0f, 350);
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(0 + i*30.0f, 370);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
@@ -97,7 +135,7 @@ void CSceneManager::initScene()
 		{
 			CGhoul* goomba = new CGhoul();
 
-			goomba->SetPosition(400 + i * 100, 350 - 30 * 2);
+			goomba->SetPosition(400 + i * 100, 370-GOOMBA_BBOX_HEIGHT);
 			goomba->SetState(GOOMBA_STATE_WALKING);
 			CGlobal::GetInstance()->objects.push_back(goomba);
 		}
@@ -117,8 +155,20 @@ void CSceneManager::initScene()
 
 }
 
+void CSceneManager::sceneUpdate()
+{
+	if (ReplaceScene==true)
+	{
+		CCamera::GetInstance()->ResetCam();
+		currentScene = SCENE_STATE_SECOND;
+		initScene();
+		ReplaceScene = false;
+	}
+}
+
 CSceneManager::CSceneManager()
 {
+	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
 }
 

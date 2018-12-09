@@ -47,7 +47,6 @@ CGameObject::GetBoundingBox
 
 CGame *game;
 CSIMON *SIMON;
-CTileMap *tileG;
 CSceneManager *scene;
 class CSampleKeyHander : public CKeyEventHandler
 {
@@ -64,7 +63,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_C:
-		if (SIMON->GetState() == SIMON_STATE_UPWHIP)
+		if (SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->getHeart()==0)
 		{
 			//DebugOut(L"\n");
 			return;
@@ -225,33 +224,7 @@ TO-DO: Improve this function by loading texture,sprite,animation,object from fil
 // class simon
 //===================================================================*/
 
-void LoadResources()
-{
-	CTextures * textures = CTextures::GetInstance();
-	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
-	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\Simon\\Simon_ver_editted.png", D3DCOLOR_XRGB(255,0, 255));
 
-	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
-	
-	CSprites * sprites = CSprites::GetInstance();
-	CAnimations * animations = CAnimations::GetInstance();
-
-
-	LPDIRECT3DTEXTURE9 texMap = textures->Get(-10); //tex Map
-	tileG = new CTileMap();
-	tileG->SetMSize(1536, 384);
-	tileG->SetTileSetHeight(640, 128);
-	tileG->LoadTile("data\\map\\tileset.txt", texMap);
-	
-
-
-
-	
-	//SIMON->SetPosition(100.0f, 250.0f);
-	//CGlobal::GetInstance()->objects.push_back(SIMON);
-
-}
 
 /*
 Update world status for this frame
@@ -263,18 +236,45 @@ void Update(DWORD dt)
 
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-	if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 1530 - 640 / 2 - 60)
+	if (scene->getScene() == SCENE_STATE_FIRST)
 	{
+		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 1530 - 640 / 2 - 60)
+		{
 
-		game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
-		CCamera::GetInstance()->isCamMove = true;
+			game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
+			CCamera::GetInstance()->isCamMove = true;
+		}
+		else
+		{
+			CCamera::GetInstance()->isCamMove = false;
+		}
 	}
 	else
 	{
-		CCamera::GetInstance()->isCamMove = false;
+		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 5000 - 640 / 2 - 60)
+		{
+
+			game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
+			CCamera::GetInstance()->isCamMove = true;
+		}
+		else
+		{
+			CCamera::GetInstance()->isCamMove = false;
+		}
+	}
+	vector<LPGAMEOBJECT> coObjects,sceneObject;
+	
+
+	if (SIMON->x>1406 &&scene->getScene()==SCENE_STATE_FIRST)
+	{
+		sceneObject.clear();
+		DebugOut(L"*********Attention scene is replaces*******\n");
+		scene->ReplaceScene = true;
+		scene->sceneUpdate();
 	}
 
-	vector<LPGAMEOBJECT> coObjects;
+
+	
 	//dọn rác trc khi update
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
@@ -287,6 +287,7 @@ void Update(DWORD dt)
 	}
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX, camY);
+
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
 		if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
@@ -328,7 +329,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		//game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
-		tileG->DrawMap();
+		scene->RenderMap();
 		float camX, camY;
 		CCamera::GetInstance()->getCamera(camX, camY);
 		for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
@@ -447,9 +448,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->InitKeyboard(keyHandler);
 	scene = CSceneManager::GetInstance();
 	SIMON = CSIMON::GetInstance();
-	LoadResources();
 	scene->GetInstance()->LoadResource();
 	scene->initScene();
+	
+
+
 	/// hien ra giua man hinh may tinh 
 	// chua sua duoc
 

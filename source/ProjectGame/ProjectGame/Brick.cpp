@@ -5,7 +5,7 @@
 void CBrick::Render()
 {
 
-		animations[0]->Render(0, x, y);
+		animations[state]->Render(0, x, y);
 		//RenderBoundingBox();
 }
 
@@ -16,12 +16,17 @@ void CBrick::LoadResource()
 	CTextures * textures = CTextures::GetInstance();
 	textures->Add(ID_TEX_BRICK, L"Resource\\sprites\\Ground\\2.png", D3DCOLOR_XRGB(225, 0, 248));
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
-	sprites->Add(20001, 0, 0, 30, 30, texMisc);
+	sprites->Add(20001, 0, 0, 32, 32, texMisc);
+	sprites->Add(20002, 50, 0, 82, 32, texMisc);
 	LPANIMATION ani;
 
 	ani = new CAnimation(100);		// brick
 	ani->Add(20001);
 	animations->Add(601, ani);
+
+	ani = new CAnimation(100);		// brick
+	ani->Add(20002);
+	animations->Add(602, ani);
 
 }
 
@@ -37,5 +42,5 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 CBrick::CBrick()
 {
 	AddAnimation(601);
-	
+	AddAnimation(602);
 }

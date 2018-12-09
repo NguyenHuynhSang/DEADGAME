@@ -88,7 +88,7 @@ public:
 		nLife = SIMON_MAX_LIFE_BAR;
 		nHeart = 0;
 		untouchable = 0;
-		whip = new CWhip();
+		whip = CWhip::GetInstance();
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
