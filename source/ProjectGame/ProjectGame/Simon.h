@@ -51,6 +51,7 @@
 
 class CSIMON : public CGameObject
 {
+	static CSIMON *__instance;
 	int untouchable;
 	DWORD untouchable_start;
 	CWhip* whip;
@@ -72,9 +73,18 @@ public:
 	int getLife() { return nLife; }
 	void setHeart(int _heart){ nHeart = nHeart + _heart > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nHeart + _heart; }
 	int getHeart(){ return nHeart; }
-
-	CSIMON() : CGameObject()
+	static CSIMON *GetInstance();
+	CSIMON() 
 	{
+		LoadResource();
+		AddAnimation(400);		// idle right big   /0
+		AddAnimation(500);		// walk right big   /1
+		AddAnimation(505);		 //Idle sit right          /2
+		AddAnimation(502);		//SIMON Stand fire        /3
+		AddAnimation(506);		//Simon sit fight         /4
+		AddAnimation(507);		//Simon up whip           /5
+		AddAnimation(599);		// die  /6
+
 		nLife = SIMON_MAX_LIFE_BAR;
 		nHeart = 0;
 		untouchable = 0;

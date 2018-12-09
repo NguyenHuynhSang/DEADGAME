@@ -18,6 +18,9 @@ void CItem::LoadResource()
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_ITEM_DANGER, L"Resource\\sprites\\Items\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_BHEAR, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_NWHIP, L"Resource\\sprites\\Items\\MORNING_STAR.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texBHear = textures->Get(ID_TEX_ITEM_BHEAR);
 	sprites->Add(70000, 0, 0, 24, 20, texBHear);
 	LPDIRECT3DTEXTURE9 texDanger = textures->Get(ID_TEX_ITEM_DANGER);

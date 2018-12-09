@@ -1,23 +1,28 @@
 #include "Brick.h"
 #include"Camera.h"
 #include"Global.h"
+#include"Textures.h"
 void CBrick::Render()
 {
-	float camX,camY;
-	CCamera::GetInstance()->getCamera(camX,camY);
-	if (x<0||x>camX+SCREEN_WIDTH)
-	{
 
-	}
-	else
-	{
 		animations[0]->Render(0, x, y);
 		//RenderBoundingBox();
-	}
-	}
+}
 
 void CBrick::LoadResource()
 {
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_BRICK, L"Resource\\sprites\\Ground\\2.png", D3DCOLOR_XRGB(225, 0, 248));
+	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
+	sprites->Add(20001, 0, 0, 30, 30, texMisc);
+	LPANIMATION ani;
+
+	ani = new CAnimation(100);		// brick
+	ani->Add(20001);
+	animations->Add(601, ani);
+
 }
 
 
@@ -27,4 +32,10 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	t = y;
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
+}
+
+CBrick::CBrick()
+{
+	AddAnimation(601);
+	
 }

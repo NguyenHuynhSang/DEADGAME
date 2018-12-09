@@ -3,6 +3,11 @@
 #include"GameObject.h"
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#define ID_TEX_SIMON 0
+#define ID_TEX_ENEMY 10
+#define ID_TEX_BRICK 20
+#define ID_TEX_TORCH 30
+#define ID_BACKGROUND 1000
 class CGlobal
 {
 public:

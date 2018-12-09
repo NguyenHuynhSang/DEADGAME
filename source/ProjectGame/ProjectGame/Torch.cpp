@@ -39,6 +39,35 @@ void CTorch::SetState(int state)
 }
 void CTorch::LoadResource()
 {
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_TORCH, L"Resource\\sprites\\Ground\\0.png", D3DCOLOR_XRGB(255, 0, 255));
+	//torch
+	LPDIRECT3DTEXTURE9 texTch = textures->Get(ID_TEX_TORCH);
+	sprites->Add(40000, 0, 0, 32, 64, texTch);
+	sprites->Add(40001, 32, 0, 64, 64, texTch);
+	LPANIMATION ani;
+
+
+	ani = new CAnimation(200);  //torch
+	ani->Add(40000);
+	ani->Add(40001);
+	animations->Add(801, ani);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) 
 {
@@ -47,7 +76,9 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		item = new CItem();
 		item->SetPosition(x, y);
+		item->SetState(ItemState);
 		item->createItem();
+		
 		isRemove = true;
 	}
 
@@ -58,10 +89,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 // vì scene đầu item đc định sẵn k phải rank
 void CTorch::setItemState(int nstate)
 {
-	if (state== TORCH_STATE_DISAPPEAR)
-	{
-		item->SetState(nstate);
-	}
+	ItemState = nstate;
 	
 }
 

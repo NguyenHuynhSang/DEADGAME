@@ -23,4 +23,5 @@ class CGhoul : public CGameObject
 public:
 	virtual void LoadResource();
 	virtual void SetState(int state);
+	CGhoul();
 };

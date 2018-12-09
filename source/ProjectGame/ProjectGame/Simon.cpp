@@ -8,6 +8,14 @@
 #include"Torch.h"
 #include"Brick.h"
 #include"Item.h"
+
+
+CSIMON *CSIMON::__instance = NULL;
+CSIMON * CSIMON::GetInstance()
+{
+	if (__instance == NULL)	__instance = new CSIMON();
+	return __instance;
+}
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	
@@ -329,10 +337,6 @@ void CSIMON::Render()
 	
 }
 
-void CSIMON::LoadResource()
-{
-}
-
 
 void CSIMON::SetState(int state)
 {
@@ -391,3 +395,99 @@ void CSIMON::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	bottom = y + SIMON_BIG_BBOX_HEIGHT;
 }
 
+
+void CSIMON::LoadResource()
+{
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\Simon\\Simon_ver_editted.png", D3DCOLOR_XRGB(255, 0, 255));
+	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
+	// big
+	sprites->Add(10001, 28 + 27 - 30, 3, 28 + 27 + 30, 64, texSimon);		// idle right
+	sprites->Add(10002, 92 - 30 + 27, 3, 92 + 30 + 27, 64, texSimon);		// walk
+	sprites->Add(10003, 150 - 30 + 27, 3, 150 + 30 + 27, 64, texSimon);
+	sprites->Add(10004, 210 - 30 + 27, 3, 210 + 30 + 27, 64, texSimon);
+
+	sprites->Add(10016, 268 - 31 + 27, 3, 268 + 31 + 27, 64, texSimon);//Simon sit Right
+
+
+	sprites->Add(10017, 356 - 30, 3, 356 + 30, 64, texSimon);//Simon stand fight
+	sprites->Add(10018, 427 - 30, 3, 427 + 30, 64, texSimon);
+	sprites->Add(10019, 501 - 30, 3, 501 + 30, 64, texSimon);
+
+
+
+	sprites->Add(10021, 450 - 30 + 27, 67, 450 + 30 + 27, 130, texSimon);//Simon sit fight
+	sprites->Add(10022, 28 - 30 + 27, 134, 28 + 30 + 27, 196, texSimon);
+	sprites->Add(10023, 88 - 30 + 27, 134, 88 + 30 + 27, 196, texSimon);
+
+
+
+	sprites->Add(10051, 58 - 30, 198, 58 + 30, 264, texSimon);//Simon Up whip
+	sprites->Add(10052, 90 - 30 + 27, 198, 90 + 30 + 27, 264, texSimon);
+	sprites->Add(10053, 150 - 30 + 27, 198, 150 + 30 + 27, 264, texSimon);
+	sprites->Add(10054, 210 - 30 + 27, 198, 210 + 30 + 27, 264, texSimon);
+
+
+	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
+
+
+
+
+
+
+
+	LPANIMATION ani;
+
+
+	ani = new CAnimation(150);	// idle big right
+	ani->Add(10001);
+	animations->Add(400, ani);
+
+	ani = new CAnimation(150);	// walk right big
+	ani->Add(10001);
+	ani->Add(10002);
+	ani->Add(10003);
+	ani->Add(10004);
+	animations->Add(500, ani);
+
+	ani = new CAnimation(100); //simon sit 
+	ani->Add(10016);
+	animations->Add(505, ani);
+
+
+	ani = new CAnimation(WHIP_DELAY_TIME);//simon stand fight
+	ani->Add(10017);
+	ani->Add(10018);
+	ani->Add(10019);
+	ani->Add(10001);
+	animations->Add(502, ani);
+
+
+
+	ani = new CAnimation(WHIP_DELAY_TIME); //simon sit  fight
+	ani->Add(10021);
+	ani->Add(10022);
+	ani->Add(10023);
+	ani->Add(10016);
+	animations->Add(506, ani);
+
+
+
+	ani = new CAnimation(100); //simon up whip
+	ani->Add(10051);
+	ani->Add(10052);
+	ani->Add(10053);
+	ani->Add(10054);
+	ani->Add(10001);
+	animations->Add(507, ani);
+
+
+	ani = new CAnimation(100);		// SIMON die
+	ani->Add(10099);
+	animations->Add(599, ani);
+
+
+
+}

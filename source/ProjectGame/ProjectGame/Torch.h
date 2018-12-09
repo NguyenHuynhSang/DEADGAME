@@ -19,14 +19,15 @@ class CTorch:public CGameObject
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	CItem *item;
-
+	int ItemState;
 public:
 	void setItemState(int nstate);
 	virtual void SetState(int state);
 	virtual void LoadResource();
 	CTorch() :CGameObject()
 	{	
-		
+		ItemState = 0;
+		AddAnimation(801);
 	};
 	//~CTorch();
 };

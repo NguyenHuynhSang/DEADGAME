@@ -117,18 +117,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 
 void CWhip::LoadResource()
 {
-}
-
-CWhip::CWhip()
-{
-#pragma region whip
-
-
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
 	CTextures * textures = CTextures::GetInstance();
-
+	textures->Add(ID_TEX_WHIP, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	LPDIRECT3DTEXTURE9 texWhip = textures->Get(ID_TEX_WHIP);
 
 	sprites->Add(20001, 0, 0, 240, 66, texWhip); // normal whip
@@ -193,10 +186,16 @@ CWhip::CWhip()
 
 	ani->Add(20020);
 	animations->Add(WHIP_RED_ANI_ID, ani);
+}
 
+CWhip::CWhip()
+{
+#pragma region whip
+	LoadResource();
 	this->AddAnimation(WHIP_NOLMAL_ANI_ID); //Nomal Whip /0
 	this->AddAnimation(WHIP_BLUE_ANI_ID); //blue whip /1
 	this->AddAnimation(WHIP_RED_ANI_ID); //red 2
+	
 #pragma endregion 
 }
 

@@ -1,5 +1,6 @@
 #include "ghoul.h"
-
+#include"Textures.h"
+#include"Global.h"
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -45,6 +46,30 @@ void CGhoul::Render()
 
 void CGhoul::LoadResource()
 {
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+	CTextures * textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_ENEMY, L"Resource\\sprites\\Enemies\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	///Load texZombie here
+	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	sprites->Add(30001, 0, 0, 34, 63, texEnemy);
+	sprites->Add(30002, 31, 0, 65, 63, texEnemy);
+
+	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
+
+
+	LPANIMATION ani;
+	ani = new CAnimation(300);		// Goomba walk
+	ani->Add(30001);
+	ani->Add(30002);
+	animations->Add(701, ani);
+
+	ani = new CAnimation(1000);		// Goomba dead
+	ani->Add(30003);
+	animations->Add(702, ani);
+
+
 }
 
 void CGhoul::SetState(int state)
@@ -61,4 +86,10 @@ void CGhoul::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 	}
 
+}
+
+CGhoul::CGhoul()
+{
+	AddAnimation(701);
+	AddAnimation(702);
 }

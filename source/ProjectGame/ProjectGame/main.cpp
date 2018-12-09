@@ -28,13 +28,10 @@ CGameObject::GetBoundingBox
 #include "Textures.h"
 #include "Global.h"
 #include "Simon.h"
-#include "Brick.h"
 #include "ghoul.h"
 #include "Torch.h"
 #include "TileMap.h"
-#include "Effect.h"
 #include"Camera.h"
-#include"Cell.h"
 #include"SceneManager.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
@@ -46,17 +43,11 @@ CGameObject::GetBoundingBox
 
 #define MAX_FRAME_RATE 120
 
-#define ID_TEX_SIMON 0
-#define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
-#define ID_TEX_TORCH 30
-#define ID_BACKGROUND 1000
+
 
 CGame *game;
 CSIMON *SIMON;
-CGhoul *goomba;
 CTileMap *tileG;
-Cells * cell;
 CSceneManager *scene;
 class CSampleKeyHander : public CKeyEventHandler
 {
@@ -75,7 +66,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_C:
 		if (SIMON->GetState() == SIMON_STATE_UPWHIP)
 		{
-			DebugOut(L"State Upwhip \n");
+			//DebugOut(L"\n");
 			return;
 		}
 		SIMON->isUsesW = true;
@@ -128,7 +119,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	if (SIMON->isUpWhip == true)
 	{
 		SIMON->SetState(SIMON_STATE_UPWHIP);
-		DebugOut(L"UpWHIP\n");
+		DebugOut(L"*****State Upwhip***** \n");
 		return;
 	}
 	// disable control key when SIMON die 
@@ -153,7 +144,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		{
 			if (CAnimations::GetInstance()->Get(502)->getCurrentFrame() != 3)
 			{
-				DebugOut(L"State fighting but  working \n");
+			//	DebugOut(L"State fighting \n");
 				return;
 			}
 			else
@@ -237,19 +228,12 @@ TO-DO: Improve this function by loading texture,sprite,animation,object from fil
 void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
-
-	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\Simon\\Simon_ver_editted.png", D3DCOLOR_XRGB(255,0, 255));
-	textures->Add(ID_TEX_MISC, L"Resource\\sprites\\Ground\\2.png", D3DCOLOR_XRGB(225, 0, 248));
-	textures->Add(ID_TEX_ENEMY, L"Resource\\sprites\\Enemies\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TORCH, L"Resource\\sprites\\Ground\\0.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
-	//item tex load
-	textures->Add(ID_TEX_ITEM_BHEAR, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_SIMON, L"Resource\\sprites\\Simon\\Simon_ver_editted.png", D3DCOLOR_XRGB(255,0, 255));
 
-	textures->Add(ID_TEX_ITEM_NWHIP, L"Resource\\sprites\\Items\\MORNING_STAR.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_BACKGROUND, L"Resource\\sprites\\lv1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(-10, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_WHIP, L"Resource\\sprites\\Weapons\\Whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
@@ -263,214 +247,9 @@ void LoadResources()
 
 
 
-
-	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-	// big
-	sprites->Add(10001, 28+27-30, 3, 28+27+30,64, texSimon);		// idle right
-	sprites->Add(10002, 92-30 + 27, 3, 92+30 + 27, 64, texSimon);		// walk
-	sprites->Add(10003, 150-30 + 27, 3, 150 + 30 + 27, 64, texSimon);
-	sprites->Add(10004, 210-30 + 27, 3, 210+30 + 27, 64, texSimon);
-
-	sprites->Add(10016, 268-31 + 27, 3, 268+31 + 27, 64, texSimon);//Simon sit Right
-
-
-	sprites->Add(10017, 356-30, 3, 356 +30, 64, texSimon);//Simon stand fight
-	sprites->Add(10018, 427-30, 3, 427+30, 64, texSimon);
-	sprites->Add(10019, 501-30, 3, 501+30, 64, texSimon);
-
-
-
-	sprites->Add(10021, 450-30+27, 67, 450+30 + 27, 130, texSimon);//Simon sit fight
-	sprites->Add(10022, 28-30 + 27, 134, 28+30 + 27, 196, texSimon);
-	sprites->Add(10023, 88-30 + 27, 134, 88+30 + 27, 196, texSimon);
-
-
-
-	sprites->Add(10051, 58-30, 198, 58+30, 264, texSimon);//Simon Up whip
-	sprites->Add(10052, 90 - 30 + 27, 198, 90 + 30 + 27, 264, texSimon);
-	sprites->Add(10053, 150 - 30 + 27, 198, 150 + 30 + 27, 264, texSimon);
-	sprites->Add(10054, 210-30 + 27, 198, 210+30 + 27, 264, texSimon);
-
-
-	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
-
-	//torch
-	LPDIRECT3DTEXTURE9 texTch = textures->Get(ID_TEX_TORCH);
-	sprites->Add(40000,0,0,32,64, texTch);
-	sprites->Add(40001, 32, 0, 64, 64, texTch);
-
-
-
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
-	sprites->Add(20001, 0, 0, 30, 30, texMisc);
-
-	///Load texZombie here
-	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	sprites->Add(30001, 0, 0, 34, 63, texEnemy);
-	sprites->Add(30002, 31, 0, 65, 63, texEnemy);
-
-	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
-
-
-
-	LPANIMATION ani;
-
-
 	
-
-
-	ani = new CAnimation(150);	// idle big right
-	ani->Add(10001);
-	animations->Add(400, ani);
-
-	ani = new CAnimation(150);	// walk right big
-	ani->Add(10001);
-	ani->Add(10002);
-	ani->Add(10003);
-	ani->Add(10004);
-	animations->Add(500, ani);
-
-	ani = new CAnimation(100); //simon sit 
-	ani->Add(10016);
-	animations->Add(505, ani);
-
-
-	ani = new CAnimation(WHIP_DELAY_TIME);//simon stand fight
-	ani->Add(10017);
-	ani->Add(10018);
-	ani->Add(10019);
-	ani->Add(10001);
-	animations->Add(502, ani);
-
-
-
-	ani = new CAnimation(WHIP_DELAY_TIME); //simon sit  fight
-	ani->Add(10021);
-	ani->Add(10022);
-	ani->Add(10023);
-	ani->Add(10016);
-	animations->Add(506, ani);
-
-
-
-	ani = new CAnimation(100); //simon up whip
-	ani->Add(10051);
-	ani->Add(10052);
-	ani->Add(10053);
-	ani->Add(10054);	
-	ani->Add(10001);
-	animations->Add(507, ani);
-
-
-	ani = new CAnimation(100);		// SIMON die
-	ani->Add(10099);
-	animations->Add(599, ani);
-	
-
-
-
-
-
-
-
-	ani = new CAnimation(200);  //torch
-	ani->Add(40000);
-	ani->Add(40001);
-	animations->Add(801, ani);
-
-
-
-	ani = new CAnimation(100);		// brick
-	ani->Add(20001);
-	animations->Add(601, ani);
-
-	ani = new CAnimation(300);		// Goomba walk
-	ani->Add(30001);
-	ani->Add(30002);
-	animations->Add(701, ani);
-
-	ani = new CAnimation(1000);		// Goomba dead
-	ani->Add(30003);
-	animations->Add(702, ani);
-
-
-	//loadMapHere
-	/// Animation hoac dong theo ngan xep?
-	SIMON = new CSIMON();
-	SIMON->AddAnimation(400);		// idle right big   /0
-	SIMON->AddAnimation(500);		// walk right big   /1
-	SIMON->AddAnimation(505);		 //Idle sit right          /2
-	SIMON->AddAnimation(502);		//SIMON Stand fire        /3
-
-
-	SIMON->AddAnimation(506);		//Simon sit fight         /4
-	SIMON->AddAnimation(507);		//Simon up whip           /5
-	SIMON->AddAnimation(599);		// die  /6
-
-	SIMON->SetPosition(100.0f, 250.0f);
-	CGlobal::GetInstance()->objects.push_back(SIMON);
-
-
-	
-
-	CTorch* Torch = new CTorch();
-	Torch->AddAnimation(801);
-	Torch->SetPosition(0 + 450, 350 - 60);
-	Torch->SetState(TORCH_STATE_BURNING);
-	Torch->setItemState(ITEM_STATE_BHEART);
-	CGlobal::GetInstance()->objects.push_back(Torch);
-
-
-	Torch = new CTorch();
-	Torch->AddAnimation(801);
-	Torch->SetPosition(750, 350 - 60);
-	Torch->SetState(TORCH_STATE_BURNING);
-	Torch->setItemState(ITEM_STATE_NWHIP);
-	CGlobal::GetInstance()->objects.push_back(Torch);
-
-
-
-	Torch = new CTorch();
-	Torch->AddAnimation(801);
-	Torch->SetPosition(950, 350 - 60);
-	Torch->SetState(TORCH_STATE_BURNING);
-	Torch->setItemState(ITEM_STATE_NWHIP);
-	CGlobal::GetInstance()->objects.push_back(Torch);
-
-
-
-	Torch = new CTorch();
-	Torch->AddAnimation(801);
-	Torch->SetPosition(1200, 350 - 60);
-	Torch->SetState(TORCH_STATE_BURNING);
-	Torch->setItemState(ITEM_STATE_DANGER);
-	CGlobal::GetInstance()->objects.push_back(Torch);
-
-
-	
-
-	for (int i = 0; i < 1536/32+4; i++)
-	{
-		CBrick *brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(0 + i*30.0f, 350);
-		CGlobal::GetInstance()->objects.push_back(brick);
-	}
-
-
-
-
-
-	// and Goombas 
-	for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGhoul();
-		goomba->AddAnimation(701);
-		goomba->AddAnimation(702);
-		goomba->SetPosition(400 + i * 100, 350-30*2);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		CGlobal::GetInstance()->objects.push_back(goomba);
-	}
+	//SIMON->SetPosition(100.0f, 250.0f);
+	//CGlobal::GetInstance()->objects.push_back(SIMON);
 
 }
 
@@ -663,13 +442,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game = CGame::GetInstance();
 	game->Init(hWnd);
-
+		
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
 	scene = CSceneManager::GetInstance();
-
+	SIMON = CSIMON::GetInstance();
 	LoadResources();
 	scene->GetInstance()->LoadResource();
+	scene->initScene();
 	/// hien ra giua man hinh may tinh 
 	// chua sua duoc
 
