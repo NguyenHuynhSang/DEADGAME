@@ -94,7 +94,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		SIMON->SetState(SIMON_STATE_IDLE);
 		SIMON->SetPosition(100.0f, 200.0f);
 		///fix cam when reset
-		game->setCam(SCREEN_WIDTH / 2,NULL);
+		game->setCam(0,NULL);
 		SIMON->SetSpeed(0, 0);
 		break;
 	}
@@ -104,7 +104,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+
 }
 
 ///bắt sự kiện bàn phím và cập nhật trạng thái
@@ -115,6 +115,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	/// xong
 
 	SIMON->isJump=false;
+	
 	if (SIMON->isUpWhip == true)
 	{
 		SIMON->SetState(SIMON_STATE_UPWHIP);
@@ -123,6 +124,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) return;
 
 
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
@@ -163,7 +165,11 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			return;
 	}
 
-
+	if (game->IsKeyDown(DIK_UP))
+	{
+		SIMON->SetState(SIMON_STATE_UP_STAIR);
+		return;	
+	}
 
 
 	if (game->IsKeyDown(DIK_DOWN))
@@ -332,7 +338,7 @@ void Render()
 		scene->RenderMap();
 		float camX, camY;
 		CCamera::GetInstance()->getCamera(camX, camY);
-		for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
+		for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 		{
 			if (CGlobal::GetInstance()->objects[i]->x>(int)camX-32&& CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
 			{
@@ -341,6 +347,8 @@ void Render()
 			
 		}
 
+		//render Simon
+		CGlobal::GetInstance()->objects[0]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();

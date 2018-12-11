@@ -25,11 +25,11 @@ void CTorch::Render()
 	}
 	if (state!= TORCH_STATE_DISAPPEAR)
 	{
-		animations[ani]->Render(0, x, y,255);
+		animations[ani]->Render(0, x, y);
 	}
 
 
-	RenderBoundingBox(x,y);
+	//RenderBoundingBox(x,y);
 	//DebugOut(L"x=%d y=%d \n");
 }
 

@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include"Camera.h"
+#include"Stair.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -32,6 +33,9 @@ void CSceneManager::LoadResource()
 
 	CTorch *torch = new CTorch();
 	torch->LoadResource();
+
+	CStair *stair = new CStair();
+	stair->LoadResource();
 
 }
 
@@ -120,15 +124,31 @@ void CSceneManager::initScene()
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(100, 200);
+		simon->SetPosition(1200, 200);
 		CGlobal::GetInstance()->objects.push_back(simon);
-		for (int i = 0; i < 5000 / 32 + 4; i++)
+		for (int i = 0; i <100; i++)
 		{
 			CBrick *brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(0 + i*30.0f, 370);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
+
+		//first stair
+		for (int i = 0; i < 4; i++)
+		{
+			CStair *stair = new CStair();
+			stair->SetPosition(1250+i*32, 370 - 32-i*32);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		for (int i = 0; i <3; i++)
+		{
+			CBrick *brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(1250+4*32+i*32, 370-4*32);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
 
 		//and Goombas 
 		for (int i = 0; i < 4; i++)
@@ -169,7 +189,8 @@ void CSceneManager::sceneUpdate()
 CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
-	currentScene = SCENE_STATE_FIRST;
+	//currentScene = SCENE_STATE_FIRST;
+	currentScene = SCENE_STATE_SECOND;
 }
 
 

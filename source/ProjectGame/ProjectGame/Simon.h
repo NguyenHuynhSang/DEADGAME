@@ -22,13 +22,17 @@
 #define SIMON_STATE_STAND_FIGHTING			600
 #define SIMON_STATE_SIT_FIGHTING			700
 #define SIMON_STATE_UPWHIP                  800
+#define SIMON_STATE_UP_STAIR                1000
 
-#define SIMON_ANI_IDLE		0
-#define SIMON_ANI_WALKING			1
-#define SIMON_ANI_SIT_JUMP            2 // sit and jump have same ani
+
+
+#define SIMON_ANI_IDLE              		0
+#define SIMON_ANI_WALKING			        1
+#define SIMON_ANI_SIT_JUMP                  2 // sit and jump have same ani
 #define SIMON_ANI_STAND_FIRE				3
 #define SIMON_ANI_SIT_FIRE					4
-#define SIMON_ANI_UPWHIP     5
+#define SIMON_ANI_UPWHIP                    5
+#define SIMON_ANI_ONSTAIR                   6
 #define SIMON_ANI_DIE				8
 
 
@@ -83,10 +87,11 @@ public:
 		AddAnimation(502);		//SIMON Stand fire        /3
 		AddAnimation(506);		//Simon sit fight         /4
 		AddAnimation(507);		//Simon up whip           /5
+		AddAnimation(508);      //Simon on stair          /6
 		AddAnimation(599);		// die  /6
 
 		nLife = SIMON_MAX_LIFE_BAR;
-		nHeart = 0;
+		nHeart = 50;
 		untouchable = 0;
 		whip = CWhip::GetInstance();
 	}

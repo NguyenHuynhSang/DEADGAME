@@ -8,7 +8,7 @@
 #include"Torch.h"
 #include"Brick.h"
 #include"Item.h"
-
+#include"Stair.h"
 
 CSIMON *CSIMON::__instance = NULL;
 CSIMON * CSIMON::GetInstance()
@@ -21,10 +21,12 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
-	// Simple fall down
-	vy += SIMON_GRAVITY*dt;
-
+	if (state!=SIMON_STATE_UP_STAIR)
+	{
+		// Simple fall down
+		vy += SIMON_GRAVITY*dt;
+	}
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -117,28 +119,42 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			//xu ly va cham voi nen nha
-
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
-				if (e->ny != 0)
+				if (e->ny <= 0)
 				{
 					//DebugOut(L"Va cham \n");
 					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
-					if (state==SIMON_STATE_STAND_FIGHTING)
+					if (state == SIMON_STATE_STAND_FIGHTING)
 					{
-						vx=0;
+						vx = 0;
 					}
 				}
 
+			}else 
+			if (dynamic_cast<CStair *>(e->obj))
+			{
+				CStair *stair = dynamic_cast<CStair *>(e->obj);
+				
+				if (e->nx != 0)
+				{
+					x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				}
+				else if (e->ny != 0)
+				{
+					// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					//y += dy;
+					x += nx;
+				}
 			}
+	
 			// xử lý va chạm giữa Simon và item
 			// trường hợp nếu item xuất hiện đúng vị trí
 			//bbox của simon thuật toán sẽ chạy sai
@@ -193,7 +209,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			//va cham voi candle
 			//khi Simon đi qua CTorch, set chỉ số alpha lại thành 128
-			if (dynamic_cast<CTorch *>(e->obj))
+			 if (dynamic_cast<CTorch *>(e->obj))
 			{
 			//	DebugOut(L"Tourch \n");
 				if (e->nx!=0)
@@ -208,7 +224,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 			}
 
-			if (dynamic_cast<CDagger *>(e->obj))
+			 if (dynamic_cast<CDagger *>(e->obj))
 			{
 				if (e->nx!=0)
 				{
@@ -221,7 +237,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 
 			//Va cham voi ghost
-			if (dynamic_cast<CGhoul *>(e->obj))
+			 if (dynamic_cast<CGhoul *>(e->obj))
 			{
 				CGhoul *goomba = dynamic_cast<CGhoul *>(e->obj);
 				if (e->nx!=0)
@@ -242,6 +258,8 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 				}
 			}
+
+		
 		}
 	}
 	nHeart = nHeart < 0 ? 0: nHeart;
@@ -252,6 +270,12 @@ void CSIMON::Render()
 {
 	
 	int ani;
+	if (state == SIMON_STATE_UP_STAIR)
+	{
+		ani = SIMON_ANI_ONSTAIR;
+		animations[ani]->Render(nx, x, y, 255);
+		return;
+	}
 
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
@@ -340,12 +364,14 @@ void CSIMON::Render()
 		ani = SIMON_ANI_UPWHIP;
 		DebugOut(L"Ani running \n");
 	}
+
+
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	RenderBoundingBox(x+14,y);
+	//RenderBoundingBox(x+14,y);
 	
 }
 
@@ -391,8 +417,21 @@ void CSIMON::SetState(int state)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
 		}
-		
 		break;
+	case SIMON_STATE_UP_STAIR:
+	{
+		if (nx>0)
+		{
+			vx = 0.1;
+		}
+		else if (nx<0)
+		{
+			vx = -0.1;
+		}
+		vy = -0.1;
+		break;
+	}
+		
 	}
 }
 
@@ -440,6 +479,14 @@ void CSIMON::LoadResource()
 	sprites->Add(10052, 90 - 30 + 27, 198, 90 + 30 + 27, 264, texSimon);
 	sprites->Add(10053, 150 - 30 + 27, 198, 150 + 30 + 27, 264, texSimon);
 	sprites->Add(10054, 210 - 30 + 27, 198, 210 + 30 + 27, 264, texSimon);
+
+
+	//simon on stair
+	sprites->Add(10055, 173-30 , 67, 173+30, 130, texSimon);
+	sprites->Add(10056, 230-30 , 67, 230 + 30, 130, texSimon);
+	sprites->Add(10057, 291-30 , 67, 291 + 30 , 130, texSimon);
+	sprites->Add(10058, 353 - 30, 67, 353 + 30 , 130, texSimon);
+
 
 
 	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
@@ -495,11 +542,19 @@ void CSIMON::LoadResource()
 	ani->Add(10001);
 	animations->Add(507, ani);
 
+	ani = new CAnimation(200); //simon on stair up
+	//ani->Add(10055);
+	//ani->Add(10056);
+	ani->Add(10057);
+	ani->Add(10058);
+	animations->Add(508, ani);
+
+	ani = new CAnimation(200); //simon on stair down
+	ani->Add(10055);
+	ani->Add(10056);
+	animations->Add(509, ani);
 
 	ani = new CAnimation(100);		// SIMON die
 	ani->Add(10099);
 	animations->Add(599, ani);
-
-
-
 }

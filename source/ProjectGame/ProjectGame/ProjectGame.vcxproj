@@ -128,6 +128,7 @@
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Stair.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />
