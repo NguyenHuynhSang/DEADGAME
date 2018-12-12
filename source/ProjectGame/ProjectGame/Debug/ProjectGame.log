@@ -1,15 +1,11 @@
-﻿  Simon.cpp
+﻿  main.cpp
 d:\git\projectx\source\projectgame\projectgame\sprites.h(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(79): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(97): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(324): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(329): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(334): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(425): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(429): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(431): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\main.cpp(289): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\main.cpp(301): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\main.cpp(313): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\main.cpp(345): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

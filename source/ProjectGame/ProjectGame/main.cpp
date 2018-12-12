@@ -167,8 +167,12 @@ void CSampleKeyHander::KeyState(BYTE *states)
 
 	if (game->IsKeyDown(DIK_UP))
 	{
-		SIMON->SetState(SIMON_STATE_UP_STAIR);
-		return;	
+		if (SIMON->bottomStair==true)
+		{
+			SIMON->SetState(SIMON_STATE_UP_STAIR);
+			return;
+		}
+		
 	}
 
 
@@ -257,7 +261,7 @@ void Update(DWORD dt)
 	}
 	else
 	{
-		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 5000 - 640 / 2 - 60)
+		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 5500 - 640 / 2 - 60)
 		{
 
 			game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
@@ -271,7 +275,7 @@ void Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects,sceneObject;
 	
 
-	if (SIMON->x>1406 &&scene->getScene()==SCENE_STATE_FIRST)
+	if (SIMON->x>1406 && scene->getScene()==SCENE_STATE_FIRST)
 	{
 		sceneObject.clear();
 		DebugOut(L"*********Attention scene is replaces*******\n");

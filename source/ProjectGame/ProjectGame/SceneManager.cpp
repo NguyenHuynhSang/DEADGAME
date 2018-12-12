@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include"Camera.h"
 #include"Stair.h"
+#include"HiddenObjects.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -135,12 +136,31 @@ void CSceneManager::initScene()
 		}
 
 		//first stair
+		CHiddenObjects *hobj = new CHiddenObjects();
+		hobj->SetState(HO_STATE_STAIR_BOTTOM);
+		hobj->setBoundBox(96, 32);
+		hobj->SetPosition(1250-32,370-32);
+		CGlobal::GetInstance()->objects.push_back(hobj);
 		for (int i = 0; i < 4; i++)
 		{
+			
 			CStair *stair = new CStair();
 			stair->SetPosition(1250+i*32, 370 - 32-i*32);
+			if (i==0||i==3)
+			{
+				stair->beginStair = true;
+			}
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
+		CHiddenObjects *hobj2 = new CHiddenObjects();
+		hobj2->SetState(HO_STATE_STAIR_TOP);
+		hobj2->setBoundBox(32, 32);
+		hobj2->SetPosition(1250 +32*4, 370 - 32*7+5);
+		CGlobal::GetInstance()->objects.push_back(hobj2);
+
+
+
+
 		for (int i = 0; i <3; i++)
 		{
 			CBrick *brick = new CBrick();
@@ -148,6 +168,43 @@ void CSceneManager::initScene()
 			brick->SetPosition(1250+4*32+i*32, 370-4*32);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
+
+
+		//stair 2
+		CHiddenObjects *hobj3 = new CHiddenObjects();
+		hobj3->SetState(HO_STATE_STAIR_BOTTOM);
+		hobj3->setBoundBox(96, 32);
+		hobj3->SetPosition(1442-32, 212);
+		CGlobal::GetInstance()->objects.push_back(hobj3);
+		for (int i = 0; i < 2; i++)
+		{
+			
+			CStair *stair = new CStair();
+			if (i == 1)
+			{
+				stair->beginStair = true;
+			}
+			stair->SetPosition(1442+32*i, 212 - i * 32);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		CHiddenObjects *hobj4 = new CHiddenObjects();
+		hobj4->SetState(HO_STATE_STAIR_TOP);
+		hobj4->setBoundBox(32, 32);
+		hobj4->SetPosition(1442+64, 212-64*2);
+		CGlobal::GetInstance()->objects.push_back(hobj4);
+
+
+
+
+		for (int i = 0; i <10; i++)
+		{
+			CBrick *brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(1442 +  64 + i * 32, 212 - 32);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+	
+
 
 
 		//and Goombas 
@@ -189,8 +246,8 @@ void CSceneManager::sceneUpdate()
 CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
-	//currentScene = SCENE_STATE_FIRST;
-	currentScene = SCENE_STATE_SECOND;
+	currentScene = SCENE_STATE_FIRST;
+	//currentScene = SCENE_STATE_SECOND;
 }
 
 

@@ -1,6 +1,5 @@
 ﻿#include <algorithm>
 #include "debug.h"
-
 #include "Simon.h"
 #include "Game.h"
 #include "ghoul.h"
@@ -9,7 +8,7 @@
 #include"Brick.h"
 #include"Item.h"
 #include"Stair.h"
-
+#include"HiddenObjects.h"
 CSIMON *CSIMON::__instance = NULL;
 CSIMON * CSIMON::GetInstance()
 {
@@ -25,6 +24,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		// Simple fall down
 		vy += SIMON_GRAVITY*dt;
+		isOnStair = false;
 	}
 	
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -125,9 +125,10 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//xu ly va cham voi nen nha
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
-				if (e->ny <= 0)
+				if (e->ny < 0)
 				{
-					//DebugOut(L"Va cham \n");
+					
+					
 					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
@@ -137,12 +138,25 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0;
 					}
 				}
+				else if (e->ny>0)
+				{
+					y += dy;
+					if (nx != 0) vx = 0;
+				}
+				if (e->nx != 0)
+				{
+					if (isOnStair == true)
+					{
+						x += dx;
+						y += dy;
+					}
+				}
 
-			}else 
+			}
 			if (dynamic_cast<CStair *>(e->obj))
 			{
 				CStair *stair = dynamic_cast<CStair *>(e->obj);
-				
+
 				if (e->nx != 0)
 				{
 					x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
@@ -151,9 +165,33 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					//y += dy;
-					x += nx;
+					if (stair->beginStair!=true)
+					{
+						y += dy;
+
+					}
+					x += dx;
 				}
 			}
+			
+			if (dynamic_cast<CHiddenObjects *>(e->obj))
+			{
+				DebugOut(L"Va cham \n");
+				CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e->obj);
+				if (e->nx!=0)
+				{
+					x += dx;
+				}
+				if (e->ny!=0)
+				{
+					if (f->GetState()==HO_STATE_STAIR_TOP)
+					{
+						state = SIMON_STATE_IDLE;
+					}
+					y += dy;
+				}
+			}
+	
 	
 			// xử lý va chạm giữa Simon và item
 			// trường hợp nếu item xuất hiện đúng vị trí
@@ -262,10 +300,56 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		
 		}
 	}
+
+	//check 
+	bool colwithStair = false;
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT e = coObjects->at(i);
+		if (dynamic_cast<CItem *>(e))
+		{
+			CItem * f = dynamic_cast<CItem*> (e);
+
+			if (CGameObject::isColliding(this, f) == true)
+			{
+			//	DebugOut(L"Co va cham \n");
+				// thuc ra chi ngung render neu va cham chua remove han can toi uu
+				//xong
+			//	f->isRemove = true;
+			}
+		}
+		if (dynamic_cast<CHiddenObjects *>(e))
+		{
+			
+			CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e);
+			if (f->GetState()==HO_STATE_STAIR_BOTTOM)
+			{
+				if (CGameObject::isColliding(this, f) == true)
+				{
+					bottomStair = true;
+					topStair = false;
+					colwithStair = true;
+				}
+				else
+				{
+					bottomStair = false;
+
+				}
+			}
+			
+		}
+		if (colwithStair==true)
+		{
+			break;
+		}
+	}
+
 	nHeart = nHeart < 0 ? 0: nHeart;
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+
+
 void CSIMON::Render()
 {
 	
@@ -274,6 +358,7 @@ void CSIMON::Render()
 	{
 		ani = SIMON_ANI_ONSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
+		RenderBoundingBox(x + 14, y);
 		return;
 	}
 
@@ -371,7 +456,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	//RenderBoundingBox(x+14,y);
+	RenderBoundingBox(x+14,y);
 	
 }
 
@@ -420,6 +505,7 @@ void CSIMON::SetState(int state)
 		break;
 	case SIMON_STATE_UP_STAIR:
 	{
+		isOnStair = true;
 		if (nx>0)
 		{
 			vx = 0.1;
@@ -558,3 +644,5 @@ void CSIMON::LoadResource()
 	ani->Add(10099);
 	animations->Add(599, ani);
 }
+
+

@@ -71,6 +71,10 @@ public:
 	bool isUpWhip=false;
 	bool isFighting = false;
 	bool isSitting = false;
+	bool isOnStair = false;
+	bool topStair = false;
+	bool bottomStair = false;
+
 	bool isTouchGr() { return vy == 0 ? true : false; };
 
 	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }

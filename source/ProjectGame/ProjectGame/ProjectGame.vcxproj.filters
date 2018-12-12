@@ -105,6 +105,9 @@
     <ClCompile Include="Stair.cpp">
       <Filter>GameObjects\Static</Filter>
     </ClCompile>
+    <ClCompile Include="HiddenObjects.cpp">
+      <Filter>GameObjects\Static</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -165,6 +168,9 @@
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
+      <Filter>GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObjects.h">
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
