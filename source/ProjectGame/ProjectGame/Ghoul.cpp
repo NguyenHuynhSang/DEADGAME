@@ -21,16 +21,27 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 
-	x += dx;
-	y += dy;
-
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
+	CGameObject::Update(dt);
+	vy += 0.002*dt;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEventsResult.clear();
+	CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() == 0)
+	{
+		y += dy;
+		x += dx;
 	}
-
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		y += min_ty*dy + ny*0.4f;
+		x +=  min_tx*dx + nx*0.4f;
+		if (ny != 0) vy = 0;
 	}
+	// clean up collision events
+	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CGhoul::Render()

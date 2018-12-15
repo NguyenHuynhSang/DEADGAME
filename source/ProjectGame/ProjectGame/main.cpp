@@ -76,7 +76,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	case DIK_F:
 		//DebugOut(L"Press Fighting  \n");
-		if (SIMON->GetState()==SIMON_STATE_UPWHIP)
+		if (SIMON->GetState()==SIMON_STATE_UPWHIP ||SIMON->isUpStair==true)
 		{
 			return;
 		}
@@ -106,7 +106,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
 
 }
-
+bool down = false;
 ///bắt sự kiện bàn phím và cập nhật trạng thái
 void CSampleKeyHander::KeyState(BYTE *states)
 {
@@ -124,7 +124,23 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
-	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) return;
+	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) 
+	{
+		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->getCurrentFrame()!=2)
+		{
+			return;
+		}
+		CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->ResetCurrentFrame();
+	}
+	if (SIMON->GetState() == SIMON_STATE_DOWN_STAIR)
+	{
+		//DebugOut(L"Delay down stair \n");
+		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->getCurrentFrame() != 2)
+		{
+			return;
+		}
+		CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->ResetCurrentFrame();
+	}
 
 
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
@@ -165,17 +181,58 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			return;
 	}
 
+	// xử lý trên cầu thang
 	if (game->IsKeyDown(DIK_UP))
 	{
-		if (SIMON->bottomStair==true)
+		if (SIMON->bottomStair == true)
 		{
+			SIMON->onStair = true;
+
+		}
+		if (SIMON->onStair==true)
+		{
+			down = false;
 			SIMON->SetState(SIMON_STATE_UP_STAIR);
+			SIMON->isUpStair = true;
+			return;
+
+		}
+	
+	}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (SIMON->topStair==true)
+		{
+			SIMON->onStair = true;
+		}
+		if (SIMON->onStair==true)
+		{
+			down = true;
+			//DebugOut(L"Simon down stair\n");
+			SIMON->SetState(SIMON_STATE_DOWN_STAIR);
+			return;
+		}
+		
+	}
+	else
+	{
+		if (SIMON->onStair==true && down!=true)
+		{
+			SIMON->SetState(SIMON_STATE_IDLE_UP_STAIR);
+			return;
+		}
+		if (SIMON->onStair == true && down==true)
+		{
+			DebugOut(L"idle down stair \n");
+			SIMON->SetState(SIMON_STATE_IDLE_DOWN_STAIR);
 			return;
 		}
 		
 	}
 
 
+
+	// Xử lý di chuyển
 	if (game->IsKeyDown(DIK_DOWN))
 	{
 		SIMON->isJump = true;

@@ -16,6 +16,7 @@
 class CEffect:public CGameObject
 {
 public:
+	bool isRemove = false;
 	void setState(int st) { state = st; };
 	virtual void LoadResource();
 	virtual void Render();

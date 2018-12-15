@@ -3,6 +3,7 @@
 #include"Item.h"
 #include"Textures.h"
 #include"Global.h"
+#include"Effect.h"
 #define TORCH_BBOX_WIDTH  30
 #define TORCH_BBOX_HEIGHT  60
 
@@ -19,6 +20,7 @@ class CTorch:public CGameObject
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	CItem *item;
+	CEffect *eff;
 	int ItemState;
 public:
 	void setItemState(int nstate);
@@ -26,8 +28,10 @@ public:
 	virtual void LoadResource();
 	CTorch() :CGameObject()
 	{	
+		
 		ItemState = 0;
 		AddAnimation(801);
+		eff = new CEffect();
 	};
 	//~CTorch();
 };

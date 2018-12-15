@@ -27,8 +27,16 @@ void CTorch::Render()
 	{
 		animations[ani]->Render(0, x, y);
 	}
-
-
+	if (state==TORCH_STATE_DISAPPEAR)
+	{
+		eff->SetPosition(x, y);
+		eff->Render();
+		if (CAnimations::GetInstance()->Get(9999)->getCurrentFrame()==3)
+		{
+			eff->isRemove = true;
+		}
+	}
+		
 	//RenderBoundingBox(x,y);
 	//DebugOut(L"x=%d y=%d \n");
 }
@@ -59,27 +67,21 @@ void CTorch::LoadResource()
 
 
 
-
-
-
-
-
-
-
-
-
 }
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) 
 {
-
 	if (state==TORCH_STATE_DISAPPEAR)
 	{
-		item = new CItem();
-		item->SetPosition(x, y);
-		item->SetState(ItemState);
-		item->createItem();
+		if (eff->isRemove==true)
+		{
+			item = new CItem();
+			item->SetPosition(x, y);
+			item->SetState(ItemState);
+			item->createItem();
+
+			isRemove = true;
+		}
 		
-		isRemove = true;
 	}
 
 }

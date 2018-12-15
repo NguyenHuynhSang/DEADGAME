@@ -17,14 +17,19 @@ CSIMON * CSIMON::GetInstance()
 }
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	if (state!=SIMON_STATE_UP_STAIR)
+	if (state!=SIMON_STATE_UP_STAIR && state != SIMON_STATE_DOWN_STAIR)
 	{
-		// Simple fall down
 		vy += SIMON_GRAVITY*dt;
-		isOnStair = false;
+		//isUpStair = false;
+		//isDownStair = false;
+	}
+	if (state==SIMON_STATE_IDLE_UP_STAIR || state==SIMON_STATE_IDLE_DOWN_STAIR)
+	{
+		vy = 0;
+		vx = 0;
+		return;
 	}
 	
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -36,10 +41,10 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-
 	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
-		DebugOut(L"[line][%d]   :State fighting \n",__LINE__);
+		
+		//DebugOut(L"[line][%d]   :State fighting \n",__LINE__);
 		if (isDelay==false)
 		{
 			//DebugOut(L"Simon Pos x= %d y=%d   \n",x,y);
@@ -104,9 +109,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			
 
-		}
-		
-		
+		}	
 	}
 
 	// No collision occured, proceed normally
@@ -127,7 +130,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if (e->ny < 0)
 				{
-					
+					if (onStair == true)
+					{
+						state = SIMON_STATE_IDLE;
+						onStair = false;
+					}
 					
 					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
@@ -145,13 +152,13 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				if (e->nx != 0)
 				{
-					if (isOnStair == true)
+					if (onStair == true)
 					{
 						x += dx;
 						y += dy;
 					}
 				}
-
+			
 			}
 			if (dynamic_cast<CStair *>(e->obj))
 			{
@@ -186,7 +193,18 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (f->GetState()==HO_STATE_STAIR_TOP)
 					{
-						state = SIMON_STATE_IDLE;
+						if (onStair==true)
+						{
+							isUpStair = false;
+							state = SIMON_STATE_IDLE;
+							onStair = false;
+						}
+						
+					}
+					if (f->GetState() == HO_STATE_STAIR_BOTTOM)
+					{
+						
+
 					}
 					y += dy;
 				}
@@ -333,7 +351,18 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else
 				{
 					bottomStair = false;
-
+				}
+			}
+			if (f->GetState() == HO_STATE_STAIR_TOP)
+			{
+				if (CGameObject::isColliding(this, f) == true)
+				{
+					topStair = true;
+					colwithStair = true;
+				}
+				else
+				{
+					topStair = false;
 				}
 			}
 			
@@ -356,7 +385,28 @@ void CSIMON::Render()
 	int ani;
 	if (state == SIMON_STATE_UP_STAIR)
 	{
-		ani = SIMON_ANI_ONSTAIR;
+		ani = SIMON_ANI_UPSTAIR;
+		animations[ani]->Render(nx, x, y, 255);
+		RenderBoundingBox(x + 14, y);
+		return;
+	}
+	if (state==SIMON_STATE_IDLE_UP_STAIR)
+	{
+		ani = SIMON_ANI_IDLE_UPSTAIR;
+		animations[ani]->Render(nx, x, y, 255);
+		RenderBoundingBox(x + 14, y);
+		return;
+	}
+	if (state== SIMON_STATE_DOWN_STAIR)
+	{
+		ani = SIMON_ANI_DOWNSTAIR;
+		animations[ani]->Render(nx, x, y, 255);
+		RenderBoundingBox(x + 14, y);
+		return;
+	}
+	if (state == SIMON_STATE_IDLE_DOWN_STAIR)
+	{
+		ani = SIMON_ANI_IDLE_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
 		RenderBoundingBox(x + 14, y);
 		return;
@@ -505,19 +555,45 @@ void CSIMON::SetState(int state)
 		break;
 	case SIMON_STATE_UP_STAIR:
 	{
-		isOnStair = true;
+		isUpStair = true;
 		if (nx>0)
 		{
-			vx = 0.1;
+			vx = 0.06;
 		}
 		else if (nx<0)
 		{
-			vx = -0.1;
+			vx = -0.06;
 		}
-		vy = -0.1;
+		vy = -0.06;
 		break;
 	}
-		
+	case SIMON_STATE_DOWN_STAIR:
+	{
+		if (isUpStair==true)
+		{
+			nx = -nx;
+			isUpStair = false;
+		}
+		isDownStair = true;
+		if (nx>0)
+		{
+			vx = +0.06;
+		}
+		else if (nx<0)
+		{
+			vx = -0.06;
+		}
+		vy = 0.06;
+		break;
+	}
+	case SIMON_STATE_IDLE_UP_STAIR:
+		vx = 0;
+		vy = 0;
+		break;
+	case SIMON_STATE_IDLE_DOWN_STAIR:
+		vx = 0;
+		vy = 0;
+		break;
 	}
 }
 
@@ -628,17 +704,29 @@ void CSIMON::LoadResource()
 	ani->Add(10001);
 	animations->Add(507, ani);
 
-	ani = new CAnimation(200); //simon on stair up
-	//ani->Add(10055);
-	//ani->Add(10056);
+	ani = new CAnimation(SIMON_ONSTAIR_TIME); //simon on stair up
 	ani->Add(10057);
 	ani->Add(10058);
+	ani->Add(10057);
 	animations->Add(508, ani);
 
-	ani = new CAnimation(200); //simon on stair down
+	ani = new CAnimation(SIMON_ONSTAIR_TIME); //simon on stair down
 	ani->Add(10055);
 	ani->Add(10056);
+	ani->Add(10055);
 	animations->Add(509, ani);
+
+	ani = new CAnimation(150); //simon idle up stair
+	ani->Add(10057);
+	animations->Add(510, ani);
+
+
+	ani = new CAnimation(150); //simon idle down stair
+	ani->Add(10055);
+	animations->Add(511, ani);
+
+
+
 
 	ani = new CAnimation(100);		// SIMON die
 	ani->Add(10099);

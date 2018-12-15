@@ -63,13 +63,11 @@ void CAnimation::Render(int nx,float x, float y, int alpha)
 		DWORD t = frames[currentFrame]->GetTime();
 		if (now - lastFrameTime > t)
 		{
-			countTime += now - lastFrameTime;
 			currentFrame++;
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) 
 			{
 				currentFrame = 0;
-				getTime = now;
 			}
 		}
 	
@@ -83,25 +81,6 @@ int CAnimation::getCurrentFrame()
 {
 	return currentFrame;
 }
-
-int CAnimation::getDefaultTime()
-{
-	return defaultTime;
-}
-
-int CAnimation::getlastFrameTime()
-{
-	return lastFrameTime;
-}
-
-int CAnimation::math()
-{
-	return frames.size();
-}
-
-
-
-
 
 CAnimations * CAnimations::__instance = NULL;
 

@@ -11,6 +11,7 @@ public:
 	virtual void Render();
 	virtual void LoadResource();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
+	void setNx(float xx) { nx = xx; }
 	CStair();
 	~CStair();
 };

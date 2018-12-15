@@ -59,6 +59,7 @@ typedef CAnimationFrame *LPANIMATION_FRAME;
 
 class CAnimation
 {
+	DWORD startTime;
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
@@ -69,12 +70,9 @@ public:
 	void Render(int nx,float x, float y, int alpha = 255);
 	void ResetCurrentFrame() { currentFrame = -1; };
 	void setCurrentFrame(float x) { currentFrame = x; };
+	bool isComplete(DWORD times) { return GetTickCount() - startTime >= times; }
+	void setStartTime() { startTime = GetTickCount(); };
 	int getCurrentFrame();
-	int getDefaultTime();
-	int getlastFrameTime();
-	int math();
-	DWORD getTime;
-	int countTime = 0;
 };
 
 typedef CAnimation *LPANIMATION;
