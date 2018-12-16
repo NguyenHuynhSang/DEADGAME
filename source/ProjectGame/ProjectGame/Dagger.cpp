@@ -7,7 +7,7 @@ void CDagger::Render()
 {
 
 		animations[state]->Render(-nx, x, y);
-		RenderBoundingBox(x,y);
+		//RenderBoundingBox(x,y);
 	
 }
 
@@ -68,7 +68,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 				}
 	
 			}
-			if (dynamic_cast<CGhoul *>(e->obj))
+			else if (dynamic_cast<CGhoul *>(e->obj))
 			{
 				CGhoul * g = dynamic_cast<CGhoul*> (e->obj);
 				if (e->nx != 0)
@@ -80,13 +80,11 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 				}
 
 			}
-			if (dynamic_cast<CItem *>(e->obj))
+			else 
 			{
-				if (e->nx!=0)
-				{
-					x += dx;
-				}
+				x += dx;
 			}
+			
 			if (isre==true)
 			{
 				break;

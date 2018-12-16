@@ -142,7 +142,7 @@ void CSceneManager::initScene()
 		CHiddenObjects *hobj = new CHiddenObjects();
 		hobj->SetState(HO_STATE_STAIR_BOTTOM);
 		hobj->setBoundBox(96, 32);
-		hobj->SetPosition(1250-32,370-32+25);
+		hobj->SetPosition(1250-32,370);
 		CGlobal::GetInstance()->objects.push_back(hobj);
 		for (int i = 0; i < 4; i++)
 		{
@@ -210,7 +210,7 @@ void CSceneManager::initScene()
 		CHiddenObjects *hobj5 = new CHiddenObjects();
 		hobj5->SetState(HO_STATE_STAIR_BOTTOM);
 		hobj5->setBoundBox(96, 32);
-		hobj5->SetPosition(1794 - 32, 212-60 + 25);
+		hobj5->SetPosition(1890 , 210 + 32 * 2-32);
 		CGlobal::GetInstance()->objects.push_back(hobj5);
 
 		for (int i = 0; i < 2; i++)
@@ -228,7 +228,7 @@ void CSceneManager::initScene()
 		CHiddenObjects *hobj6 = new CHiddenObjects();
 		hobj6->SetState(HO_STATE_STAIR_TOP);
 		hobj6->setBoundBox(32, 32);
-		hobj6->SetPosition(1794 + 64, 212- 64 * 2 + 25);
+		hobj6->SetPosition(1890 -96, 212- 64 * 2 + 25);
 		CGlobal::GetInstance()->objects.push_back(hobj6);
 
 

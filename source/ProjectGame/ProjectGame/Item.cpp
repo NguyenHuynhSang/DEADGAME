@@ -7,7 +7,7 @@ void CItem::Render()
 {
 
 	animations[state]->Render(0, x, y);
-	RenderBoundingBox(x,y);
+//	RenderBoundingBox(x,y);
 }
 void CItem::createItem()
 {

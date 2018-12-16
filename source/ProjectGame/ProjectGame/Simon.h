@@ -86,12 +86,14 @@ public:
 	bool topStair = false;
 	bool bottomStair = false;
 	bool onStair = false;
+	int stair_X = 0;
+	int direction = 1;
 	bool isTouchGr() { return vy == 0 ? true : false; };
-
 	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }
 	int getLife() { return nLife; }
 	void setHeart(int _heart){ nHeart = nHeart + _heart > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nHeart + _heart; }
 	int getHeart(){ return nHeart; }
+	void setNX(float x) { nx = x; }
 	static CSIMON *GetInstance();
 	CSIMON() 
 	{

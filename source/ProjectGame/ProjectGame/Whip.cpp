@@ -21,11 +21,11 @@ void CWhip::Render()
 			animations[state]->Render(nx, x, y);
 			if (nx>0)
 			{
-				RenderBoundingBox(220 - WHIP_RED_BBOX_WIDTH + x, y + 15);
+			//	RenderBoundingBox(220 - WHIP_RED_BBOX_WIDTH + x, y + 15);
 			}
 			else
 			{
-				RenderBoundingBox(x+25, y + 15);
+				//RenderBoundingBox(x+25, y + 15);
 			}
 			
 		}
@@ -35,11 +35,11 @@ void CWhip::Render()
 		animations[state]->Render(nx, x, y);
 		if (nx>0)
 		{
-			RenderBoundingBox(190 - WHIP_BBOX_WIDTH + x, y + 15);
+			//RenderBoundingBox(190 - WHIP_BBOX_WIDTH + x, y + 15);
 		}
 		else
 		{
-			RenderBoundingBox(x + 50,y+15);
+			//RenderBoundingBox(x + 50,y+15);
 		}
 		
 	}

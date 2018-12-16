@@ -10,6 +10,7 @@
 #include"Stair.h"
 #include"HiddenObjects.h"
 CSIMON *CSIMON::__instance = NULL;
+
 CSIMON * CSIMON::GetInstance()
 {
 	if (__instance == NULL)	__instance = new CSIMON();
@@ -166,7 +167,9 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				if (e->nx != 0)
 				{
-					x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					x += dx;
+					
+					// nx*0.4f : need to push out a bit to avoid overlapping next frame
 				}
 				else if (e->ny != 0)
 				{
@@ -183,14 +186,16 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 			if (dynamic_cast<CHiddenObjects *>(e->obj))
 			{
-				DebugOut(L"Va cham \n");
+			//	DebugOut(L"Va cham \n");
 				CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e->obj);
 				if (e->nx!=0)
 				{
 					x += dx;
+					stair_X = f->x;
 				}
 				if (e->ny!=0)
 				{
+					stair_X = f->x;
 					if (f->GetState()==HO_STATE_STAIR_TOP)
 					{
 						if (onStair==true)
@@ -387,28 +392,28 @@ void CSIMON::Render()
 	{
 		ani = SIMON_ANI_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state==SIMON_STATE_IDLE_UP_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state== SIMON_STATE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state == SIMON_STATE_IDLE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 
@@ -506,7 +511,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	RenderBoundingBox(x+14,y);
+	//RenderBoundingBox(x+14,y);
 	
 }
 
@@ -558,13 +563,13 @@ void CSIMON::SetState(int state)
 		isUpStair = true;
 		if (nx>0)
 		{
-			vx = 0.06;
+			vx = 0.068;
 		}
 		else if (nx<0)
 		{
-			vx = -0.06;
+			vx = -0.068;
 		}
-		vy = -0.06;
+		vy = -0.068;
 		break;
 	}
 	case SIMON_STATE_DOWN_STAIR:
@@ -577,11 +582,11 @@ void CSIMON::SetState(int state)
 		isDownStair = true;
 		if (nx>0)
 		{
-			vx = +0.06;
+			vx = 0.068;
 		}
 		else if (nx<0)
 		{
-			vx = -0.06;
+			vx = -0.068;
 		}
 		vy = 0.06;
 		break;
@@ -732,5 +737,4 @@ void CSIMON::LoadResource()
 	ani->Add(10099);
 	animations->Add(599, ani);
 }
-
 

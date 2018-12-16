@@ -107,6 +107,9 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 
 }
 bool down = false;
+bool pressUD=false;
+bool isChecked = false;
+bool test = true;
 ///bắt sự kiện bàn phím và cập nhật trạng thái
 void CSampleKeyHander::KeyState(BYTE *states)
 {
@@ -124,6 +127,29 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+	//kiểm tra để auto stair tại đây để remove control
+	if (pressUD==true)
+	{
+		if (isChecked==false)
+		{
+			if (SIMON->x>SIMON->stair_X)
+			{
+				SIMON->SetState(SIMON_STATE_WALKING_LEFT);
+				return;
+			}
+			else
+			{
+				SIMON->setNX(1);
+				SIMON->SetState(SIMON_STATE_UP_STAIR);
+				test = false;
+				isChecked = true;
+				pressUD = false;
+				return;
+			}
+		}
+		
+	}
+	pressUD = false;
 	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) 
 	{
 		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->getCurrentFrame()!=2)
@@ -186,11 +212,18 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (SIMON->bottomStair == true)
 		{
+			pressUD = true;
+			if (test == true)
+			{
+				SIMON->onStair = true;
+				pressUD = true;
+				return;
+			}
 			SIMON->onStair = true;
-
 		}
 		if (SIMON->onStair==true)
 		{
+			
 			down = false;
 			SIMON->SetState(SIMON_STATE_UP_STAIR);
 			SIMON->isUpStair = true;
@@ -218,6 +251,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (SIMON->onStair==true && down!=true)
 		{
+			DebugOut(L"idle up stair \n");
 			SIMON->SetState(SIMON_STATE_IDLE_UP_STAIR);
 			return;
 		}
@@ -383,6 +417,7 @@ void Update(DWORD dt)
 /*
 Render a frame
 */
+
 void Render()
 {
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -410,7 +445,6 @@ void Render()
 
 		//render Simon
 		CGlobal::GetInstance()->objects[0]->Render();
-
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -418,6 +452,7 @@ void Render()
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
+
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
 {
