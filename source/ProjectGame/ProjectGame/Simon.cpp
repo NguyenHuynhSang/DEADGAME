@@ -129,14 +129,8 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//xu ly va cham voi nen nha
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
-				if (e->ny < 0)
+				if (e->ny != 0)
 				{
-					if (onStair == true)
-					{
-						state = SIMON_STATE_IDLE;
-						onStair = false;
-					}
-					
 					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
@@ -146,12 +140,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0;
 					}
 				}
-				else if (e->ny>0)
-				{
-					y += dy;
-					if (nx != 0) vx = 0;
-				}
-				if (e->nx != 0)
+				else if (e->nx != 0)
 				{
 					if (onStair == true)
 					{
@@ -160,32 +149,9 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			
-			}
-			if (dynamic_cast<CStair *>(e->obj))
-			{
-				CStair *stair = dynamic_cast<CStair *>(e->obj);
-
-				if (e->nx != 0)
-				{
-					x += dx;
-					
-					// nx*0.4f : need to push out a bit to avoid overlapping next frame
-				}
-				else if (e->ny != 0)
-				{
-					// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					//y += dy;
-					if (stair->beginStair!=true)
-					{
-						y += dy;
-
-					}
-					x += dx;
-				}
-			}
-			
-			if (dynamic_cast<CHiddenObjects *>(e->obj))
-			{
+			}			
+			else if (dynamic_cast<CHiddenObjects *>(e->obj))
+		 	{
 			//	DebugOut(L"Va cham \n");
 				CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e->obj);
 				if (e->nx!=0)
@@ -203,15 +169,24 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							isUpStair = false;
 							state = SIMON_STATE_IDLE;
 							onStair = false;
+
 						}
-						
+						y += dy;
 					}
 					if (f->GetState() == HO_STATE_STAIR_BOTTOM)
 					{
-						
-
+						if (onStair == true)
+						{
+							state = SIMON_STATE_IDLE;
+							onStair = false;
+						}
+						y += dy;
+						if (vy != 0)
+						{
+							vy = 0;
+						}
 					}
-					y += dy;
+			
 				}
 			}
 	
@@ -392,28 +367,28 @@ void CSIMON::Render()
 	{
 		ani = SIMON_ANI_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		//RenderBoundingBox(x + 14, y);
+		RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state==SIMON_STATE_IDLE_UP_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		//RenderBoundingBox(x + 14, y);
+		RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state== SIMON_STATE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		//RenderBoundingBox(x + 14, y);
+		RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state == SIMON_STATE_IDLE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		//RenderBoundingBox(x + 14, y);
+		RenderBoundingBox(x + 14, y);
 		return;
 	}
 
@@ -511,7 +486,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	//RenderBoundingBox(x+14,y);
+	RenderBoundingBox(x+14,y);
 	
 }
 
@@ -563,32 +538,34 @@ void CSIMON::SetState(int state)
 		isUpStair = true;
 		if (nx>0)
 		{
-			vx = 0.068;
+			vx = 0.065;
 		}
 		else if (nx<0)
 		{
-			vx = -0.068;
+			vx = -0.065;
 		}
-		vy = -0.068;
+		vy = -0.065;
 		break;
 	}
 	case SIMON_STATE_DOWN_STAIR:
 	{
 		if (isUpStair==true)
 		{
+			x -= 2;
+			y += 3;
 			nx = -nx;
 			isUpStair = false;
 		}
 		isDownStair = true;
 		if (nx>0)
 		{
-			vx = 0.068;
+			vx = 0.067;
 		}
 		else if (nx<0)
 		{
-			vx = -0.068;
+			vx = -0.067;
 		}
-		vy = 0.06;
+		vy = 0.067;
 		break;
 	}
 	case SIMON_STATE_IDLE_UP_STAIR:

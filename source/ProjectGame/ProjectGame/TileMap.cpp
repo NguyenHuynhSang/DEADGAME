@@ -57,7 +57,6 @@ void CTileMap::LoadTile(char * name, LPDIRECT3DTEXTURE9 tex)
 
 
 }
-
 void CTileMap::DrawMap()
 {
 	// Dựa vào vị trí Cam để tìm ô đầu ô cuối trong Map, 
@@ -79,6 +78,8 @@ void CTileMap::DrawMap()
 	{
 		endCol = ((int)camX + SCREEN_WIDTH)/32;
 	}
+
+
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = beginCol; j < endCol; j++)

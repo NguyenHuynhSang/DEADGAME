@@ -8,6 +8,8 @@ class CHiddenObjects:public CGameObject
 {
 	int _width;
 	int _height;
+
+	int stairState = 0;// 1 2 3 4 <==> upleft, upright, down l, down r
 public:
 	void setBoundBox(float w, float h) { _width = w; _height = h; }
 	virtual void Render();

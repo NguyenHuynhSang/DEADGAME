@@ -32,6 +32,7 @@ CGameObject::GetBoundingBox
 #include "Torch.h"
 #include "TileMap.h"
 #include"Camera.h"
+#include"Stair.h"
 #include"SceneManager.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"
@@ -83,7 +84,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
 		break;
 	case DIK_SPACE:
-		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING || SIMON->GetState() == SIMON_STATE_UPWHIP)
+		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING || SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->isSitting==true)
 		{
 			return;
 		}
@@ -92,6 +93,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A: // reset
 		SIMON->SetState(SIMON_STATE_IDLE);
+		SIMON->onStair = false;
 		SIMON->SetPosition(100.0f, 200.0f);
 		///fix cam when reset
 		game->setCam(0,NULL);
@@ -118,34 +120,46 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	/// xong
 
 	SIMON->isJump=false;
-	
+	// disable control key when SIMON die 
+	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+
+
 	if (SIMON->isUpWhip == true)
 	{
 		SIMON->SetState(SIMON_STATE_UPWHIP);
 		DebugOut(L"*****State Upwhip***** \n");
 		return;
 	}
-	// disable control key when SIMON die 
-	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+	
 	//kiểm tra để auto stair tại đây để remove control
 	if (pressUD==true)
 	{
-		if (isChecked==false)
+		if (SIMON->bottomStair ==true)
 		{
-			if (SIMON->x>SIMON->stair_X)
+			if (SIMON->onStair!=true)
 			{
-				SIMON->SetState(SIMON_STATE_WALKING_LEFT);
-				return;
+				if ((int)SIMON->x>SIMON->stair_X + 2)
+				{
+					SIMON->SetState(SIMON_STATE_WALKING_LEFT);
+					return;
+				}
+				else
+				{
+					if ((int)SIMON->x<SIMON->stair_X)
+					{
+						SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
+						return;
+					}
+					SIMON->setNX(1);
+					SIMON->onStair = true;
+					SIMON->SetState(SIMON_STATE_UP_STAIR);
+					test = false;
+					isChecked = true;
+					pressUD = false;
+					return;
+				}
 			}
-			else
-			{
-				SIMON->setNX(1);
-				SIMON->SetState(SIMON_STATE_UP_STAIR);
-				test = false;
-				isChecked = true;
-				pressUD = false;
-				return;
-			}
+			
 		}
 		
 	}
@@ -212,11 +226,10 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (SIMON->bottomStair == true)
 		{
+			down = false;
 			pressUD = true;
-			if (test == true)
+			if (SIMON->onStair ==false)
 			{
-				SIMON->onStair = true;
-				pressUD = true;
 				return;
 			}
 			SIMON->onStair = true;
@@ -391,10 +404,14 @@ void Update(DWORD dt)
 
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-		if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		if (!dynamic_cast<CStair *>(CGlobal::GetInstance()->objects[i]))
 		{
-			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+			if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+			{
+				coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+			}
 		}
+		
 		
 	}
 

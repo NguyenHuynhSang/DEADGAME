@@ -141,8 +141,8 @@ void CSceneManager::initScene()
 		//first stair
 		CHiddenObjects *hobj = new CHiddenObjects();
 		hobj->SetState(HO_STATE_STAIR_BOTTOM);
-		hobj->setBoundBox(96, 32);
-		hobj->SetPosition(1250-32,370);
+		hobj->setBoundBox(96, 5);
+		hobj->SetPosition(1250-32,402-5);
 		CGlobal::GetInstance()->objects.push_back(hobj);
 		for (int i = 0; i < 4; i++)
 		{
@@ -174,8 +174,8 @@ void CSceneManager::initScene()
 		//stair 2
 		CHiddenObjects *hobj3 = new CHiddenObjects();
 		hobj3->SetState(HO_STATE_STAIR_BOTTOM);
-		hobj3->setBoundBox(96, 32);
-		hobj3->SetPosition(1442-32, 212 + 25);
+		hobj3->setBoundBox(96, 5);
+		hobj3->SetPosition(1442-32, 274 -5);
 		CGlobal::GetInstance()->objects.push_back(hobj3);
 		for (int i = 0; i < 2; i++)
 		{

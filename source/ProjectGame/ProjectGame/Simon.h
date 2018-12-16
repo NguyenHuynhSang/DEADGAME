@@ -3,7 +3,7 @@
 #include"Whip.h"
 #include"Textures.h"
 #include"Dagger.h"
-#define SIMON_WALKING_SPEED		0.15f 
+#define SIMON_WALKING_SPEED		0.2f 
 #define SIMON_FIRE_TIME			300
 //0.1f
 #define SIMON_JUMP_SPEED_Y		0.55f
