@@ -9,16 +9,19 @@ d:\git\projectx\source\projectgame\projectgame\simon.h(96): warning C4244: '=': 
 d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(150): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(154): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(169): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(189): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(206): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(228): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(243): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(255): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(295): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(352): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(366): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(382): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(185): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(202): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(220): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(235): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(252): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(265): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(275): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(316): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(318): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(376): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(390): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(406): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

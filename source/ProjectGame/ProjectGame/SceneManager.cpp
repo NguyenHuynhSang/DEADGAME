@@ -3,6 +3,7 @@
 #include"Stair.h"
 #include"HiddenObjects.h"
 #include"Effect.h"
+#include"BlackBoard.h"
 #include"Game.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
@@ -19,6 +20,7 @@ void CSceneManager::LoadResource()
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
 	textures->Add(ID_BACKGROUND_LV1, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_BACKGROUND_LV2, L"data\\map\\lv2.BMP", D3DCOLOR_XRGB(255, 255, 255));
+	
 	CItem *items = new CItem();
 	items->LoadResource();
 
@@ -128,43 +130,41 @@ void CSceneManager::initScene()
 		CSIMON *simon = CSIMON::GetInstance();
 		simon->SetPosition(842 + 6 * 32, 370-32);
 		CGlobal::GetInstance()->objects.push_back(simon);
-		for (int i = 0; i <100; i++)
+		CBrick *brick = new CBrick();
+		CStair *stair = new CStair();
+		for (int i = 0; i <105; i++)
 		{
-			CBrick *brick = new CBrick();
+			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(0 + i*30.0f, 402);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
 		//first stair
-		CHiddenObjects *hobj = new CHiddenObjects();
-		hobj->SetState(HO_STATE_STAIR_BOTTOM);
-		hobj->setStairState(2);
-		hobj->setBoundBox(96, 5);
-		hobj->SetPosition(1250-32,402-6);
-		CGlobal::GetInstance()->objects.push_back(hobj);
+		CHiddenObjects *hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setStairState(2);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->SetPosition(1250-32,402-6);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 4; i++)
 		{
 			
-			CStair *stair = new CStair();
+			stair = new CStair();
 			stair->SetPosition(1250+i*32, 370-i*32 );
-			if (i==3)
-			{
-				stair->beginStair = true;
-			}
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
-		CHiddenObjects *hobj2 = new CHiddenObjects();
-		hobj2->SetState(HO_STATE_STAIR_TOP);
-		hobj2->setBoundBox(32, 32);
-		hobj2->setStairState(3);
-		hobj2->SetPosition(1250 +32*4, 370 - 32*7 + 37);
-		CGlobal::GetInstance()->objects.push_back(hobj2);
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setBoundBox(32, 32);
+		hidenObject->setStairState(3);
+		hidenObject->SetPosition(1250 +32*4, 370 - 32*7 + 37);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
 		for (int i = 0; i <3; i++)
 		{
-			CBrick *brick = new CBrick();
+			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(1250+4*32+i*32, 274);
 			CGlobal::GetInstance()->objects.push_back(brick);
@@ -172,36 +172,32 @@ void CSceneManager::initScene()
 
 
 		//stair 2
-		CHiddenObjects *hobj3 = new CHiddenObjects();
-		hobj3->SetState(HO_STATE_STAIR_BOTTOM);
-		hobj3->setBoundBox(96, 5);
-		hobj3->setStairState(2);
-		hobj3->SetPosition(1442-32, 274 -5);
-		CGlobal::GetInstance()->objects.push_back(hobj3);
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->setStairState(2);
+		hidenObject->SetPosition(1442-32, 274 -5);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 2; i++)
 		{
 			
-			CStair *stair = new CStair();
-			if (i == 1)
-			{
-				stair->beginStair = true;
-			}
+			stair = new CStair();
 			stair->SetPosition(1442+32*i, 242 - i * 32);
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
-		CHiddenObjects *hobj4 = new CHiddenObjects();
-		hobj4->SetState(HO_STATE_STAIR_TOP);
-		hobj4->setStairState(3);
-		hobj4->setBoundBox(32, 32);
-		hobj4->SetPosition(1442+64, 212-64*2 + 35);
-		CGlobal::GetInstance()->objects.push_back(hobj4);
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setStairState(3);
+		hidenObject->setBoundBox(32, 32);
+		hidenObject->SetPosition(1442+64, 212-64*2 + 35);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
 	
 
 		for (int i = 0; i <10; i++)
 		{
-			CBrick *brick = new CBrick();
+			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(1442 +  64 + i * 32, 210);
 			CGlobal::GetInstance()->objects.push_back(brick);
@@ -209,42 +205,66 @@ void CSceneManager::initScene()
 	
 		//stair 3
 
-		CHiddenObjects *hobj5 = new CHiddenObjects();
-		hobj5->SetState(HO_STATE_STAIR_BOTTOM);
-		hobj5->setStairState(1);
-		hobj5->setBoundBox(96, 5);
-		hobj5->SetPosition(1890 -64, 210 + 32 * 2-6);
-		CGlobal::GetInstance()->objects.push_back(hobj5);
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setStairState(1);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->SetPosition(1890 -64, 210 + 32 * 2-6);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 		for (int i = 0; i < 2; i++)
 		{
 
-			CStair *stair = new CStair();
+			stair = new CStair();
 			stair->setNx(-1);
-			if (i == 1)
-			{
-				stair->beginStair = true;
-			}
 			stair->SetPosition(1794+32+ i * 32, 210+ i * 32);
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
-		CHiddenObjects *hobj6 = new CHiddenObjects();
-		hobj6->SetState(HO_STATE_STAIR_TOP);
-		hobj6->setStairState(4);
-		hobj6->setBoundBox(32, 32);
-		hobj6->SetPosition(1890 -96, 212 - 64 * 2 + 35);
-		CGlobal::GetInstance()->objects.push_back(hobj6);
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setStairState(4);
+		hidenObject->setBoundBox(32, 32);
+		hidenObject->SetPosition(1890 -96, 212 - 64 * 2 + 35);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
 		for (int i = 0; i <6; i++)
 		{
-			CBrick *brick = new CBrick();
+			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(1890-32 + i * 32, 210+32*2);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
 
+
+		//  stair 4
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setStairState(2);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->SetPosition(2590-32, 402 - 6);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+		for (int i = 0; i < 6; i++)
+		{
+
+			stair = new CStair();
+			stair->SetPosition(2590 + i * 32, 370 - i * 32);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setBoundBox(32, 32);
+		hidenObject->setStairState(3);
+		hidenObject->SetPosition(2590 + 32 * 6, 370 - 32 * 9 + 37);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+		for (int i = 0; i <9; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(2590 + 32 * 6+i*32, 370 - 5 * 32);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
 
 
 		//and Goombas 
@@ -292,6 +312,9 @@ void CSceneManager::Render()
 	RenderMap();
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX, camY);
+	CBlackBoard *bb = CBlackBoard::GetInstance();
+	bb->SetPosition((int)camX, (int)camY);
+	bb->Render();
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
 		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 32 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
@@ -301,6 +324,7 @@ void CSceneManager::Render()
 
 	}
 
+	
 	//render Simon
 	CGlobal::GetInstance()->objects[0]->Render();
 
@@ -325,7 +349,7 @@ void CSceneManager::Update(DWORD dt)
 	}
 	else
 	{
-		if (simon->x >= 640 / 2 - 60 && simon->x < 5500 - 640 / 2 - 60)
+		if (simon->x >= 640 / 2 - 60 && simon->x <3070-640/2-60)
 		{
 			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
 			CCamera::GetInstance()->isCamMove = true;
@@ -397,7 +421,7 @@ CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
-	//currentScene = SCENE_STATE_SECOND;
+	currentScene = SCENE_STATE_SECOND;
 }
 
 

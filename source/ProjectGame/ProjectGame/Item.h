@@ -2,6 +2,10 @@
 #include"GameObject.h"
 
 #define ITEM_GRAVITY 0.002f
+#define ITEM_SHOW_TIME 3000
+
+
+
 #define ID_TEX_ITEM_BHEAR 200
 #define ID_TEX_ITEM_NWHIP 201
 #define ID_TEX_ITEM_DANGER 202
@@ -29,6 +33,8 @@
 
 class CItem:public CGameObject
 {
+	DWORD timeStart;
+	DWORD timeShow;
 public:
 	bool isShow = false;
 	bool colSimon = false;

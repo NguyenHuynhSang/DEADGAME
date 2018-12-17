@@ -24,7 +24,7 @@ void CItem::LoadResource()
 	LPDIRECT3DTEXTURE9 texBHear = textures->Get(ID_TEX_ITEM_BHEAR);
 	sprites->Add(70000, 0, 0, 24, 20, texBHear);
 	LPDIRECT3DTEXTURE9 texDanger = textures->Get(ID_TEX_ITEM_DANGER);
-	sprites->Add(70001, 0, 0, 24, 20, texDanger);
+	sprites->Add(70001, 0, 0, 32, 18, texDanger);
 	PDIRECT3DTEXTURE9 texNWhip = textures->Get(ID_TEX_ITEM_NWHIP);
 	sprites->Add(70002, 0, 0, 32, 32, texNWhip);
 	LPANIMATION ani;
@@ -64,6 +64,12 @@ void CItem::GetBoundingBox(float & left, float & top, float & right, float & bot
 }
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	timeShow = GetTickCount();
+	if (timeShow-timeStart>ITEM_SHOW_TIME)
+	{
+		isRemove = true;
+		return;
+	}
 	CGameObject::Update(dt);
 	vy += ITEM_GRAVITY*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -101,7 +107,7 @@ CItem::CItem()
 	//vì cái coobject dc lay ra tu object
 	//k thêm vào lấy đâu ra mà xét.
 	DebugOut(L"\nCreate Items");
-
+	timeStart = GetTickCount();
 }
 
 

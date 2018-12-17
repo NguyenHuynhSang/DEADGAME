@@ -593,15 +593,14 @@ void CSIMON::SetState(int state)
 	}
 	case SIMON_STATE_DOWN_STAIR:
 	{
+		if (stairState==1 &&bottomStair==true)
+		{
+			x -= 5;
+			DebugOut(L"Chay vao day \n");
+		}
 		if (isUpStair==true )
 		{
-			if (stairState==1)
-			{
-				DebugOut(L"\n Chay vao day");
-				x += 2;
-				y += 1;
-			}
-			
+
 			nx = -nx;
 			isUpStair = false;
 		}

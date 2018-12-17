@@ -126,7 +126,7 @@ void CDagger::LoadResource()
 	CAnimations * animations = CAnimations::GetInstance();
 	CTextures * textures = CTextures::GetInstance();
 	LPDIRECT3DTEXTURE9 texDanger = textures->Get(202);
-	sprites->Add(70001, 0, 0, 24, 20, texDanger);
+	sprites->Add(70001, 0, 0, 32, 18, texDanger);
 	LPANIMATION ani;
 
 	ani = new CAnimation(100);		// danger
