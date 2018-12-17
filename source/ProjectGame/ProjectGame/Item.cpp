@@ -13,20 +13,37 @@ void CItem::createItem()
 {
 	CGlobal::GetInstance()->objects.push_back(this);
 }
+int CItem::_rank()
+{
+	return rand() % 6 + 1;
+}
 void CItem::LoadResource()
 {
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 	CTextures * textures = CTextures::GetInstance();
 	textures->Add(ID_TEX_ITEM_DANGER, L"Resource\\sprites\\Items\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_ITEM_BHEAR, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_BHEART, L"Resource\\sprites\\Items\\BIG_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_ITEM_NWHIP, L"Resource\\sprites\\Items\\MORNING_STAR.png", D3DCOLOR_XRGB(255, 0, 255));
-	LPDIRECT3DTEXTURE9 texBHear = textures->Get(ID_TEX_ITEM_BHEAR);
+	textures->Add(ID_TEX_ITEM_MHEART, L"Resource\\sprites\\Items\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_WHITE_MONEYBAG, L"Resource\\sprites\\Items\\Money_bag_white.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_BLUE_MONEYBAG, L"Resource\\sprites\\Items\\Money_bag_blue.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEM_RED_MONEYBAG, L"Resource\\sprites\\Items\\Money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	LPDIRECT3DTEXTURE9 texBHear = textures->Get(ID_TEX_ITEM_BHEART);
 	sprites->Add(70000, 0, 0, 24, 20, texBHear);
 	LPDIRECT3DTEXTURE9 texDanger = textures->Get(ID_TEX_ITEM_DANGER);
 	sprites->Add(70001, 0, 0, 32, 18, texDanger);
-	PDIRECT3DTEXTURE9 texNWhip = textures->Get(ID_TEX_ITEM_NWHIP);
+	LPDIRECT3DTEXTURE9 texNWhip = textures->Get(ID_TEX_ITEM_NWHIP);
 	sprites->Add(70002, 0, 0, 32, 32, texNWhip);
+	LPDIRECT3DTEXTURE9 texMHeart = textures->Get(ID_TEX_ITEM_MHEART);
+	sprites->Add(70003, 0, 0, 16, 16, texMHeart);
+	LPDIRECT3DTEXTURE9 texWMB = textures->Get(ID_TEX_ITEM_WHITE_MONEYBAG);
+	sprites->Add(70004, 0, 0, 30, 30, texWMB);
+	LPDIRECT3DTEXTURE9 texBMB = textures->Get(ID_TEX_ITEM_BLUE_MONEYBAG);
+	sprites->Add(70005, 0, 0, 30, 30, texBMB);
+	LPDIRECT3DTEXTURE9 texRMB = textures->Get(ID_TEX_ITEM_RED_MONEYBAG);
+	sprites->Add(70006, 0, 0, 30, 30, texRMB);
 	LPANIMATION ani;
 
 	ani = new CAnimation(10000);		// BHEART
@@ -41,6 +58,25 @@ void CItem::LoadResource()
 	ani->Add(70002);
 	animations->Add(903, ani);
 
+
+	ani = new CAnimation(100);		// MHEART
+	ani->Add(70003);
+	animations->Add(904, ani);
+
+
+	ani = new CAnimation(100);		// W Money bag
+	ani->Add(70004);
+	animations->Add(905, ani);
+
+
+	ani = new CAnimation(100);		// Blue Money bag
+	ani->Add(70005);
+	animations->Add(906, ani);
+
+
+	ani = new CAnimation(100);		// red Money bag
+	ani->Add(70006);
+	animations->Add(907, ani);
 }
 void CItem::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
@@ -60,6 +96,16 @@ void CItem::GetBoundingBox(float & left, float & top, float & right, float & bot
 	{
 		right = x + DAGGER_BBOX_WIDTH;
 		bottom = y + DAGGER_BBOX_HEIGHT;
+	}
+	if (state==ITEM_STATE_MHEART)
+	{
+		right = x + MHEART_BBOX_WIDTH;
+		bottom = y + MHEART_BBOX_HEIGHT;
+	}
+	if (state == ITEM_STATE_WHITE_MONEYBAG || state == ITEM_STATE_BLUE_MONEYBAG ||state == ITEM_STATE_RED_MONEYBAG)
+	{
+		right = x + MONEYBAG_BBOX_WIDTH;
+		bottom = y + MONEYBAG_BBOX_HEIGHT;
 	}
 }
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -98,9 +144,13 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 CItem::CItem()
 {
+	this->AddAnimation(903);
 	this->AddAnimation(901);
 	this->AddAnimation(902);
-	this->AddAnimation(903);
+	this->AddAnimation(904);
+	this->AddAnimation(905);
+	this->AddAnimation(906);
+	this->AddAnimation(907);
 	//carefull
 	//item->GetPosition(x, y);
 	//thêm vào object mới có thể update, hay bắt sự kiện va chạm

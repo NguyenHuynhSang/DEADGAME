@@ -421,7 +421,7 @@ CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
-	currentScene = SCENE_STATE_SECOND;
+	//currentScene = SCENE_STATE_SECOND;
 }
 
 
