@@ -110,8 +110,6 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 }
 bool down = false;
 bool pressUD=false;
-bool isChecked = false;
-bool test = true;
 ///bắt sự kiện bàn phím và cập nhật trạng thái
 void CSampleKeyHander::KeyState(BYTE *states)
 {
@@ -130,7 +128,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		DebugOut(L"*****State Upwhip***** \n");
 		return;
 	}
-	
+	//DebugOut(L"SIMON_X=%d    stairX=%d \n", (int)SIMON->x, SIMON->stair_X);
 	//kiểm tra để auto stair tại đây để remove control
 	if (pressUD==true)
 	{
@@ -153,8 +151,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 					SIMON->setNX(1);
 					SIMON->onStair = true;
 					SIMON->SetState(SIMON_STATE_UP_STAIR);
-					test = false;
-					isChecked = true;
 					pressUD = false;
 					return;
 				}
@@ -165,23 +161,30 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		{
 			if (SIMON->onStair != true)
 			{
-				if ((int)SIMON->x>SIMON->stair_X + 34)
+				if ((int)SIMON->x < SIMON->stair_X-2 )
 				{
-					SIMON->SetState(SIMON_STATE_WALKING_LEFT);
-					return;
-				}
-				else
-				{
-					if ((int)SIMON->x<SIMON->stair_X+32)
+
+					if (SIMON->stairState==4 || SIMON->stairState == 3)
 					{
 						SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
 						return;
 					}
+				}
+				else
+				{
+					if ((int)SIMON->x > SIMON->stair_X )
+					{
+
+						if (SIMON->stairState == 3)
+						{
+							SIMON->SetState(SIMON_STATE_WALKING_LEFT);
+							return;
+						}
+					}
 					SIMON->setNX(1);
 					SIMON->onStair = true;
 					SIMON->SetState(SIMON_STATE_DOWN_STAIR);
-					test = false;
-					isChecked = true;
+					DebugOut(L"Set lai state \n");
 					pressUD = false;
 					return;
 				}
@@ -190,6 +193,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		
 	}
 	pressUD = false;
+
 	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) 
 	{
 		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->getCurrentFrame()!=2)
@@ -207,8 +211,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		}
 		CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->ResetCurrentFrame();
 	}
-
-
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
 		if (SIMON->isSitting==true)
@@ -273,8 +275,14 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (SIMON->topStair==true)
+		if (SIMON->topStair == true)
 		{
+			pressUD = true;
+			down = true;
+			if (SIMON->onStair == false)
+			{
+				return;
+			}
 			SIMON->onStair = true;
 		}
 		if (SIMON->onStair==true)

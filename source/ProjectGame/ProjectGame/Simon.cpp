@@ -130,14 +130,23 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if (e->ny != 0)
 				{
-					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					y += min_ty*dy + ny*0.4f;
-					if (nx != 0) vx = 0;
-					if (ny != 0) vy = 0;
-					if (state == SIMON_STATE_STAND_FIGHTING)
+					if (onStair == false)
 					{
-						vx = 0;
+						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						y += min_ty*dy + ny*0.4f;
+						if (nx != 0) vx = 0;
+						if (ny != 0) vy = 0;
+						if (state == SIMON_STATE_STAND_FIGHTING)
+						{
+							vx = 0;
+						}
 					}
+					else
+					{
+						x += dx;
+						y += dy;
+					}
+			
 				}
 				else if (e->nx != 0)
 				{
@@ -160,31 +169,48 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (stairState==2)
 					{
 						stair_X = f->x;
+						
 					}
-					 else if (stairState==1)
+					else if (stairState==3)
 					{
-						stair_X = f->x+34;
+						stair_X = f->x-30;
 					}
+					 else if (stairState==1 )
+					{
+						stair_X = f->x+32;
+					}
+					 else
+					 {
+						 stair_X = f->x + 10;
+					 }
 					x += dx;
 				
 				}
 				if (e->ny!=0)
 				{
 					stairState = f->getStairState();
-					if (stairState == 2)
+					if (stairState == 2  )
 					{
 						stair_X = f->x;
 					}
-					 else if (stairState == 1)
+					else if (stairState == 3)
 					{
-						stair_X = f->x + 34;
+						stair_X = f->x-30;
 					}
+					 else if (stairState == 1 )
+					{
+						stair_X = f->x + 32;
+					}
+					 else
+					 {
+						 stair_X = f->x + 10;
+
+					 }
 					if (f->GetState()==HO_STATE_STAIR_TOP)
 					{
 						if (onStair==true)
 						{
 							isUpStair = false;
-							
 							state = SIMON_STATE_IDLE;
 							onStair = false;
 
@@ -195,14 +221,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (onStair == true)
 						{
+							isDownStair = false;
 							state = SIMON_STATE_IDLE;
 							onStair = false;
 						}
 						y += dy;
-						if (vy != 0)
-						{
-							vy = 0;
-						}
 					}
 			
 				}
@@ -356,6 +379,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (CGameObject::isColliding(this, f) == true)
 				{
 					topStair = true;
+					bottomStair = false;
 					colwithStair = true;
 				}
 				else
