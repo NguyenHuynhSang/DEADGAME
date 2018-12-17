@@ -128,6 +128,23 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		DebugOut(L"*****State Upwhip***** \n");
 		return;
 	}
+	if (SIMON->GetState() == SIMON_STATE_UP_STAIR)
+	{
+		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->getCurrentFrame() != 2)
+		{
+			return;
+		}
+		CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->ResetCurrentFrame();
+	}
+	if (SIMON->GetState() == SIMON_STATE_DOWN_STAIR)
+	{
+		//DebugOut(L"Delay down stair \n");
+		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->getCurrentFrame() != 2)
+		{
+			return;
+		}
+		CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->ResetCurrentFrame();
+	}
 	//DebugOut(L"SIMON_X=%d    stairX=%d \n", (int)SIMON->x, SIMON->stair_X);
 	//kiểm tra để auto stair tại đây để remove control
 	if (pressUD==true)
@@ -151,6 +168,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 					SIMON->setNX(1);
 					SIMON->onStair = true;
 					SIMON->SetState(SIMON_STATE_UP_STAIR);
+					CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->ResetCurrentFrame();
 					pressUD = false;
 					return;
 				}
@@ -184,7 +202,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 					SIMON->setNX(1);
 					SIMON->onStair = true;
 					SIMON->SetState(SIMON_STATE_DOWN_STAIR);
-					DebugOut(L"Set lai state \n");
+					CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->ResetCurrentFrame();
 					pressUD = false;
 					return;
 				}
@@ -194,23 +212,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	pressUD = false;
 
-	if (SIMON->GetState() == SIMON_STATE_UP_STAIR) 
-	{
-		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->getCurrentFrame()!=2)
-		{
-			return;
-		}
-		CAnimations::GetInstance()->Get(SIMON_IDANI_WUPSTAIR)->ResetCurrentFrame();
-	}
-	if (SIMON->GetState() == SIMON_STATE_DOWN_STAIR)
-	{
-		//DebugOut(L"Delay down stair \n");
-		if (CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->getCurrentFrame() != 2)
-		{
-			return;
-		}
-		CAnimations::GetInstance()->Get(SIMON_IDANI_WDOWNSTAIR)->ResetCurrentFrame();
-	}
+	
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
 		if (SIMON->isSitting==true)
@@ -378,92 +380,6 @@ TO-DO: Improve this function by loading texture,sprite,animation,object from fil
 Update world status for this frame
 dt: time period between beginning of last frame and beginning of this frame
 */
-void Update(DWORD dt)
-{
-
-
-	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-	if (scene->getScene() == SCENE_STATE_FIRST)
-	{
-		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 1530 - 640 / 2 - 60)
-		{
-
-			game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
-			CCamera::GetInstance()->isCamMove = true;
-		}
-		else
-		{
-			CCamera::GetInstance()->isCamMove = false;
-		}
-	}
-	else
-	{
-		if (SIMON->x >= 640 / 2 - 60 && SIMON->x < 5500 - 640 / 2 - 60)
-		{
-
-			game->setCam(SIMON->x - SCREEN_WIDTH / 2 + 62, 0);
-			CCamera::GetInstance()->isCamMove = true;
-		}
-		else
-		{
-			CCamera::GetInstance()->isCamMove = false;
-		}
-	}
-	vector<LPGAMEOBJECT> coObjects,sceneObject;
-	
-
-	if (SIMON->x>1406 && scene->getScene()==SCENE_STATE_FIRST)
-	{
-		sceneObject.clear();
-		DebugOut(L"*********Attention scene is replaces*******\n");
-		scene->ReplaceScene = true;
-		scene->sceneUpdate();
-	}
-
-
-	
-	//dọn rác trc khi update
-	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
-	{
-
-		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
-		{
-			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
-			DebugOut(L"==========Object bi xoa =================\n");
-		}
-	}
-	float camX, camY;
-	CCamera::GetInstance()->getCamera(camX, camY);
-
-	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
-	{
-		if (!dynamic_cast<CStair *>(CGlobal::GetInstance()->objects[i]))
-		{
-			if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
-			{
-				coObjects.push_back(CGlobal::GetInstance()->objects[i]);
-			}
-		}
-		
-		
-	}
-
-
-
-	//DebugOut(L"CoObsize=%d \n Obsize=%d \n", coObjects.size(), CGlobal::GetInstance()->objects.size());
-	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
-	{
-		//-64,+64 có 1 số object nếu vượt khỏi vp sẽ xóa khỏi list,
-		// nếu k + và - thêm sẽ ngừng update nên k xét đc điều kiện
-		// bên trong các object
-		if (CGlobal::GetInstance()->objects[i]->x>(int)camX-64 &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
-		{
-			CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
-		}
-		
-	}
-}
 
 /*
 Render a frame
@@ -479,23 +395,8 @@ void Render()
 	{
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		//game->Draw(0, 25, CTextures::GetInstance()->Get(ID_BACKGROUND), 0, 0, 1550, 325, 255);
-		scene->RenderMap();
-		float camX, camY;
-		CCamera::GetInstance()->getCamera(camX, camY);
-		for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
-		{
-			if (CGlobal::GetInstance()->objects[i]->x>(int)camX-32&& CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
-			{
-				CGlobal::GetInstance()->objects[i]->Render();
-			}
-			
-		}
-
-		//render Simon
-		CGlobal::GetInstance()->objects[0]->Render();
+		scene->GetInstance()->Render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -580,8 +481,8 @@ int Run()
 			frameStart = now;
 
 			game->ProcessKeyboard();
-
-			Update(dt);
+			scene->GetInstance()->Update(dt);
+			//Update(dt);
 			Render();
 			
 		}

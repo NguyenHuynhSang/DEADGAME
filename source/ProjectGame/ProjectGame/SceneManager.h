@@ -23,7 +23,6 @@ class CSceneManager
 	CTileMap *tileG;
 public:
 	static CSceneManager * GetInstance();
-	 void GameUpdate();
 	 void LoadResource();
 	 void LoadMap();
 	 void RenderMap();
@@ -32,6 +31,7 @@ public:
 	 int getScene() { return currentScene; }
 	 bool ReplaceScene;
 	 void Render();
+	 void Update(DWORD dt);
 	/*virtual void Draw();
 	virtual void LoadMap();
 	void getScene();

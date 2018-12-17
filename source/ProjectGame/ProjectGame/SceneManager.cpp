@@ -1,8 +1,9 @@
-#include "SceneManager.h"
+﻿#include "SceneManager.h"
 #include"Camera.h"
 #include"Stair.h"
 #include"HiddenObjects.h"
 #include"Effect.h"
+#include"Game.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -11,9 +12,6 @@ CSceneManager * CSceneManager::GetInstance()
 	return __instance;
 }
 
-void CSceneManager::GameUpdate()
-{
-}
 
 void CSceneManager::LoadResource()
 {
@@ -289,11 +287,117 @@ void CSceneManager::sceneUpdate()
 	}
 }
 
+void CSceneManager::Render()
+{
+	RenderMap();
+	float camX, camY;
+	CCamera::GetInstance()->getCamera(camX, camY);
+	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 32 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		{
+			CGlobal::GetInstance()->objects[i]->Render();
+		}
+
+	}
+
+	//render Simon
+	CGlobal::GetInstance()->objects[0]->Render();
+
+}
+
+void CSceneManager::Update(DWORD dt)
+{
+	CSIMON *simon = CSIMON::GetInstance();
+	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
+	// TO-DO: This is a "dirty" way, need a more organized way 
+	if (currentScene== SCENE_STATE_FIRST)
+	{
+		if (simon->x >= 640 / 2 - 60 && simon->x < 1530 - 640 / 2 - 60)
+		{
+			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
+			CCamera::GetInstance()->isCamMove = true;
+		}
+		else
+		{
+			CCamera::GetInstance()->isCamMove = false;
+		}
+	}
+	else
+	{
+		if (simon->x >= 640 / 2 - 60 && simon->x < 5500 - 640 / 2 - 60)
+		{
+			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
+			CCamera::GetInstance()->isCamMove = true;
+		}
+		else
+		{
+			CCamera::GetInstance()->isCamMove = false;
+		}
+	}
+	vector<LPGAMEOBJECT> coObjects, sceneObject;
+
+
+	if (simon->x>1406 && currentScene == SCENE_STATE_FIRST)
+	{
+		sceneObject.clear();
+		DebugOut(L"*********Attention scene is replaces*******\n");
+		ReplaceScene = true;
+		sceneUpdate();
+	}
+
+
+
+	//dọn rác trc khi update
+	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+
+		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
+		{
+			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
+			DebugOut(L"==========Object bi xoa =================\n");
+		}
+	}
+	float camX, camY;
+	CCamera::GetInstance()->getCamera(camX, camY);
+
+	//Lấy list object để xét va chạm
+	//Chỉ lấy những object nằm trong ViewPort
+	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+		if (dynamic_cast<CStair *>(CGlobal::GetInstance()->objects[i]))
+		{
+			continue;
+		}
+
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		{
+			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+		}
+	}
+
+
+
+	//DebugOut(L"CoObsize=%d \n Obsize=%d \n", coObjects.size(), CGlobal::GetInstance()->objects.size());
+	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
+	{
+		//-64,+64 có 1 số object nếu vượt khỏi vp sẽ xóa khỏi list,
+		// nếu k + và - thêm sẽ ngừng update nên k xét đc điều kiện
+		// bên trong các object
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 64 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH + 64)
+		{
+			CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
+		}
+
+	}
+
+}
+
 CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
-	currentScene = SCENE_STATE_SECOND;
+	//currentScene = SCENE_STATE_SECOND;
 }
 
 
