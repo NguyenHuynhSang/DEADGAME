@@ -11,6 +11,7 @@
 #define SCENE_STATE_FIRST 100
 #define SCENE_STATE_SECOND 200
 #define SCENE_STATE_THIRD 300
+#define TEST_SCENE        900
 #define MAP_PATH_SCENE1 1
 #define MAP_MATRIXPATH_SCENE1  "data\\map\\tileset.txt"
 #define MAP_MATRIXPATH_SCENE2  "data\\map\\lv2.txt"

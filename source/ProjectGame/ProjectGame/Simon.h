@@ -87,7 +87,7 @@ public:
 	bool bottomStair = false;
 	bool onStair = false;
 	int stair_X = 0;
-	int direction = 1;
+	int stairState = 0;
 	bool isTouchGr() { return vy == 0 ? true : false; };
 	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }
 	int getLife() { return nLife; }

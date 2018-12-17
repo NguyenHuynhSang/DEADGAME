@@ -13,6 +13,8 @@ class CHiddenObjects:public CGameObject
 public:
 	void setBoundBox(float w, float h) { _width = w; _height = h; }
 	virtual void Render();
+	void setStairState(float s) { stairState = s; }
+	int getStairState() { return stairState; }
 	virtual void LoadResource();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	CHiddenObjects();

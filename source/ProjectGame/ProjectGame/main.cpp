@@ -161,6 +161,32 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 			
 		}
+		else if (SIMON->topStair==true)
+		{
+			if (SIMON->onStair != true)
+			{
+				if ((int)SIMON->x>SIMON->stair_X + 34)
+				{
+					SIMON->SetState(SIMON_STATE_WALKING_LEFT);
+					return;
+				}
+				else
+				{
+					if ((int)SIMON->x<SIMON->stair_X+32)
+					{
+						SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
+						return;
+					}
+					SIMON->setNX(1);
+					SIMON->onStair = true;
+					SIMON->SetState(SIMON_STATE_DOWN_STAIR);
+					test = false;
+					isChecked = true;
+					pressUD = false;
+					return;
+				}
+			}
+		}
 		
 	}
 	pressUD = false;
@@ -264,13 +290,13 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (SIMON->onStair==true && down!=true)
 		{
-			DebugOut(L"idle up stair \n");
+			//DebugOut(L"idle up stair \n");
 			SIMON->SetState(SIMON_STATE_IDLE_UP_STAIR);
 			return;
 		}
 		if (SIMON->onStair == true && down==true)
 		{
-			DebugOut(L"idle down stair \n");
+			//DebugOut(L"idle down stair \n");
 			SIMON->SetState(SIMON_STATE_IDLE_DOWN_STAIR);
 			return;
 		}

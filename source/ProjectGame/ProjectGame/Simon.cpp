@@ -32,7 +32,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vx = 0;
 		return;
 	}
-	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -156,17 +155,36 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e->obj);
 				if (e->nx!=0)
 				{
+					
+					stairState = f->getStairState();
+					if (stairState==2)
+					{
+						stair_X = f->x;
+					}
+					 else if (stairState==1)
+					{
+						stair_X = f->x+34;
+					}
 					x += dx;
-					stair_X = f->x;
+				
 				}
 				if (e->ny!=0)
 				{
-					stair_X = f->x;
+					stairState = f->getStairState();
+					if (stairState == 2)
+					{
+						stair_X = f->x;
+					}
+					 else if (stairState == 1)
+					{
+						stair_X = f->x + 34;
+					}
 					if (f->GetState()==HO_STATE_STAIR_TOP)
 					{
 						if (onStair==true)
 						{
 							isUpStair = false;
+							
 							state = SIMON_STATE_IDLE;
 							onStair = false;
 
@@ -536,36 +554,45 @@ void CSIMON::SetState(int state)
 	case SIMON_STATE_UP_STAIR:
 	{
 		isUpStair = true;
-		if (nx>0)
+		if (stairState==1 || stairState==4)
 		{
-			vx = 0.065;
+			vx = -0.06;
+			nx = -1;
 		}
-		else if (nx<0)
+		if (stairState==2 || stairState==3)
 		{
-			vx = -0.065;
+			vx = 0.06;
+			nx = 1;
 		}
-		vy = -0.065;
+		vy = -0.06;
 		break;
 	}
 	case SIMON_STATE_DOWN_STAIR:
 	{
-		if (isUpStair==true)
+		if (isUpStair==true )
 		{
-			x -= 2;
-			y += 3;
+			if (stairState==1)
+			{
+				DebugOut(L"\n Chay vao day");
+				x += 2;
+				y += 1;
+			}
+			
 			nx = -nx;
 			isUpStair = false;
 		}
 		isDownStair = true;
-		if (nx>0)
+		if (stairState==4 ||stairState==1)
 		{
-			vx = 0.067;
+			vx = 0.06;
+			nx = 1;
 		}
-		else if (nx<0)
+		else if (stairState == 3 || stairState==2)
 		{
-			vx = -0.067;
+			nx = -1;
+			vx = -0.06;
 		}
-		vy = 0.067;
+		vy = 0.06;
 		break;
 	}
 	case SIMON_STATE_IDLE_UP_STAIR:
