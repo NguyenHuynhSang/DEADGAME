@@ -110,6 +110,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 }
 bool down = false;
 bool pressUD=false;
+int checkStair = 0;
 ///bắt sự kiện bàn phím và cập nhật trạng thái
 void CSampleKeyHander::KeyState(BYTE *states)
 {
@@ -149,7 +150,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	//kiểm tra để auto stair tại đây để remove control
 	if (pressUD==true)
 	{
-		if (SIMON->bottomStair ==true)
+		if (SIMON->bottomStair ==true && checkStair==1)
 		{
 			if (SIMON->onStair!=true)
 			{
@@ -175,7 +176,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 			}
 			
 		}
-		else if (SIMON->topStair==true)
+		else if (SIMON->topStair==true )
 		{
 			if (SIMON->onStair != true)
 			{
@@ -211,7 +212,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		
 	}
 	pressUD = false;
-
+	checkStair = 0;
 	
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
@@ -256,6 +257,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (SIMON->bottomStair == true)
 		{
+			checkStair = 1;
 			down = false;
 			pressUD = true;
 			if (SIMON->onStair ==false)
@@ -482,7 +484,6 @@ int Run()
 
 			game->ProcessKeyboard();
 			scene->GetInstance()->Update(dt);
-			//Update(dt);
 			Render();
 			
 		}

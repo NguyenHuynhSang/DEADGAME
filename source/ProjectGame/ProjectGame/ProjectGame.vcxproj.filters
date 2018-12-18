@@ -114,6 +114,12 @@
     <ClCompile Include="BlackBoard.cpp">
       <Filter>GameObjects\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Panther.cpp">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -181,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="BlackBoard.h">
       <Filter>GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Panther.h">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>GameObjects\Enermy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

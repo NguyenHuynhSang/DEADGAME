@@ -155,6 +155,13 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x += dx;
 						y += dy;
 					}
+					else
+					{
+						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						y += min_ty*dy + ny*0.4f;
+						if (nx != 0) vx = 0;
+						if (ny != 0) vy = 0;
+					}
 				}
 			
 			}			
@@ -548,8 +555,7 @@ void CSIMON::SetState(int state)
 		nx = -1;
 		break;
 	case SIMON_STATE_JUMP:
-
-		DebugOut(L"[Line]:%d SIMON state jump", __LINE__);
+		//DebugOut(L"[Line]:%d SIMON state jump\n", __LINE__);
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:

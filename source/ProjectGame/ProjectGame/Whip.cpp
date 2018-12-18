@@ -3,7 +3,7 @@
 #include"Debug.h"
 #include"Item.h"
 #include"ghoul.h"
-
+#include "Panther.h"
 
 CWhip * CWhip::__instance = NULL;
 
@@ -104,7 +104,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 					
 			}
 		}
-		if (dynamic_cast<CGhoul *>(e))
+		else if (dynamic_cast<CGhoul *>(e))
 		{
 			CGhoul * g = dynamic_cast<CGhoul*> (e);
 			if (CGameObject::isColliding(this, g) == true)
@@ -112,10 +112,21 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 				DebugOut(L"Co va cham \n");
 				// thuc ra chi ngung render neu va cham chua remove han can toi uu
 				//xong
-				g->isRemove = true;
-				
+				g->isRemove = true;	
 			}
 		}
+		else if (dynamic_cast<CPanther *>(e))
+		{
+			CPanther * p = dynamic_cast<CPanther*> (e);
+			if (CGameObject::isColliding(this, p) == true)
+			{
+				DebugOut(L"Co va cham \n");
+				// thuc ra chi ngung render neu va cham chua remove han can toi uu
+				//xong
+				p->SetState(PANTHER_STATE_DIE);
+			}
+		}
+
 	}
 
 

@@ -4,6 +4,7 @@
 #include"HiddenObjects.h"
 #include"Effect.h"
 #include"BlackBoard.h"
+#include"Panther.h"
 #include"Game.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
@@ -33,6 +34,9 @@ void CSceneManager::LoadResource()
 	CGhoul *ghoul = new CGhoul();
 	ghoul->LoadResource();
 
+	CPanther *panther = new CPanther();
+	panther->LoadResource();
+
 	CTorch *torch = new CTorch();
 	torch->LoadResource();
 
@@ -41,6 +45,7 @@ void CSceneManager::LoadResource()
 
 	CEffect *eff = new CEffect();
 	eff->LoadResource();
+
 }
 
 void CSceneManager::LoadMap()
@@ -128,7 +133,7 @@ void CSceneManager::initScene()
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(842 + 6 * 32, 370-32);
+		simon->SetPosition(842 , 370-32);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		CBrick *brick = new CBrick();
 		CStair *stair = new CStair();
@@ -266,18 +271,23 @@ void CSceneManager::initScene()
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
+		CPanther* panther = new CPanther();
+		panther->SetPosition(1250 + 4 * 32, 274 - 33);
+		panther->SetState(PANTHER_STATE_LIEDOWN);
+		panther->setNx(-1);
+		CGlobal::GetInstance()->objects.push_back(panther);
 
 		//and Goombas 
 		for (int i = 0; i < 7; i++)
 		{
 			CGhoul* ghoul = new CGhoul();
 
-			ghoul->SetPosition(125 + i * 500, 370-GOOMBA_BBOX_HEIGHT);
-			ghoul->SetState(GOOMBA_STATE_WALKING);
+			ghoul->SetPosition(125 + i * 500, 370-GHOUL_BBOX_HEIGHT);
+			ghoul->SetState(GHOUL_STATE_WALKING);
 			CGlobal::GetInstance()->objects.push_back(ghoul);
 		}
 
-
+		
 
 		break;
 	}
@@ -394,7 +404,7 @@ void CSceneManager::Update(DWORD dt)
 			continue;
 		}
 
-		if (CGlobal::GetInstance()->objects[i]->x>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		if (CGlobal::GetInstance()->objects[i]->x+32>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
 		{
 			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
 		}
@@ -421,7 +431,7 @@ CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
-	//currentScene = SCENE_STATE_SECOND;
+	currentScene = SCENE_STATE_SECOND;
 }
 
 

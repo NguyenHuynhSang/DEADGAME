@@ -8,8 +8,11 @@
 #define ID_TEX_BRICK 20
 #define ID_TEX_TORCH 30
 #define ID_TEX_EFFECT 40
+#define ID_TEX_PANTHER              100
+#define ID_TEX_BAT                110
 #define ID_BACKGROUND_LV1 1000
 #define ID_BACKGROUND_LV2 2000
+
 
 class CGlobal
 {

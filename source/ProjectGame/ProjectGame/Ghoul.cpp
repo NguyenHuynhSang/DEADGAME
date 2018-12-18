@@ -5,12 +5,12 @@ void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom
 {
 	left = x;
 	top = y;
-	right = x + GOOMBA_BBOX_WIDTH;
+	right = x + GHOUL_BBOX_WIDTH;
 
-	if (state == GOOMBA_STATE_DIE)
-		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+	if (state == GHOUL_STATE_DIE)
+		bottom = y + GHOUL_BBOX_HEIGHT_DIE;
 	else
-		bottom = y + GOOMBA_BBOX_HEIGHT;
+		bottom = y + GHOUL_BBOX_HEIGHT;
 }
 
 void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -46,9 +46,9 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CGhoul::Render()
 {
-	int ani = GOOMBA_ANI_WALKING;
-	if (state == GOOMBA_STATE_DIE) {
-		ani = GOOMBA_ANI_DIE;
+	int ani = GHOUL_ANI_WALKING;
+	if (state == GHOUL_STATE_DIE) {
+		ani = GHOUL_ANI_DIE;
 	}
 
 	animations[ani]->Render(-1,x, y);
@@ -88,13 +88,13 @@ void CGhoul::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case GOOMBA_STATE_DIE:
-		y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
+	case GHOUL_STATE_DIE:
+		y += GHOUL_BBOX_HEIGHT - GHOUL_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		break;
-	case GOOMBA_STATE_WALKING:
-		vx = -GOOMBA_WALKING_SPEED;
+	case GHOUL_STATE_WALKING:
+		vx = -GHOUL_WALKING_SPEED;
 	}
 
 }
