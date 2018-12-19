@@ -51,7 +51,7 @@ public:
 	bool colSimon = false;
 	virtual void Render();
 	void createItem();
-	int _rank();
+	void _rank();
 	virtual void LoadResource();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* co);	

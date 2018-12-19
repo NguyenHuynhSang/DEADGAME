@@ -11,6 +11,7 @@
 class CBrick : public CGameObject
 {
 public:
+	bool panJump = false;
 	virtual void Render();
 	virtual void LoadResource();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

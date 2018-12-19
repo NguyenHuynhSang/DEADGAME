@@ -112,7 +112,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 				DebugOut(L"Co va cham \n");
 				// thuc ra chi ngung render neu va cham chua remove han can toi uu
 				//xong
-				g->isRemove = true;	
+				g->SetState(GHOUL_STATE_DIE);
 			}
 		}
 		else if (dynamic_cast<CPanther *>(e))

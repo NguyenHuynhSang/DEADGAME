@@ -1,4 +1,8 @@
-﻿  main.cpp
+﻿  Bat.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  main.cpp
 d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
@@ -7,9 +11,117 @@ d:\git\projectx\source\projectgame\projectgame\simon.h(96): warning C4244: '=': 
 d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
   d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
 d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Whip.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
+d:\git\projectx\source\projectgame\projectgame\panther.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.cpp(90): warning C4018: '<': signed/unsigned mismatch
+  Torch.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
+  Stair.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Simon.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.h(96): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
+d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(178): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(183): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(187): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(191): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(201): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(205): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(209): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(213): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(352): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(488): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(493): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(498): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(589): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(594): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(597): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(616): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(622): warning C4305: '=': truncation from 'double' to 'float'
+d:\git\projectx\source\projectgame\projectgame\simon.cpp(624): warning C4305: '=': truncation from 'double' to 'float'
+  SceneManager.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
+d:\git\projectx\source\projectgame\projectgame\simon.h(96): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\panther.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(174): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(189): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(206): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(224): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(248): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(263): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(280): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(293): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(312): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(334): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(368): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(370): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(432): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(446): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(462): warning C4018: '<': signed/unsigned mismatch
+  Panther.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\panther.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\panther.cpp(66): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\panther.cpp(144): warning C4018: '<': signed/unsigned mismatch
+  Item.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\item.cpp(137): warning C4018: '<': signed/unsigned mismatch
+  Ghoul.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\ghoul.cpp(36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\ghoul.cpp(55): warning C4018: '<': signed/unsigned mismatch
+  GameObject.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Effect.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\global.h(10): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\effect.h(4): note: see previous definition of 'ID_TEX_EFFECT'
+  Door.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Dagger.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\effect.h(4): warning C4005: 'ID_TEX_EFFECT': macro redefinition
+  d:\git\projectx\source\projectgame\projectgame\global.h(10): note: see previous definition of 'ID_TEX_EFFECT'
+  Brick.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  BlackBoard.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating Code...
   Skipping... (no relevant changes detected)
-  Simon.cpp
-  SceneManager.cpp
+  TileMap.cpp
+  HiddenObjects.cpp
+  Global.cpp
+  Game.cpp
+  Cell.cpp
+  Camera.cpp
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

@@ -79,18 +79,6 @@ void CGameObject::CalcPotentialCollisions(
 
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
-void CGameObject::FilterCollisionImmediately(
-	vector<LPCOLLISIONEVENT> &coEvents,
-	vector<LPCOLLISIONEVENT> &coEventsResult)
-{
-	coEventsResult.clear();
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
-		LPCOLLISIONEVENT c = coEvents[i];
-		if (c->t == 0)
-			coEventsResult.push_back(coEvents[i]);
-	}
-}
 void CGameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT> &coEvents,
 	vector<LPCOLLISIONEVENT> &coEventsResult,

@@ -13,6 +13,7 @@ void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		bottom = y + GHOUL_BBOX_HEIGHT;
 }
 
+
 void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
@@ -20,7 +21,17 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	if (state==GHOUL_STATE_DIE)
+	{
+		item = new CItem();
 
+		item->_rank();
+		item->SetPosition(x, y);
+		CGlobal::GetInstance()->objects.push_back(item);
+	
+		this->isRemove = true;
+		return;
+	}
 	CGameObject::Update(dt);
 	vy += 0.002*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -48,7 +59,7 @@ void CGhoul::Render()
 {
 	int ani = GHOUL_ANI_WALKING;
 	if (state == GHOUL_STATE_DIE) {
-		ani = GHOUL_ANI_DIE;
+		return;
 	}
 
 	animations[ani]->Render(-1,x, y);
@@ -89,7 +100,6 @@ void CGhoul::SetState(int state)
 	switch (state)
 	{
 	case GHOUL_STATE_DIE:
-		y += GHOUL_BBOX_HEIGHT - GHOUL_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		break;
@@ -102,5 +112,6 @@ void CGhoul::SetState(int state)
 CGhoul::CGhoul()
 {
 	AddAnimation(701);
-	AddAnimation(702);
+	AddAnimation(702);		
+
 }

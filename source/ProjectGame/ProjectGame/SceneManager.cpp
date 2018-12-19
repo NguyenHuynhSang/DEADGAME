@@ -6,6 +6,7 @@
 #include"BlackBoard.h"
 #include"Panther.h"
 #include"Game.h"
+#include"Door.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -46,6 +47,9 @@ void CSceneManager::LoadResource()
 	CEffect *eff = new CEffect();
 	eff->LoadResource();
 
+	CDoor *door = new CDoor();
+	door->LoadResource();
+
 }
 
 void CSceneManager::LoadMap()
@@ -74,6 +78,17 @@ void CSceneManager::LoadMap()
 		tileG->SetTileSetHeight(640, 192);
 		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
 		break;
+	}
+	case SCENE_STATE_THIRD:
+	{
+		CTextures * textures = CTextures::GetInstance();
+		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV2); //tex Map
+		tileG = new CTileMap();
+		tileG->SetMSize(5632, 768);
+		tileG->SetTileSetHeight(640, 192);
+		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
+		break;
+
 	}
 	}
 }
@@ -172,6 +187,7 @@ void CSceneManager::initScene()
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(1250+4*32+i*32, 274);
+			if (i == 0) brick->panJump = true;
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
@@ -204,10 +220,17 @@ void CSceneManager::initScene()
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
+			if (i == 0 || i == 9) brick->panJump = true;
 			brick->SetPosition(1442 +  64 + i * 32, 210);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
-	
+
+		CPanther* panther = new CPanther();
+		panther->SetPosition(1442 + 64+5*32, 210-35);
+		panther->SetState(PANTHER_STATE_LIEDOWN);
+		panther->setNx(-1);
+		CGlobal::GetInstance()->objects.push_back(panther);
+
 		//stair 3
 
 		hidenObject = new CHiddenObjects();
@@ -263,7 +286,7 @@ void CSceneManager::initScene()
 		hidenObject->setStairState(3);
 		hidenObject->SetPosition(2590 + 32 * 6, 370 - 32 * 9 + 37);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
-		for (int i = 0; i <9; i++)
+		for (int i = 0; i <25; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
@@ -271,8 +294,13 @@ void CSceneManager::initScene()
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
-		CPanther* panther = new CPanther();
-		panther->SetPosition(1250 + 4 * 32, 274 - 33);
+
+		CDoor *door = new CDoor();
+		door->SetPosition(2590 + 32 * 6 + 9* 32, 370 - 5 * 32-DOOR_BBOX_HEIGHT);
+		CGlobal::GetInstance()->objects.push_back(door);
+
+		panther = new CPanther();
+		panther->SetPosition(1250 + 4 * 32+38, 274 - 33);
 		panther->SetState(PANTHER_STATE_LIEDOWN);
 		panther->setNx(-1);
 		CGlobal::GetInstance()->objects.push_back(panther);
@@ -281,7 +309,6 @@ void CSceneManager::initScene()
 		for (int i = 0; i < 7; i++)
 		{
 			CGhoul* ghoul = new CGhoul();
-
 			ghoul->SetPosition(125 + i * 500, 370-GHOUL_BBOX_HEIGHT);
 			ghoul->SetState(GHOUL_STATE_WALKING);
 			CGlobal::GetInstance()->objects.push_back(ghoul);
@@ -293,6 +320,21 @@ void CSceneManager::initScene()
 	}
 	case SCENE_STATE_THIRD:
 	{
+		LoadMap();
+		CGlobal::GetInstance()->objects.clear();
+		CSIMON *simon = CSIMON::GetInstance();
+		simon->SetPosition(3070+100, 146);
+		CCamera::GetInstance()->setCamera(3070 + 80,0);
+		CGlobal::GetInstance()->objects.push_back(simon);
+		CBrick *brick = new CBrick();
+		for (int i = 0; i <25; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(2590 + 32 * 6 + 10* 32+i*32, 370 - 5 * 32);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
 		break;
 	}
 
@@ -333,7 +375,7 @@ void CSceneManager::Render()
 		}
 
 	}
-
+		
 	
 	//render Simon
 	CGlobal::GetInstance()->objects[0]->Render();
@@ -359,7 +401,7 @@ void CSceneManager::Update(DWORD dt)
 	}
 	else
 	{
-		if (simon->x >= 640 / 2 - 60 && simon->x <3070-640/2-60)
+		if (simon->x >= 640 / 2 - 60 && simon->x <3070-640/2)
 		{
 			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
 			CCamera::GetInstance()->isCamMove = true;
@@ -369,17 +411,21 @@ void CSceneManager::Update(DWORD dt)
 			CCamera::GetInstance()->isCamMove = false;
 		}
 	}
-	vector<LPGAMEOBJECT> coObjects, sceneObject;
+	vector<LPGAMEOBJECT> coObjects;
 
 
 	if (simon->x>1406 && currentScene == SCENE_STATE_FIRST)
 	{
-		sceneObject.clear();
 		DebugOut(L"*********Attention scene is replaces*******\n");
 		ReplaceScene = true;
 		sceneUpdate();
 	}
-
+	if (simon->x>3070-64 && currentScene == SCENE_STATE_SECOND)
+	{
+		DebugOut(L"*********Attention scene is replaces*******\n");
+		ReplaceScene = true;
+		sceneUpdate();
+	}
 
 
 	//dọn rác trc khi update

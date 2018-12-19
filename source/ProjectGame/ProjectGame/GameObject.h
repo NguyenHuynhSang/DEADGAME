@@ -87,8 +87,6 @@ public:
 		float &min_ty,
 		float &nx,
 		float &ny);
-	void FilterCollisionImmediately(vector<LPCOLLISIONEVENT> &coEvents,
-		vector<LPCOLLISIONEVENT> &coEventsResult);
 	void AddAnimation(int aniId);
 
 	CGameObject();

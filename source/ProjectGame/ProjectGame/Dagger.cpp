@@ -73,7 +73,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 				CGhoul * g = dynamic_cast<CGhoul*> (e->obj);
 				if (e->nx != 0)
 				{
-					g->isRemove = true;
+					g->SetState(GHOUL_STATE_DIE);
 					//DebugOut(L"\nChay vao day");
 					this->isRemove = true;
 					isre = true;

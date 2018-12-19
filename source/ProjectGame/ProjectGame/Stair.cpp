@@ -5,7 +5,7 @@
 void CStair::Render()
 {
 	animations[state]->Render(nx, x, y);
-	//RenderBoundingBox(x, y);
+	//	RenderBoundingBox(x, y);
 }
 
 void CStair::LoadResource()

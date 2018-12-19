@@ -13,9 +13,9 @@ void CItem::createItem()
 {
 	CGlobal::GetInstance()->objects.push_back(this);
 }
-int CItem::_rank()
+void CItem::_rank()
 {
-	return rand() % 6 + 1;
+	state= rand() % 6 + 1;
 }
 void CItem::LoadResource()
 {

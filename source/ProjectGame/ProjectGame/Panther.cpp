@@ -5,9 +5,6 @@
 #include"Brick.h"
 #include"debug.h"
 
-
-bool checked = false;
-bool changeDirection = false;
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
@@ -15,16 +12,26 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-
-	if (x - CCamera::GetInstance()->getCamX() <= 500)
+	
+	//DebugOut(L"vy=%d \n",(int)vy);
+	if (isEnable==false)
 	{
-		
-		if (checked == false)
+		if (x - CCamera::GetInstance()->getCamX() <= 400)
 		{
-			state = PANTHER_STATE_RUNNING_LEFT;
-			checked = true;
+
+			if (nx>0)
+			{
+				state = PANTHER_STATE_RUNNING_RIGHT;
+			}
+			else
+			{
+				state = PANTHER_STATE_RUNNING_LEFT;
+			}
+			isEnable = true;
 		}
+		
 	}
+
 	
 	if (state==PANTHER_STATE_DIE)
 	{
@@ -38,39 +45,31 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		nx = -1;
 		vx = -PANTHER_WALKING_SPEED;
 	}
-	else if (state==PANTHER_STATE_RUNNING_RIGHT)
+	else if (state==PANTHER_STATE_RUNNING_RIGHT )
 	{
 		nx = 1;
 		vx= PANTHER_WALKING_SPEED;
 	}
-	else if (state == PANTHER_STATE_JUMPING)
+	else if (state == PANTHER_STATE_JUMPING && jump==false)
 	{
-		if (vy == 0)
-		{
 			vy = -PANTHER_JUMP_SPEED_Y;
 			vx = nx > 0 ? PANTHER_JUMP_SPEED_X : -PANTHER_JUMP_SPEED_X;
-		}
+			jump = true;
 	}
-
-
-	for (int i = 0; i < coObjects->size(); i++)
-	{
-	
-		if (dynamic_cast<CHiddenObjects *>(coObjects->at(i)))
-		{
-			coObjects->erase(coObjects->begin() + i);
-		}
-	}
-	//if (vy != 0)
-	//{
-	//	state = PANTHER_STATE_JUMPING;
-	//}
 	vy += PANTHER_GRAVITY*dt;
+
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
+	for (int i = 0; i < coEvents.size(); i++)
+	{
+		if (dynamic_cast<CHiddenObjects *>(coEvents[i]->obj))
+		{
+			coEvents.erase(coEvents.begin()+i);
+		}
+	}
 	if (coEvents.size() == 0)
 	{
 		y += dy;
@@ -82,27 +81,48 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
+			
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			//xu ly va cham voi nen nha
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
+				CBrick * f = dynamic_cast<CBrick*> (e->obj);
 				if (e->ny!=0)
 				{
-					if ( vy != 0 && state== PANTHER_STATE_JUMPING)
+					
+					if (f->panJump==true)
 					{
-						state = PANTHER_STATE_RUNNING_RIGHT;
-						changeDirection = true;
-						//DebugOut(L"Co chay vao day \n");
+						state = PANTHER_STATE_JUMPING;
+						x += dx;
+						y += dy;
+						return;
 					}
-					x += dx;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					if (state== PANTHER_STATE_JUMPING)
+					{
+						if (nx>0)
+						{
+							state = PANTHER_STATE_RUNNING_LEFT;
+						}
+						else
+						{
+							state = PANTHER_STATE_RUNNING_RIGHT;
+						}
+					//	DebugOut(L"Co chay vao day \n");
+					}
+					x += min_tx*dx + nx*0.4f;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
 				}
 				else if (e->nx!=0)
 				{
-				
-					x += dx;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					/*if (f->panJump == true)
+					{
+						DebugOut(L"Co chay vao day \n");
+						state = PANTHER_STATE_JUMPING;
+						return;
+					}*/
+					x += min_tx*dx + nx*0.4f;// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
@@ -111,8 +131,8 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				y += dy;
-				x += dx;
+				x += min_tx*dx + nx*0.4f;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				y += min_ty*dy + ny*0.4f;
 				if (nx != 0) vx = 0;
 				if (ny != 0) vy = 0;
 			}
@@ -123,39 +143,10 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	bool col = false;
-	for (int i = 0; i < coObjects->size(); i++)
+	if (isJumpping==true)
 	{
-		LPGAMEOBJECT e = coObjects->at(i);
-		if (dynamic_cast<CBrick *>(e))
-		{
-			CBrick * f = dynamic_cast<CBrick*> (e);
-
-			if (CGameObject::isColliding(this, f) == true)
-			{
-				col = true;
-			}
-		}
-		if (col==true)
-		{
-			break;
-		}
-		
+		return;	
 	}
-
-	if (col == false)
-	{
-		if (state!=PANTHER_STATE_LIEDOWN)
-		{
-			if (isJumpping==false)
-			{
-				state = PANTHER_STATE_JUMPING;
-				DebugOut(L"Co chay vao day \n");
-				isJumpping = true;
-			}
-		
-		}
-	}
-
 
 }
 
