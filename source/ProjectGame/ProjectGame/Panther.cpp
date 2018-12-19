@@ -7,6 +7,11 @@
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (x<CCamera::GetInstance()->getCamX())
+	{
+		isRemove = true;
+		return;
+	}
 	CGameObject::Update(dt);
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!

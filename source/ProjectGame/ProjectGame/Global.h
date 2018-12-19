@@ -8,6 +8,7 @@
 #define ID_TEX_BRICK 20
 #define ID_TEX_TORCH 30
 #define ID_TEX_EFFECT 40
+#define ID_TEX_BLACKBOARD 90
 #define ID_TEX_DOOR_LV1  200
 #define ID_TEX_DOOR_LV2  210
 #define ID_TEX_PANTHER              100

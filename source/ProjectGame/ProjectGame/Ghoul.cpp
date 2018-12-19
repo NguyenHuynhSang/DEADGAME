@@ -1,7 +1,9 @@
 #include "ghoul.h"
 #include"Textures.h"
 #include"Global.h"
+#include"Camera.h"
 #include"HiddenObjects.h"
+#include <time.h>
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -21,10 +23,15 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	if (x<CCamera::GetInstance()->getCamX())
+	{
+		isRemove = true;
+		return;
+	}
 	if (state==GHOUL_STATE_DIE)
 	{
 		item = new CItem();
-
+		srand(time(NULL));
 		item->_rank();
 		item->SetPosition(x, y);
 		CGlobal::GetInstance()->objects.push_back(item);

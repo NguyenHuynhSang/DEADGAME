@@ -51,9 +51,6 @@
     <ClCompile Include="Sprites.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -111,14 +108,17 @@
     <ClCompile Include="HiddenObjects.cpp">
       <Filter>GameObjects\Static</Filter>
     </ClCompile>
-    <ClCompile Include="BlackBoard.cpp">
-      <Filter>GameObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Panther.cpp">
       <Filter>GameObjects\Enermy</Filter>
     </ClCompile>
     <ClCompile Include="Bat.cpp">
       <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUI.cpp">
+      <Filter>GameObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>GameManager</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
@@ -185,14 +182,17 @@
     <ClInclude Include="HiddenObjects.h">
       <Filter>GameObjects\Static</Filter>
     </ClInclude>
-    <ClInclude Include="BlackBoard.h">
-      <Filter>GameObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Panther.h">
       <Filter>GameObjects\Enermy</Filter>
     </ClInclude>
     <ClInclude Include="Bat.h">
       <Filter>GameObjects\Enermy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUI.h">
+      <Filter>GameObjects\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

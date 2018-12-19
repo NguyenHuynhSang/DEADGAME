@@ -3,11 +3,11 @@
 #include"Stair.h"
 #include"HiddenObjects.h"
 #include"Effect.h"
-#include"BlackBoard.h"
 #include"Panther.h"
 #include"Game.h"
 #include"Door.h"
 #include"Bat.h"
+#include"GameUI.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -21,9 +21,12 @@ void CSceneManager::LoadResource()
 {
 	CTextures * textures = CTextures::GetInstance();
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
-	textures->Add(ID_BACKGROUND_LV1, L"data\\map\\tileset.BMP", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_BACKGROUND_LV1, L"data\\map\\lv1.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_BACKGROUND_LV2, L"data\\map\\lv2.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	
+	CGameUI* ui = CGameUI::GetInstance();
+	ui->LoadResource();
+
 	CItem *items = new CItem();
 	items->LoadResource();
 
@@ -48,6 +51,8 @@ void CSceneManager::LoadResource()
 	CStair *stair = new CStair();
 	stair->LoadResource();
 
+	
+
 	CEffect *eff = new CEffect();
 	eff->LoadResource();
 
@@ -66,8 +71,8 @@ void CSceneManager::LoadMap()
 		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV1); //tex Map
 		tileG = new CTileMap();
-		tileG->SetMSize(1536, 384);
-		tileG->SetTileSetHeight(640, 128);
+		tileG->SetMSize(1568, 352);
+		tileG->SetTileSetHeight(640, 224);
 		tileG->LoadTile(MAP_MATRIXPATH_SCENE1, texMap);
 
 		break;
@@ -81,12 +86,13 @@ void CSceneManager::LoadMap()
 		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV2); //tex Map
 		tileG = new CTileMap();
-		tileG->SetMSize(5632, 768);
+		tileG->SetMSize(5664, 736);
 		tileG->SetTileSetHeight(640, 192);
 		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
 		break;
 
 	}
+
 	}
 }
 
@@ -115,13 +121,13 @@ void CSceneManager::initScene()
 		}
 
 
-		CBat *bat = new CBat();
+		/*CBat *bat = new CBat();
 		bat->SetState(BAT_STATE_IDLE);
 		bat->setNx(-1);
 		bat->SetPosition(1000, 350 -100);
 		bat->setBatoy(350 - 100);
 		CGlobal::GetInstance()->objects.push_back(bat);
-
+*/
 
 
 		CTorch* Torch = new CTorch();
@@ -370,12 +376,13 @@ void CSceneManager::sceneUpdate()
 
 void CSceneManager::Render()
 {
+
 	RenderMap();
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX, camY);
-	CBlackBoard *bb = CBlackBoard::GetInstance();
-	bb->SetPosition((int)camX, (int)camY);
-	bb->Render();
+	
+	//bb->SetPosition((int)camX, (int)camY);
+	//bb->Render();
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
 		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 32 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
@@ -389,8 +396,9 @@ void CSceneManager::Render()
 	//render Simon
 	CGlobal::GetInstance()->objects[0]->Render();
 
-}
+	CGameUI::GetInstance()->Render();
 
+}
 void CSceneManager::Update(DWORD dt)
 {
 	CSIMON *simon = CSIMON::GetInstance();
@@ -442,6 +450,7 @@ void CSceneManager::Update(DWORD dt)
 
 		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
 		{
+			//delete  CGlobal::GetInstance()->objects[i];
 			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
 			DebugOut(L"==========Object bi xoa =================\n");
 		}
@@ -483,6 +492,7 @@ void CSceneManager::Update(DWORD dt)
 
 CSceneManager::CSceneManager()
 {
+	
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
 	//currentScene = SCENE_STATE_SECOND;

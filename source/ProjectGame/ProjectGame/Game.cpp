@@ -2,6 +2,10 @@
 #include "debug.h"
 #include"TileMap.h"
 #include"Camera.h"
+
+#define FONT_PATH L"Resource\\font\\nes.ttf"
+
+
 CGame * CGame::__instance = NULL;
 
 /*
@@ -51,19 +55,56 @@ void CGame::Init(HWND hWnd)
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
+
+	//init font
+
+
+	font = NULL;
+
+	AddFontResourceEx(FONT_PATH, FR_PRIVATE, NULL);
+	/*if (hr != DI_OK)
+	{
+		DebugOut(L"[ERROR] LOADING  FONT FAIL\n");
+		return;
+	}*/
+	HRESULT hr= D3DXCreateFont(
+		d3ddv, 22, 0, FW_NORMAL, 1, false,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		ANTIALIASED_QUALITY, FF_DONTCARE, L"Say some thing", &font);
+	if (hr != DI_OK)
+	{
+		DebugOut(L"[ERROR] CREATE FONT FAIL\n");
+		return;
+	}
+
+
+
+
 }
 
 /*
 Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha)
+
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx, int alpha, bool draw )
 {
 	//tearing tile vì vận tốc của simon là số thực
 	//==> d=st là lẽ nên vẽ ra sai
 	//sửa lỗi tearing tile map
 	float CamX, CamY;
 	CCamera::GetInstance()->getCamera(CamX,CamY);
-	D3DXVECTOR3 p((int)(x-CamX),(int)(y-CamY), 0);
+	D3DXVECTOR3 p;
+	if (draw == false) {
+		 p.x = (int)(x - CamX);
+		 p.y = (int)(y - CamY);
+		 p.z = 0;
+	}
+	else
+	{
+		p.x = x;
+		p.y = y;
+		p.z = 0;
+	}
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -102,12 +143,16 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	D3DXMATRIX finalTransform = mFlipped * mPre;
 	spriteHandler->SetTransform(&finalTransform);
-
-	
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-
+	
 	//set lại mt
 	spriteHandler->SetTransform(&mPre);
+}
+
+void CGame::DrawTextUI(char * gameinfo,RECT rect)
+{
+	if (font)
+		font->DrawTextA(NULL, gameinfo, -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 int CGame::IsKeyDown(int KeyCode)
@@ -356,7 +401,10 @@ void CGame::SweptAABB(
 
 }
 
-CGame *CGame::GetInstance()
+
+
+
+	CGame *CGame::GetInstance()
 {
 	if (__instance == NULL) __instance = new CGame();
 	return __instance;

@@ -9,6 +9,7 @@
 #include"Item.h"
 #include"Stair.h"
 #include"HiddenObjects.h"
+#include"Camera.h"
 CSIMON *CSIMON::__instance = NULL;
 
 CSIMON * CSIMON::GetInstance()
@@ -20,6 +21,18 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	if (x<CCamera::GetInstance()->getCamX())
+	{
+		x = CCamera::GetInstance()->getCamX();
+	}
+	else if (x>CCamera::GetInstance()->getVPWidth())
+	{
+		x = CCamera::GetInstance()->getVPWidth() - 64;
+	}
+
+
+
 	if (state!=SIMON_STATE_UP_STAIR && state != SIMON_STATE_DOWN_STAIR)
 	{
 		vy += SIMON_GRAVITY*dt;
@@ -244,8 +257,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 				}
 			}
-	
-	
 			// xử lý va chạm giữa Simon và item
 			// trường hợp nếu item xuất hiện đúng vị trí
 			//bbox của simon thuật toán sẽ chạy sai

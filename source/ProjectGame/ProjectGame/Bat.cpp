@@ -16,6 +16,11 @@ void CBat::GetBoundingBox(float & left, float & top, float & right, float & bott
 // vì x tính theo thời gian nên set y như thế vẫn đúng
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (x<CCamera::GetInstance()->getCamX())
+	{
+		isRemove = true;
+		return;
+	}
 	if (isEnable==false)
 	{
 		if (x - CCamera::GetInstance()->getCamX() < 500)

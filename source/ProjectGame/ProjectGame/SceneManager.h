@@ -13,7 +13,7 @@
 #define SCENE_STATE_THIRD 300
 #define TEST_SCENE        900
 #define MAP_PATH_SCENE1 1
-#define MAP_MATRIXPATH_SCENE1  "data\\map\\tileset.txt"
+#define MAP_MATRIXPATH_SCENE1  "data\\map\\lv1.txt"
 #define MAP_MATRIXPATH_SCENE2  "data\\map\\lv2.txt"
 //CGhoul *goomba;
 class CSceneManager
@@ -22,7 +22,6 @@ class CSceneManager
 	static CSceneManager * __instance;
 	CTileMap *tileG;
 	LPGAMEOBJECT * listEnermy; // lưu enermy vào danh sách riêng để reset
-
 public:
 	static CSceneManager * GetInstance();
 	 void LoadResource();

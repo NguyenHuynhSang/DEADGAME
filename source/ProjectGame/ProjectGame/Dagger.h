@@ -6,7 +6,7 @@
 #define DAGGER_BBOX_WIDTH 32
 #define DAGGER_BBOX_HEIGHT 18
 
-#define DAGGER_SPEED 0.3f
+#define DAGGER_SPEED 0.5f
 
 class CDagger:public CGameObject
 {
