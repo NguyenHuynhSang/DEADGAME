@@ -2,8 +2,8 @@
 #include"GameObject.h"
 
 #define PANTHER_GRAVITY			0.002f
-#define PANTHER_JUMP_SPEED_Y		0.45f
-#define PANTHER_JUMP_SPEED_X        0.42f
+#define PANTHER_JUMP_SPEED_Y		0.4f
+#define PANTHER_JUMP_SPEED_X        0.35f
 #define PANTHER_WALKING_SPEED		0.35f 
 #define PANTHER_STATE_LIEDOWN           0
 #define PANTHER_STATE_RUNNING_LEFT    100
@@ -24,7 +24,7 @@ class CPanther:public CGameObject
 {
 public:
 	bool isEnable = false;
-	bool isJumpping=false;
+	bool isLeft = false;
 	bool jump = false;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();

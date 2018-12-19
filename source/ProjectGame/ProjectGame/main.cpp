@@ -77,7 +77,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	case DIK_F:
 		//DebugOut(L"Press Fighting  \n");
-		if (SIMON->GetState()==SIMON_STATE_UPWHIP ||SIMON->isUpStair==true)
+		if (SIMON->GetState()==SIMON_STATE_UPWHIP ||SIMON->onStair==true)
 		{
 			return;
 		}

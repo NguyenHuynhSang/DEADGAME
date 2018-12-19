@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include"Item.h"
 #include"Dagger.h"
 #include"Global.h"
@@ -21,6 +21,8 @@ class CSceneManager
 	int currentScene;
 	static CSceneManager * __instance;
 	CTileMap *tileG;
+	LPGAMEOBJECT * listEnermy; // lưu enermy vào danh sách riêng để reset
+
 public:
 	static CSceneManager * GetInstance();
 	 void LoadResource();

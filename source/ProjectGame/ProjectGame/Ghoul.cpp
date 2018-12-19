@@ -1,6 +1,7 @@
 #include "ghoul.h"
 #include"Textures.h"
 #include"Global.h"
+#include"HiddenObjects.h"
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -16,8 +17,7 @@ void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
+	CGameObject::Update(dt);
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
@@ -32,12 +32,20 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		this->isRemove = true;
 		return;
 	}
-	CGameObject::Update(dt);
+	
 	vy += 0.002*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
+	coEvents.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
+	for (int i = 0; i < coEvents.size(); i++)
+	{
+		if (dynamic_cast<CHiddenObjects *>(coEvents[i]->obj))
+		{
+			coEvents.erase(coEvents.begin() + i);
+		}
+	}
 	if (coEvents.size() == 0)
 	{
 		y += dy;

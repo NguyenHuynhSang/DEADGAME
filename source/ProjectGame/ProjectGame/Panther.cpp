@@ -7,8 +7,7 @@
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
+	CGameObject::Update(dt);
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
@@ -44,17 +43,20 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{		
 		nx = -1;
 		vx = -PANTHER_WALKING_SPEED;
+		isLeft = true;
 	}
 	else if (state==PANTHER_STATE_RUNNING_RIGHT )
 	{
 		nx = 1;
 		vx= PANTHER_WALKING_SPEED;
+		isLeft = false;
 	}
 	else if (state == PANTHER_STATE_JUMPING && jump==false)
 	{
 			vy = -PANTHER_JUMP_SPEED_Y;
 			vx = nx > 0 ? PANTHER_JUMP_SPEED_X : -PANTHER_JUMP_SPEED_X;
 			jump = true;
+			nx = isLeft == true ? -1 : 1;
 	}
 	vy += PANTHER_GRAVITY*dt;
 
@@ -62,6 +64,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
+	coEvents.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
 	for (int i = 0; i < coEvents.size(); i++)
 	{
@@ -89,7 +92,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CBrick * f = dynamic_cast<CBrick*> (e->obj);
 				if (e->ny!=0)
 				{
-					
 					if (f->panJump==true)
 					{
 						state = PANTHER_STATE_JUMPING;
@@ -99,23 +101,38 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (state== PANTHER_STATE_JUMPING)
 					{
-						if (nx>0)
+						if (isLeft==false)
 						{
+							
 							state = PANTHER_STATE_RUNNING_LEFT;
+							jump = false;
 						}
 						else
 						{
 							state = PANTHER_STATE_RUNNING_RIGHT;
+							jump = false;
 						}
-					//	DebugOut(L"Co chay vao day \n");
+						DebugOut(L"Co chay vao day \n");
+					}
+					if (y<210+52 && state == PANTHER_STATE_JUMPING)
+					{
+						x += dx;
+						y += dy;
+						return;
 					}
 					x += min_tx*dx + nx*0.4f;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
 				}
-				else if (e->nx!=0)
+				else  if (e->nx!=0)
 				{
+					if (y<210 + 52 && state == PANTHER_STATE_JUMPING)
+					{
+						x += dx;
+						y += dy;
+						return;
+					}
 					/*if (f->panJump == true)
 					{
 						DebugOut(L"Co chay vao day \n");
@@ -142,11 +159,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	// clean up collision events
 	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	bool col = false;
-	if (isJumpping==true)
-	{
-		return;	
-	}
 
 }
 

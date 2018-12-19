@@ -7,6 +7,7 @@
 #include"Panther.h"
 #include"Game.h"
 #include"Door.h"
+#include"Bat.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
 CSceneManager * CSceneManager::GetInstance()
@@ -37,6 +38,9 @@ void CSceneManager::LoadResource()
 
 	CPanther *panther = new CPanther();
 	panther->LoadResource();
+
+	CBat *bat = new CBat();
+	bat->LoadResource();
 
 	CTorch *torch = new CTorch();
 	torch->LoadResource();
@@ -71,13 +75,6 @@ void CSceneManager::LoadMap()
 	case SCENE_STATE_SECOND:
 	{
 	
-		CTextures * textures = CTextures::GetInstance();
-		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV2); //tex Map
-		tileG = new CTileMap();
-		tileG->SetMSize(5632, 768);
-		tileG->SetTileSetHeight(640, 192);
-		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
-		break;
 	}
 	case SCENE_STATE_THIRD:
 	{
@@ -116,6 +113,16 @@ void CSceneManager::initScene()
 			brick->SetPosition(0 + i*32.0f, 350+25);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
+
+
+		CBat *bat = new CBat();
+		bat->SetState(BAT_STATE_IDLE);
+		bat->setNx(-1);
+		bat->SetPosition(1000, 350 -100);
+		bat->setBatoy(350 - 100);
+		CGlobal::GetInstance()->objects.push_back(bat);
+
+
 
 		CTorch* Torch = new CTorch();
 		Torch->SetPosition(0 + 450, 350 - 60+25);
@@ -197,7 +204,7 @@ void CSceneManager::initScene()
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setBoundBox(96, 5);
 		hidenObject->setStairState(2);
-		hidenObject->SetPosition(1442-32, 274 -5);
+		hidenObject->SetPosition(1442-32, 274 -10);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 2; i++)
 		{
@@ -228,7 +235,7 @@ void CSceneManager::initScene()
 		CPanther* panther = new CPanther();
 		panther->SetPosition(1442 + 64+5*32, 210-35);
 		panther->SetState(PANTHER_STATE_LIEDOWN);
-		panther->setNx(-1);
+		panther->setNx(1);
 		CGlobal::GetInstance()->objects.push_back(panther);
 
 		//stair 3
@@ -260,8 +267,10 @@ void CSceneManager::initScene()
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
+			if (i == 0 || i == 5) brick->panJump = true;
 			brick->SetPosition(1890-32 + i * 32, 210+32*2);
 			CGlobal::GetInstance()->objects.push_back(brick);
+			
 		}
 
 
@@ -427,7 +436,6 @@ void CSceneManager::Update(DWORD dt)
 		sceneUpdate();
 	}
 
-
 	//dọn rác trc khi update
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
@@ -477,7 +485,7 @@ CSceneManager::CSceneManager()
 {
 	ReplaceScene = false;
 	currentScene = SCENE_STATE_FIRST;
-	currentScene = SCENE_STATE_SECOND;
+	//currentScene = SCENE_STATE_SECOND;
 }
 
 

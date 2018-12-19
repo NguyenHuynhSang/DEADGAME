@@ -2,6 +2,7 @@
 #include"Camera.h"
 #include"ghoul.h"
 #include"Torch.h"
+#include"Panther.h"
 #include"debug.h"
 void CDagger::Render()
 {
@@ -74,6 +75,18 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* co)
 				if (e->nx != 0)
 				{
 					g->SetState(GHOUL_STATE_DIE);
+					//DebugOut(L"\nChay vao day");
+					this->isRemove = true;
+					isre = true;
+				}
+
+			}
+			else if (dynamic_cast<CPanther *>(e->obj))
+			{
+				CPanther * g = dynamic_cast<CPanther*> (e->obj);
+				if (e->nx != 0)
+				{
+					g->SetState(PANTHER_STATE_DIE);
 					//DebugOut(L"\nChay vao day");
 					this->isRemove = true;
 					isre = true;

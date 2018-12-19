@@ -32,6 +32,8 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vx = 0;
 		return;
 	}
+
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -138,7 +140,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (ny != 0) vy = 0;
 						if (state == SIMON_STATE_STAND_FIGHTING)
 						{
-							vx = 0;
+							 vx = 0;
 						}
 					}
 					else
@@ -191,9 +193,12 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						 stair_X = f->x + 10;
 					 }
 					x += dx;
-				
+					if (ny!=0)
+					{
+						vy = 0;
+					}
 				}
-				if (e->ny!=0)
+				else if (e->ny!=0)
 				{
 					stairState = f->getStairState();
 					if (stairState == 2  )
@@ -232,7 +237,9 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							state = SIMON_STATE_IDLE;
 							onStair = false;
 						}
+						if (ny != 0) { vy = 0; }
 						y += dy;
+						
 					}
 			
 				}
@@ -243,7 +250,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			// trường hợp nếu item xuất hiện đúng vị trí
 			//bbox của simon thuật toán sẽ chạy sai
 			// cần có pp cho trường hợp đó ex:AABB
-			if (dynamic_cast<CItem *>(e->obj))
+			else if (dynamic_cast<CItem *>(e->obj))
 			{
 				DebugOut(L"\n ITEM HERE");
 				CItem * f = dynamic_cast<CItem*> (e->obj);
@@ -293,7 +300,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			//va cham voi candle
 			//khi Simon đi qua CTorch, set chỉ số alpha lại thành 128
-			 if (dynamic_cast<CTorch *>(e->obj))
+			else  if (dynamic_cast<CTorch *>(e->obj))
 			{
 			//	DebugOut(L"Tourch \n");
 				if (e->nx!=0)
@@ -308,7 +315,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 			}
 
-			 if (dynamic_cast<CDagger *>(e->obj))
+			else if (dynamic_cast<CDagger *>(e->obj))
 			{
 				if (e->nx!=0)
 				{
@@ -321,7 +328,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 
 			//Va cham voi ghost
-			 if (dynamic_cast<CGhoul *>(e->obj))
+			else  if (dynamic_cast<CGhoul *>(e->obj))
 			{
 				CGhoul *goomba = dynamic_cast<CGhoul *>(e->obj);
 				if (e->nx!=0)
@@ -342,7 +349,13 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 				}
 			}
-
+			else 
+			{
+				x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				y += min_ty*dy + ny*0.4f;
+				if (nx != 0) vx = 0;
+				if (ny != 0) vy = 0;
+			}
 		
 		}
 	}
