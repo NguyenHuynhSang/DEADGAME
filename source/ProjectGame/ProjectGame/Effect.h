@@ -1,9 +1,6 @@
 #pragma once
 #include"GameObject.h"
 
-#define ID_TEX_EFFECT -200
-
-
 #define EFFECT_EXPLOSION 0
 #define EFFECT_ETC 1
 

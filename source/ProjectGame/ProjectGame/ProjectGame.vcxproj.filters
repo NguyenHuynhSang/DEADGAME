@@ -120,6 +120,9 @@
     <ClCompile Include="GameUI.cpp">
       <Filter>GameObjects\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Fishmen.cpp">
+      <Filter>GameObjects\Enermy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="GameUI.h">
       <Filter>GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Fishmen.h">
+      <Filter>GameObjects\Enermy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

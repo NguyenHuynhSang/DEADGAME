@@ -66,21 +66,10 @@ void CTileMap::DrawMap()
 	// lấy ra cột đầu và cột cuối trong Viewport ;
 	int beginCol =((int)camX)/32;
 	//+1 vì nếu vẽ vừa đủ cột cuối cùng mỗi khi render sẽ nhấp nháy
-	int endCol=0;
-	if (CCamera::GetInstance()->isCamMove==true)
-	{
-		endCol = ((int)camX + SCREEN_WIDTH) / 32+1;
-		//Có lỗi nếu đi đến hết map vì +1 sẽ tạo thêm một cột nhưng k có 
-		//trong ma trận
-		//==>đã fix nhưng cần cách tối ưu hơn
-	}
-	else
-	{
-		endCol = ((int)camX + SCREEN_WIDTH)/32;
-	}
+	int endCol = ((int)camX + SCREEN_WIDTH) / 32+1;
 
-
-	for (int i = 0; i < rows; i++)
+	int beginRow=(int)camY / 32;
+	for (int i = beginRow; i < rows; i++)
 	{
 		for (int j = beginCol; j < endCol; j++)
 		{

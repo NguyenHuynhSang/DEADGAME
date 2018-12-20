@@ -6,7 +6,7 @@ void CBrick::Render()
 {
 
 		animations[state]->Render(0, x, y);
-		//RenderBoundingBox();
+		//RenderBoundingBox(x,y);
 }
 
 void CBrick::LoadResource()

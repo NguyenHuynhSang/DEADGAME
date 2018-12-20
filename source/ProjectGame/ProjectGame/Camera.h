@@ -10,7 +10,7 @@ class CCamera
 
 public:
 	static CCamera * __instance;
-	void setCamera(float x, float y) { CamX = x; CamY = 0; };
+	void setCamera(float x, float y) { CamX = x; CamY = y; };
 	void getCamera(float &x, float &y) { x = CamX; y = CamY; };
 	float getCamX() { return CamX; }
 	static CCamera * GetInstance();

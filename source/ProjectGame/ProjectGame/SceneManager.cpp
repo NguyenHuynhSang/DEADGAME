@@ -7,6 +7,7 @@
 #include"Game.h"
 #include"Door.h"
 #include"Bat.h"
+#include"Fishmen.h"
 #include"GameUI.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
@@ -22,8 +23,8 @@ void CSceneManager::LoadResource()
 	CTextures * textures = CTextures::GetInstance();
 	textures->Add(ID_TEX_BBOX, L"Resource\\sprites\\bbox.png", D3DCOLOR_XRGB(201, 191, 231));
 	textures->Add(ID_BACKGROUND_LV1, L"data\\map\\lv1.BMP", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_BACKGROUND_LV2, L"data\\map\\lv2.BMP", D3DCOLOR_XRGB(255, 255, 255));
-	
+	textures->Add(ID_BACKGROUND_LV2, L"data\\map\\lv1_scene1.BMP", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_BACKGROUND_LV3, L"data\\map\\lv1_scene2.BMP", D3DCOLOR_XRGB(255, 255, 255));
 	CGameUI* ui = CGameUI::GetInstance();
 	ui->LoadResource();
 
@@ -44,6 +45,10 @@ void CSceneManager::LoadResource()
 
 	CBat *bat = new CBat();
 	bat->LoadResource();
+
+	CFishmen *fishman = new CFishmen();
+	
+	fishman->LoadResource();
 
 	CTorch *torch = new CTorch();
 	torch->LoadResource();
@@ -86,12 +91,25 @@ void CSceneManager::LoadMap()
 		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV2); //tex Map
 		tileG = new CTileMap();
-		tileG->SetMSize(5664, 736);
-		tileG->SetTileSetHeight(640, 192);
+		tileG->SetMSize(5664, 352);
+		tileG->SetTileSetHeight(640, 160);
 		tileG->LoadTile(MAP_MATRIXPATH_SCENE2, texMap);
+
 		break;
 
 	}
+	case SCENE_STATE_FOURTH:
+	{
+		CTextures * textures = CTextures::GetInstance();
+		LPDIRECT3DTEXTURE9 texMap = textures->Get(ID_BACKGROUND_LV3); //tex Map
+		tileG = new CTileMap();
+		tileG->SetMSize(1056, 352);
+		tileG->SetTileSetHeight(640, 96);
+		tileG->LoadTile(MAP_MATRIXPATH_SCENE3, texMap);
+		break;
+
+	}
+
 
 	}
 }
@@ -111,45 +129,35 @@ void CSceneManager::initScene()
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(100, 250+25);
+		simon->SetPosition(100, 250 + 25);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		for (int i = 0; i < 1536 / 32 + 4; i++)
 		{
 			CBrick *brick = new CBrick();
-			brick->SetPosition(0 + i*32.0f, 350+25);
+			brick->SetPosition(i * 32, 350 + 25);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
-
-		/*CBat *bat = new CBat();
-		bat->SetState(BAT_STATE_IDLE);
-		bat->setNx(-1);
-		bat->SetPosition(1000, 350 -100);
-		bat->setBatoy(350 - 100);
-		CGlobal::GetInstance()->objects.push_back(bat);
-*/
-
-
 		CTorch* Torch = new CTorch();
-		Torch->SetPosition(0 + 450, 350 - 60+25);
+		Torch->SetPosition(0 + 450, 350 - 60 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_BHEART);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();
-		Torch->SetPosition(750, 350 - 60+25);
+		Torch->SetPosition(750, 350 - 60 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_NWHIP);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();
-		Torch->SetPosition(950, 350 - 60+25);
+		Torch->SetPosition(950, 350 - 60 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_NWHIP);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();;
-		Torch->SetPosition(1200, 350 - 60+25);
+		Torch->SetPosition(1200, 350 - 60 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_DANGER);
 		CGlobal::GetInstance()->objects.push_back(Torch);
@@ -161,15 +169,15 @@ void CSceneManager::initScene()
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(842 , 370-32);
+		simon->SetPosition(842, 370 - 32);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		CBrick *brick = new CBrick();
 		CStair *stair = new CStair();
-		for (int i = 0; i <105; i++)
+		for (int i = 0; i < 105; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
-			brick->SetPosition(0 + i*30.0f, 402);
+			brick->SetPosition(i * 32, 402);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
@@ -178,28 +186,28 @@ void CSceneManager::initScene()
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setStairState(2);
 		hidenObject->setBoundBox(96, 5);
-		hidenObject->SetPosition(1250-32,402-6);
+		hidenObject->SetPosition(1250 - 32, 402 - 6);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 4; i++)
 		{
-			
+
 			stair = new CStair();
-			stair->SetPosition(1250+i*32, 370-i*32 );
+			stair->SetPosition(1250 + i * 32, 370 - i * 32);
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
 		hidenObject = new CHiddenObjects();
 		hidenObject->SetState(HO_STATE_STAIR_TOP);
 		hidenObject->setBoundBox(32, 32);
 		hidenObject->setStairState(3);
-		hidenObject->SetPosition(1250 +32*4, 370 - 32*7 + 37);
+		hidenObject->SetPosition(1250 + 32 * 4, 370 - 32 * 7 + 37);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
-		for (int i = 0; i <3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
-			brick->SetPosition(1250+4*32+i*32, 274);
+			brick->SetPosition(1250 + 4 * 32 + i * 32, 274);
 			if (i == 0) brick->panJump = true;
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
@@ -210,36 +218,36 @@ void CSceneManager::initScene()
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setBoundBox(96, 5);
 		hidenObject->setStairState(2);
-		hidenObject->SetPosition(1442-32, 274 -10);
+		hidenObject->SetPosition(1442 - 32, 274 - 10);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 2; i++)
 		{
-			
+
 			stair = new CStair();
-			stair->SetPosition(1442+32*i, 242 - i * 32);
+			stair->SetPosition(1442 + 32 * i, 242 - i * 32);
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
 		hidenObject = new CHiddenObjects();
 		hidenObject->SetState(HO_STATE_STAIR_TOP);
 		hidenObject->setStairState(3);
 		hidenObject->setBoundBox(32, 32);
-		hidenObject->SetPosition(1442+64, 212-64*2 + 35);
+		hidenObject->SetPosition(1442 + 64, 212 - 64 * 2 + 35);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
-	
 
-		for (int i = 0; i <10; i++)
+
+		for (int i = 0; i < 10; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			if (i == 0 || i == 9) brick->panJump = true;
-			brick->SetPosition(1442 +  64 + i * 32, 210);
+			brick->SetPosition(1442 + 64 + i * 32, 210);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
 		CPanther* panther = new CPanther();
-		panther->SetPosition(1442 + 64+5*32, 210-35);
+		panther->SetPosition(1442 + 64 + 5 * 32, 210 - 35);
 		panther->SetState(PANTHER_STATE_LIEDOWN);
 		panther->setNx(1);
 		CGlobal::GetInstance()->objects.push_back(panther);
@@ -250,7 +258,7 @@ void CSceneManager::initScene()
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setStairState(1);
 		hidenObject->setBoundBox(96, 5);
-		hidenObject->SetPosition(1890 -64, 210 + 32 * 2-6);
+		hidenObject->SetPosition(1890 - 64, 210 + 32 * 2 - 6);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 		for (int i = 0; i < 2; i++)
@@ -258,25 +266,25 @@ void CSceneManager::initScene()
 
 			stair = new CStair();
 			stair->setNx(-1);
-			stair->SetPosition(1794+32+ i * 32, 210+ i * 32);
+			stair->SetPosition(1794 + 32 + i * 32, 210 + i * 32);
 			CGlobal::GetInstance()->objects.push_back(stair);
 		}
 		hidenObject = new CHiddenObjects();
 		hidenObject->SetState(HO_STATE_STAIR_TOP);
 		hidenObject->setStairState(4);
 		hidenObject->setBoundBox(32, 32);
-		hidenObject->SetPosition(1890 -96, 212 - 64 * 2 + 35);
+		hidenObject->SetPosition(1890 - 96, 212 - 64 * 2 + 35);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 
 
-		for (int i = 0; i <6; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			if (i == 0 || i == 5) brick->panJump = true;
-			brick->SetPosition(1890-32 + i * 32, 210+32*2);
+			brick->SetPosition(1890 - 32 + i * 32, 210 + 32 * 2);
 			CGlobal::GetInstance()->objects.push_back(brick);
-			
+
 		}
 
 
@@ -286,7 +294,7 @@ void CSceneManager::initScene()
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setStairState(2);
 		hidenObject->setBoundBox(96, 5);
-		hidenObject->SetPosition(2590-32, 402 - 6);
+		hidenObject->SetPosition(2590 - 32, 402 - 6);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 6; i++)
 		{
@@ -301,21 +309,21 @@ void CSceneManager::initScene()
 		hidenObject->setStairState(3);
 		hidenObject->SetPosition(2590 + 32 * 6, 370 - 32 * 9 + 37);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
-		for (int i = 0; i <25; i++)
+		for (int i = 0; i < 25; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
-			brick->SetPosition(2590 + 32 * 6+i*32, 370 - 5 * 32);
+			brick->SetPosition(2590 + 32 * 6 + i * 32, 370 - 5 * 32);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
 
 		CDoor *door = new CDoor();
-		door->SetPosition(2590 + 32 * 6 + 9* 32, 370 - 5 * 32-DOOR_BBOX_HEIGHT);
+		door->SetPosition(2590 + 32 * 6 + 9 * 32, 370 - 5 * 32 - DOOR_BBOX_HEIGHT);
 		CGlobal::GetInstance()->objects.push_back(door);
 
 		panther = new CPanther();
-		panther->SetPosition(1250 + 4 * 32+38, 274 - 33);
+		panther->SetPosition(1250 + 4 * 32 + 38, 274 - 33);
 		panther->SetState(PANTHER_STATE_LIEDOWN);
 		panther->setNx(-1);
 		CGlobal::GetInstance()->objects.push_back(panther);
@@ -324,12 +332,12 @@ void CSceneManager::initScene()
 		for (int i = 0; i < 7; i++)
 		{
 			CGhoul* ghoul = new CGhoul();
-			ghoul->SetPosition(125 + i * 500, 370-GHOUL_BBOX_HEIGHT);
+			ghoul->SetPosition(125 + i * 500, 370 - GHOUL_BBOX_HEIGHT);
 			ghoul->SetState(GHOUL_STATE_WALKING);
 			CGlobal::GetInstance()->objects.push_back(ghoul);
 		}
 
-		
+
 
 		break;
 	}
@@ -338,23 +346,166 @@ void CSceneManager::initScene()
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(3070+100, 146);
-		CCamera::GetInstance()->setCamera(3070 + 80,0);
+		simon->SetPosition(3074 + 64, 146);
+		CCamera::GetInstance()->setCamera(3074, 0);
 		CGlobal::GetInstance()->objects.push_back(simon);
-		CBrick *brick = new CBrick();
-		for (int i = 0; i <25; i++)
+		CBrick *brick ;
+		CStair *stair ;
+
+		CBat *bat;
+
+		CHiddenObjects *hidenObject = new CHiddenObjects();
+		for (int i = 0; i < 40; i++)
 		{
+			if (i == 4) continue;
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
-			brick->SetPosition(2590 + 32 * 6 + 10* 32+i*32, 370 - 5 * 32);
+			brick->SetPosition(3104 - 64 + i * 32, 402);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				brick = new CBrick();
+				brick->SetState(BRICK_STATE_MODERN);
+				brick->SetPosition(3584 + j * 32, 402 - i * 32);
+				CGlobal::GetInstance()->objects.push_back(brick);
+			}
+
+		}
+
+
+
+		for (int i = 0; i < 7; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(3104 + i * 32, 210);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(3296 + 32 + i * 32, 274);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
+
+		//stair 1
+
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setStairState(1);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->SetPosition(3424 + 2 * 32, 274 + 4 * 32 - 10);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			stair = new CStair();
+			stair->setNx(-1);
+			stair->SetPosition(3424 + i * 32, 274 + i * 32);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setStairState(4);
+		hidenObject->setBoundBox(32, 32);
+		hidenObject->SetPosition(3424 - 35, 274 - 61 - 30);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+
+
+		//stair 2;
+
+		stair = new CStair();
+		stair->setNx(-1);
+		stair->SetPosition(3104 - 64 + 4 * 32, 402);
+		CGlobal::GetInstance()->objects.push_back(stair);
+
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_TOP);
+		hidenObject->setStairState(4);
+		hidenObject->setBoundBox(32 + 5, 32);
+		hidenObject->SetPosition(3104 - 64 + 3 * 32 - 5, 402 - 92);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+
+
+
+		bat = new CBat();
+		bat->SetState(BAT_STATE_IDLE);
+		bat->setNx(-1);
+		bat->SetPosition(3074 + 640, 120);
+		bat->setBatoy(120);
+		CGlobal::GetInstance()->objects.push_back(bat);
+
+
+
+		bat = new CBat();
+		bat->SetState(BAT_STATE_IDLE);
+		bat->setNx(-1);
+		bat->SetPosition(3074 + 640 + 100, 300);
+		bat->setBatoy(300);
+		CGlobal::GetInstance()->objects.push_back(bat);
+
 		break;
 	}
+	case SCENE_STATE_FOURTH:
+	{
+		LoadMap();
+		CGlobal::GetInstance()->objects.clear();
+		CSIMON *simon = CSIMON::GetInstance();
+		simon->SetPosition(114, 70);
+		CCamera::GetInstance()->setCamera(0, 0);
+		CGlobal::GetInstance()->objects.push_back(simon);
+		CBrick *brick;
+		CStair *stair;
+		CFishmen *fishman;
+		CHiddenObjects *hidenObject;
+		for (int i = 0; i < 30; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(i * 32, 160+82);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
 
+		for (int i = 0; i < 2; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(6* 32+i*32, 160 + 82-64);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
+
+		for (int i = 0; i < 3; i++)
+		{
+
+			stair = new CStair();
+			stair->setNx(-1);
+			stair->SetPosition(97 + i * 32, i * 32+82);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		hidenObject = new CHiddenObjects();
+		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
+		hidenObject->setStairState(1);
+		hidenObject->setBoundBox(96, 5);
+		hidenObject->SetPosition(97+32, 3*32+82-8);
+		CGlobal::GetInstance()->objects.push_back(hidenObject);
+
+
+		fishman = new CFishmen();
+		fishman->SetPosition(800, 300);
+		fishman->SetState(FISHMAN_STATE_JUMP);
+		fishman->setNx(1);
+		CGlobal::GetInstance()->objects.push_back(fishman);
+		break;
 	}
-
+	}
 
 
 }
@@ -365,9 +516,9 @@ void CSceneManager::sceneUpdate()
 	{
 		CCamera::GetInstance()->ResetCam();
 		currentScene += 100;
-		if (currentScene>=SCENE_STATE_THIRD)
+		if (currentScene>=SCENE_STATE_FOURTH)
 		{
-			currentScene = SCENE_STATE_THIRD;
+			currentScene = SCENE_STATE_FOURTH;
 		}
 		initScene();
 		ReplaceScene = false;
@@ -380,20 +531,15 @@ void CSceneManager::Render()
 	RenderMap();
 	float camX, camY;
 	CCamera::GetInstance()->getCamera(camX, camY);
-	
-	//bb->SetPosition((int)camX, (int)camY);
-	//bb->Render();
 	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
-		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 32 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)
+		if ((CGlobal::GetInstance()->objects[i]->x>(int)camX - 32 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH)&& CGlobal::GetInstance()->objects[i]->y>80)
 		{
 			CGlobal::GetInstance()->objects[i]->Render();
 		}
 
 	}
 		
-	
-	//render Simon
 	CGlobal::GetInstance()->objects[0]->Render();
 
 	CGameUI::GetInstance()->Render();
@@ -401,7 +547,10 @@ void CSceneManager::Render()
 }
 void CSceneManager::Update(DWORD dt)
 {
+
+
 	CSIMON *simon = CSIMON::GetInstance();
+
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	if (currentScene== SCENE_STATE_FIRST)
@@ -409,23 +558,28 @@ void CSceneManager::Update(DWORD dt)
 		if (simon->x >= 640 / 2 - 60 && simon->x < 1530 - 640 / 2 - 60)
 		{
 			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
-			CCamera::GetInstance()->isCamMove = true;
-		}
-		else
-		{
-			CCamera::GetInstance()->isCamMove = false;
 		}
 	}
-	else
+	else if (currentScene==SCENE_STATE_SECOND)
 	{
-		if (simon->x >= 640 / 2 - 60 && simon->x <3070-640/2)
+		if (simon->x >= 640 / 2 - 60 && simon->x < 3070 - 640 / 2)
 		{
 			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
-			CCamera::GetInstance()->isCamMove = true;
 		}
-		else
+	}
+	else if (currentScene == SCENE_STATE_THIRD)
+	{
+		if (simon->x >= 3074 + 640 / 2 - 60 && simon->x < 4095 - 640 / 2)
 		{
-			CCamera::GetInstance()->isCamMove = false;
+			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
+		}
+	
+	}
+	else if (currentScene==SCENE_STATE_FOURTH)
+	{
+		if (simon->x >= 640 / 2 - 60 && simon->x < 1056 - 640 / 2 - 64*2)
+		{
+			CCamera::GetInstance()->setCamera(simon->x - SCREEN_WIDTH / 2 + 62, 0);
 		}
 	}
 	vector<LPGAMEOBJECT> coObjects;
@@ -443,6 +597,13 @@ void CSceneManager::Update(DWORD dt)
 		ReplaceScene = true;
 		sceneUpdate();
 	}
+	if ((int)simon->y> 370 && currentScene == SCENE_STATE_THIRD)
+	{
+		DebugOut(L"*********Attention scene is replaces*******\n");
+		ReplaceScene = true;
+		sceneUpdate();
+	}
+	
 
 	//dọn rác trc khi update
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
@@ -450,7 +611,6 @@ void CSceneManager::Update(DWORD dt)
 
 		if (CGlobal::GetInstance()->objects[i]->isRemove == true)
 		{
-			//delete  CGlobal::GetInstance()->objects[i];
 			CGlobal::GetInstance()->objects.erase(CGlobal::GetInstance()->objects.begin() + i);
 			DebugOut(L"==========Object bi xoa =================\n");
 		}
@@ -494,8 +654,24 @@ CSceneManager::CSceneManager()
 {
 	
 	ReplaceScene = false;
-	currentScene = SCENE_STATE_FIRST;
-	//currentScene = SCENE_STATE_SECOND;
+	switch (3)
+	{
+	case 1:
+	{
+		currentScene = SCENE_STATE_FIRST;
+		break;
+	}
+	case 2:
+	{
+		currentScene = SCENE_STATE_SECOND;
+		break;
+	}
+	case 3:
+	{
+		currentScene = SCENE_STATE_THIRD;
+		break;
+	}
+	}
 }
 
 

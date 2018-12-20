@@ -94,7 +94,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_A: // reset
 		SIMON->SetState(SIMON_STATE_IDLE);
 		SIMON->onStair = false;
-		SIMON->SetPosition(100.0f, 200.0f);
+		SIMON->SetPosition(50.0f, 50.0f);
 		///fix cam when reset
 		game->setCam(0,NULL);
 		SIMON->SetSpeed(0, 0);

@@ -19,7 +19,7 @@ CSIMON * CSIMON::GetInstance()
 }
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	// Calculate dx, dy 
+
 	CGameObject::Update(dt);
 
 	if (x<CCamera::GetInstance()->getCamX())
@@ -39,13 +39,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//isUpStair = false;
 		//isDownStair = false;
 	}
-	if (state==SIMON_STATE_IDLE_UP_STAIR || state==SIMON_STATE_IDLE_DOWN_STAIR)
-	{
-		vy = 0;
-		vx = 0;
-		return;
-	}
-
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -143,39 +136,20 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//xu ly va cham voi nen nha
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
-				if (e->ny != 0)
+				if (onStair==true)
 				{
-					if (onStair == false)
-					{
-						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-						y += min_ty*dy + ny*0.4f;
-						if (nx != 0) vx = 0;
-						if (ny != 0) vy = 0;
-						if (state == SIMON_STATE_STAND_FIGHTING)
-						{
-							 vx = 0;
-						}
-					}
-					else
-					{
-						x += dx;
-						y += dy;
-					}
-			
+					x += dx;
+					y += dy;
 				}
-				else if (e->nx != 0)
+				else
 				{
-					if (onStair == true)
-					{
-						x += dx;
-						y += dy;
-					}
-					else
-					{
-						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-						y += min_ty*dy + ny*0.4f;
-						if (nx != 0) vx = 0;
-						if (ny != 0) vy = 0;
+					x += min_tx*dx + nx*0.5f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					y += min_ty*dy + ny*0.4f;
+					if (nx != 0) vx = 0;
+					if (ny != 0) vy = 0;
+					if (state == SIMON_STATE_STAND_FIGHTING) {
+						vx = 0;
+						vy = 0;
 					}
 				}
 			
@@ -250,7 +224,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							state = SIMON_STATE_IDLE;
 							onStair = false;
 						}
-						if (ny != 0) { vy = 0; }
+						//if (ny != 0) { vy = 0; }
 						y += dy;
 						
 					}
@@ -362,8 +336,8 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else 
 			{
-				x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-				y += min_ty*dy + ny*0.4f;
+				x += min_tx*dx + nx*0.5f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				y += min_ty*dy + ny*0.5f;
 				if (nx != 0) vx = 0;
 				if (ny != 0) vy = 0;
 			}

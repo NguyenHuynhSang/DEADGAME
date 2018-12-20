@@ -23,7 +23,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (isEnable==false)
 	{
-		if (x - CCamera::GetInstance()->getCamX() < 500)
+		if (x - CCamera::GetInstance()->getCamX() < 640)
 		{
 			state = BAT_STATE_FLY;
 		}
