@@ -149,10 +149,10 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	spriteHandler->SetTransform(&mPre);
 }
 
-void CGame::DrawTextUI(char * gameinfo,RECT rect)
+void CGame::DrawTextUI(string  gameinfo,RECT rect)
 {
 	if (font)
-		font->DrawTextA(NULL, gameinfo, -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
+		font->DrawTextA(NULL, gameinfo.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 int CGame::IsKeyDown(int KeyCode)

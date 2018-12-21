@@ -126,11 +126,17 @@ void CSceneManager::initScene()
 	{
 	case SCENE_STATE_FIRST:
 	{
+		gameState = 1;
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(100, 250 + 25);
+		simon->SetPosition(100, 375-64);
 		CGlobal::GetInstance()->objects.push_back(simon);
+
+		CDoor* door = new CDoor();
+		door->SetPosition(1408, 87);
+		door->SetState(DOOR_STATE_BIGDOOR);
+		CGlobal::GetInstance()->objects.push_back(door);
 		for (int i = 0; i < 1536 / 32 + 4; i++)
 		{
 			CBrick *brick = new CBrick();
@@ -139,25 +145,25 @@ void CSceneManager::initScene()
 		}
 
 		CTorch* Torch = new CTorch();
-		Torch->SetPosition(0 + 450, 350 - 60 + 25);
+		Torch->SetPosition(0 + 450, 350 - 64 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
-		Torch->setItemState(ITEM_STATE_BHEART);
+		Torch->setItemState(ITEM_STATE_MHEART);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();
-		Torch->SetPosition(750, 350 - 60 + 25);
+		Torch->SetPosition(750, 350 - 64 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_NWHIP);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();
-		Torch->SetPosition(950, 350 - 60 + 25);
+		Torch->SetPosition(950, 350 - 64 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_NWHIP);
 		CGlobal::GetInstance()->objects.push_back(Torch);
 
 		Torch = new CTorch();;
-		Torch->SetPosition(1200, 350 - 60 + 25);
+		Torch->SetPosition(1200, 350 - 64 + 25);
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_DANGER);
 		CGlobal::GetInstance()->objects.push_back(Torch);
@@ -166,10 +172,11 @@ void CSceneManager::initScene()
 	}
 	case SCENE_STATE_SECOND:
 	{
+		gameState = 2;
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(842, 370 - 32);
+		simon->SetPosition(50, 402-64);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		CBrick *brick = new CBrick();
 		CStair *stair = new CStair();
@@ -319,6 +326,7 @@ void CSceneManager::initScene()
 
 
 		CDoor *door = new CDoor();
+		door->SetState(DOOR_STAITE_SMAILDOOR);
 		door->SetPosition(2590 + 32 * 6 + 9 * 32, 370 - 5 * 32 - DOOR_BBOX_HEIGHT);
 		CGlobal::GetInstance()->objects.push_back(door);
 
@@ -541,7 +549,10 @@ void CSceneManager::Render()
 	}
 		
 	CGlobal::GetInstance()->objects[0]->Render();
-
+	if (currentScene== SCENE_STATE_FIRST)
+	{
+		CGlobal::GetInstance()->objects[1]->Render();
+	}
 	CGameUI::GetInstance()->Render();
 
 }
@@ -550,6 +561,8 @@ void CSceneManager::Update(DWORD dt)
 
 
 	CSIMON *simon = CSIMON::GetInstance();
+
+	CGameUI::GetInstance()->Update();
 
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
@@ -585,17 +598,27 @@ void CSceneManager::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 
 
-	if (simon->x>1406 && currentScene == SCENE_STATE_FIRST)
+	if (simon->x>1320 && currentScene == SCENE_STATE_FIRST)
 	{
-		DebugOut(L"*********Attention scene is replaces*******\n");
-		ReplaceScene = true;
-		sceneUpdate();
+		if (simon->x<1450)
+		{
+			simon->autoWalk = true;
+		}
+		else
+		{
+			simon->autoWalk = false;
+			DebugOut(L"*********Attention scene is replaces*******\n");
+			ReplaceScene = true;
+			sceneUpdate();
+		}
+	
 	}
 	if (simon->x>3070-64 && currentScene == SCENE_STATE_SECOND)
 	{
-		DebugOut(L"*********Attention scene is replaces*******\n");
+		CCamera::GetInstance()->autoCamera();
+		/*DebugOut(L"*********Attention scene is replaces*******\n");
 		ReplaceScene = true;
-		sceneUpdate();
+		sceneUpdate();*/
 	}
 	if ((int)simon->y> 370 && currentScene == SCENE_STATE_THIRD)
 	{
@@ -634,7 +657,6 @@ void CSceneManager::Update(DWORD dt)
 	}
 
 
-
 	//DebugOut(L"CoObsize=%d \n Obsize=%d \n", coObjects.size(), CGlobal::GetInstance()->objects.size());
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
@@ -654,7 +676,7 @@ CSceneManager::CSceneManager()
 {
 	
 	ReplaceScene = false;
-	switch (3)
+	switch (1)
 	{
 	case 1:
 	{

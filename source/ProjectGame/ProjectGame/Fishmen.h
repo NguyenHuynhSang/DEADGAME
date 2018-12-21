@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define FISHMAN_GRAVITY	       0.0018f
-#define FISHMAN_WALKING_SPEED  0.2f
+#define FISHMAN_WALKING_SPEED  0.1f
 #define FISHMAN_JUMP_SPEED_Y   0.8f
 
 #define FISHMAN_BBOX_WIDTH 32

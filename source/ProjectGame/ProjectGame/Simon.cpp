@@ -39,7 +39,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//isUpStair = false;
 		//isDownStair = false;
 	}
-
+	if (autoWalk==true)
+	{
+		state = SIMON_STATE_WALKING_RIGHT;
+		vx = SIMON_WALKING_SPEED / 4;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -87,11 +91,15 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (isUsesW == true)
 					{
-						nHeart--;
-						dagger = new CDagger();
-						dagger->setNx(nx);
-						dagger->SetPosition(x+10, y+12);
-						CGlobal::GetInstance()->objects.push_back(dagger);
+						if (currentSubWeapon==1)
+						{
+							nHeart--;
+							dagger = new CDagger();
+							dagger->setNx(nx);
+							dagger->SetPosition(x + 10, y + 12);
+							CGlobal::GetInstance()->objects.push_back(dagger);
+						}
+						
 					}
 
 					isUsesW = false;
@@ -104,12 +112,16 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (isUsesW == true)
 					{
-						nHeart--;
-						dagger = new CDagger();
-						DebugOut(L"Create Dagger \n");
-						dagger->setNx(nx);
-						dagger->SetPosition(x, y);
-						CGlobal::GetInstance()->objects.push_back(dagger);
+						if (currentSubWeapon==1)
+						{
+							nHeart--;
+							dagger = new CDagger();
+							DebugOut(L"Create Dagger \n");
+							dagger->setNx(nx);
+							dagger->SetPosition(x, y);
+							CGlobal::GetInstance()->objects.push_back(dagger);
+						}
+
 					}
 
 					isUsesW = false;
@@ -125,6 +137,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x += dx;
 		y += dy;
+		
 	}
 	else
 	{
@@ -136,23 +149,43 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//xu ly va cham voi nen nha
 			if (dynamic_cast<CBrick *>(e->obj))
 			{
-				if (onStair==true)
+				if (e->ny!=0)
 				{
-					x += dx;
-					y += dy;
-				}
-				else
-				{
-					x += min_tx*dx + nx*0.5f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					y += min_ty*dy + ny*0.4f;
-					if (nx != 0) vx = 0;
-					if (ny != 0) vy = 0;
-					if (state == SIMON_STATE_STAND_FIGHTING) {
-						vx = 0;
-						vy = 0;
+					if (onStair == true)
+					{
+						DebugOut(L"Simon leo thang \n");
+						x += dx;
+						y += dy;
 					}
+					else
+					{
+						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						y += min_ty*dy + ny*0.4f;
+						if (nx != 0) vx = 0;
+						if (ny != 0) vy = 0;
+						if (state == SIMON_STATE_STAND_FIGHTING) {
+							if (vy == 0)
+							{
+								vx = 0;
+							}
+						}
+					}
+				}	
+				else if(e->nx!=0)
+				{
+					if (onStair == true)
+					{
+						DebugOut(L"Simon leo thang \n");
+						x += dx;
+						y += dy;
+					}
+					else
+					{
+						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						if (nx != 0) vx = 0;
+					}
+					
 				}
-			
 			}			
 			else if (dynamic_cast<CHiddenObjects *>(e->obj))
 		 	{
@@ -247,11 +280,18 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						nHeart += 5;
 					}
-					else
-					if (f->GetState()==ITEM_STATE_NWHIP)
+					else if (f->GetState()==ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
 						DebugOut(L"Upwhiphere \n");
+					}
+					else if (f->GetState()==ITEM_STATE_MHEART)
+					{
+						nHeart += 1;
+					}
+					else if (f->GetState() == ITEM_STATE_DANGER) 
+					{
+						currentSubWeapon = 1;
 					}
 					f->isRemove = true;
 				}
@@ -263,10 +303,17 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						nHeart += 5;
 					}
-					else
-					if (f->GetState() == ITEM_STATE_NWHIP)
+					else if (f->GetState() == ITEM_STATE_NWHIP)
 					{
 						isUpWhip = true;
+					}
+					else if (f->GetState() == ITEM_STATE_MHEART)
+					{
+						nHeart += 1;
+					}
+					else if (f->GetState() == ITEM_STATE_DANGER)
+					{
+						currentSubWeapon = 1;
 					}
 					f->isRemove = true;
 				}
@@ -336,7 +383,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else 
 			{
-				x += min_tx*dx + nx*0.5f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 				y += min_ty*dy + ny*0.5f;
 				if (nx != 0) vx = 0;
 				if (ny != 0) vy = 0;
@@ -414,28 +461,28 @@ void CSIMON::Render()
 	{
 		ani = SIMON_ANI_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state==SIMON_STATE_IDLE_UP_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_UPSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state== SIMON_STATE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state == SIMON_STATE_IDLE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_DOWNSTAIR;
 		animations[ani]->Render(nx, x, y, 255);
-		RenderBoundingBox(x + 14, y);
+	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 
@@ -533,7 +580,7 @@ void CSIMON::Render()
 
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
-	RenderBoundingBox(x+14,y);
+	//RenderBoundingBox(x+14,y);
 	
 }
 
@@ -554,6 +601,7 @@ void CSIMON::SetState(int state)
 		break;
 	case SIMON_STATE_JUMP:
 		//DebugOut(L"[Line]:%d SIMON state jump\n", __LINE__);
+		
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
@@ -577,6 +625,7 @@ void CSIMON::SetState(int state)
 		if (isJump==false)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
+			vy = 0;
 		}
 		break;
 	case SIMON_STATE_UP_STAIR:

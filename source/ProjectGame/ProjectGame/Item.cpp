@@ -3,6 +3,7 @@
 #include"Brick.h"
 #include"Global.h"
 #include"Textures.h"
+#include<time.h>
 void CItem::Render()
 {
 
@@ -15,6 +16,7 @@ void CItem::createItem()
 }
 void CItem::_rank()
 {
+	srand(time(NULL));
 	state= rand() % 6 + 1;
 }
 void CItem::LoadResource()
@@ -117,14 +119,32 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 	CGameObject::Update(dt);
-	vy += ITEM_GRAVITY*dt;
+	if (state == ITEM_STATE_MHEART)
+	{
+		vy = ITEM_SPEED_Y*dt;
+	}
+	else
+	{
+		vy += ITEM_GRAVITY*dt;
+	}
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		y += dy;
+		if (state==ITEM_STATE_MHEART)
+		{
+			y += dy;
+			x = ITEM_MHEAD_OX_WEIGHT * sin(y*0.15) + mheartox;
+		}
+		else
+		{
+			y += dy;
+		
+		}
+		
 	}
 	else
 	{

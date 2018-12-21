@@ -1,85 +1,38 @@
-d:\my code\gamecode\projectgame\projectgame\debug\vc140.pdb
-d:\my code\gamecode\projectgame\projectgame\debug\vc140.idb
-d:\my code\gamecode\projectgame\projectgame\debug\brick.obj
-d:\my code\gamecode\projectgame\projectgame\debug\debug.obj
-d:\my code\gamecode\projectgame\projectgame\debug\game.obj
-d:\my code\gamecode\projectgame\projectgame\debug\gameobject.obj
-d:\my code\gamecode\projectgame\projectgame\debug\goomba.obj
-d:\my code\gamecode\projectgame\projectgame\debug\main.obj
-d:\my code\gamecode\projectgame\projectgame\debug\mario.obj
-d:\my code\gamecode\projectgame\projectgame\debug\sprites.obj
-d:\my code\gamecode\projectgame\projectgame\debug\textures.obj
-d:\my code\gamecode\projectgame\projectgame\debug\zombie.obj
-d:\my code\gamecode\projectgame\projectgame\debug\simon.obj
-d:\my code\gamecode\projectgame\projectgame\debug\tilemap.obj
-d:\my code\gamecode\projectgame\projectgame\debug\torch.obj
 d:\git\projectx\source\projectgame\projectgame\debug\vc140.pdb
 d:\git\projectx\source\projectgame\projectgame\debug\vc140.idb
 d:\git\projectx\source\projectgame\projectgame\debug\brick.obj
+d:\git\projectx\source\projectgame\projectgame\debug\camera.obj
+d:\git\projectx\source\projectgame\projectgame\debug\cell.obj
+d:\git\projectx\source\projectgame\projectgame\debug\dagger.obj
 d:\git\projectx\source\projectgame\projectgame\debug\debug.obj
+d:\git\projectx\source\projectgame\projectgame\debug\door.obj
+d:\git\projectx\source\projectgame\projectgame\debug\effect.obj
 d:\git\projectx\source\projectgame\projectgame\debug\game.obj
 d:\git\projectx\source\projectgame\projectgame\debug\gameobject.obj
+d:\git\projectx\source\projectgame\projectgame\debug\global.obj
+d:\git\projectx\source\projectgame\projectgame\debug\item.obj
+d:\git\projectx\source\projectgame\projectgame\debug\scenemanager.obj
 d:\git\projectx\source\projectgame\projectgame\debug\tilemap.obj
 d:\git\projectx\source\projectgame\projectgame\debug\torch.obj
-d:\git\projectx\source\projectgame\projectgame\debug\zombie.obj
+d:\git\projectx\source\projectgame\projectgame\debug\whip.obj
+d:\git\projectx\source\projectgame\projectgame\debug\ghoul.obj
 d:\git\projectx\source\projectgame\projectgame\debug\main.obj
 d:\git\projectx\source\projectgame\projectgame\debug\simon.obj
 d:\git\projectx\source\projectgame\projectgame\debug\sprites.obj
 d:\git\projectx\source\projectgame\projectgame\debug\textures.obj
-d:\git\projectx\source\projectgame\projectgame\debug\whip.obj
-d:\test\projectgame\projectgame\debug\vc140.pdb
-d:\test\projectgame\projectgame\debug\vc140.idb
-d:\test\projectgame\projectgame\debug\brick.obj
-d:\test\projectgame\projectgame\debug\debug.obj
-d:\test\projectgame\projectgame\debug\game.obj
-d:\test\projectgame\projectgame\debug\gameobject.obj
-d:\test\projectgame\projectgame\debug\tilemap.obj
-d:\test\projectgame\projectgame\debug\torch.obj
-d:\test\projectgame\projectgame\debug\whip.obj
-d:\test\projectgame\projectgame\debug\zombie.obj
-d:\test\projectgame\projectgame\debug\main.obj
-d:\test\projectgame\projectgame\debug\simon.obj
-d:\test\projectgame\projectgame\debug\sprites.obj
-d:\test\projectgame\projectgame\debug\textures.obj
-d:\test\projectgame\projectgame\debug\effect.obj
-d:\test\projectgame\projectgame\debug\item.obj
-d:\test\projectgame\projectgame\debug\dagger.obj
-d:\test\projectgame\projectgame\debug\global.obj
-d:\test\projectgame\projectgame\debug\camera.obj
-d:\test\projectgame\projectgame\debug\ghoul.obj
-d:\test\projectgame\projectgame\debug\cell.obj
-d:\test\projectgame\projectgame\debug\scenemanager.obj
-d:\git\projectx\source\projectgame\projectgame\debug\camera.obj
-d:\git\projectx\source\projectgame\projectgame\debug\cell.obj
-d:\git\projectx\source\projectgame\projectgame\debug\dagger.obj
-d:\git\projectx\source\projectgame\projectgame\debug\effect.obj
-d:\git\projectx\source\projectgame\projectgame\debug\global.obj
-d:\git\projectx\source\projectgame\projectgame\debug\item.obj
-d:\git\projectx\source\projectgame\projectgame\debug\scenemanager.obj
-d:\git\projectx\source\projectgame\projectgame\debug\ghoul.obj
-d:\git\projectx\source\projectgame\projectgame\debug\door.obj
-d:\my code\gamecode\projectgame\debug\projectgame.ilk
-d:\my code\gamecode\projectgame\debug\projectgame.exe
-d:\my code\gamecode\projectgame\debug\projectgame.pdb
-d:\test\projectgame\debug\projectgame.ilk
-d:\test\projectgame\debug\projectgame.exe
-d:\test\projectgame\debug\projectgame.pdb
-d:\git\projectx\source\projectgame\projectgame\debug\goomba.obj
-d:\git\projectx\source\projectgame\projectgame\debug\mario.obj
+d:\git\projectx\source\projectgame\projectgame\debug\stair.obj
+d:\git\projectx\source\projectgame\projectgame\debug\hiddenobjects.obj
+d:\git\projectx\source\projectgame\projectgame\debug\blackboard.obj
+d:\git\projectx\source\projectgame\projectgame\debug\panther.obj
+d:\git\projectx\source\projectgame\projectgame\debug\bat.obj
+d:\git\projectx\source\projectgame\projectgame\debug\gameui.obj
+d:\git\projectx\source\projectgame\projectgame\debug\fishmen.obj
+d:\git\projectx\source\projectgame\debug\projectgame.ilk
+d:\git\projectx\source\projectgame\debug\projectgame.exe
 d:\git\projectx\source\projectgame\debug\projectgame.pdb
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\cl.command.1.tlog
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\cl.read.1.tlog
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\cl.write.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link-cvtres.read.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link-cvtres.write.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link-rc.read.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link-rc.write.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296-cvtres.read.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296-cvtres.write.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296-rc.read.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296-rc.write.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296.read.1.tlog
-d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.9296.write.1.tlog
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.command.1.tlog
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.read.1.tlog
 d:\git\projectx\source\projectgame\projectgame\debug\projectgame.tlog\link.write.1.tlog

@@ -64,7 +64,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_C:
-		if (SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->getHeart()==0)
+		if (SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->getHeart()==0 || SIMON->getcurrentSubWeapon()==0|| SIMON->onStair==true)
 		{
 			//DebugOut(L"\n");
 			return;
@@ -122,7 +122,10 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
 
-
+	if (SIMON->autoWalk==true)
+	{
+		return;
+	}
 	if (SIMON->isUpWhip == true)
 	{
 		SIMON->SetState(SIMON_STATE_UPWHIP);

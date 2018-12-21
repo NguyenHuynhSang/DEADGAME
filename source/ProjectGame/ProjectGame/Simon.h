@@ -3,7 +3,7 @@
 #include"Whip.h"
 #include"Textures.h"
 #include"Dagger.h"
-#define SIMON_WALKING_SPEED		0.2f 
+#define SIMON_WALKING_SPEED		0.15f 
 #define SIMON_FIRE_TIME			300
 //0.1f
 #define SIMON_JUMP_SPEED_Y		0.55f
@@ -74,11 +74,12 @@ class CSIMON : public CGameObject
 	CDagger* dagger;
 	int nLife;
 	int nHeart;
+	int currentSubWeapon = 0;
 public:
 
-	bool isUsesW=false;
+	bool isUsesW = false;
 	bool isDelay = false;
-	bool isUpWhip=false;
+	bool isUpWhip = false;
 	bool isFighting = false;
 	bool isSitting = false;
 	bool isUpStair = false;
@@ -88,11 +89,13 @@ public:
 	bool onStair = false;
 	int stair_X = 0;
 	int stairState = 0;
+	bool autoWalk = false;
 	bool isTouchGr() { return vy == 0 ? true : false; };
 	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }
 	int getLife() { return nLife; }
-	void setHeart(int _heart){ nHeart = nHeart + _heart > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nHeart + _heart; }
-	int getHeart(){ return nHeart; }
+	void setHeart(int _heart) { nHeart = nHeart + _heart > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nHeart + _heart; }
+	int getHeart() { return nHeart; }
+	int getcurrentSubWeapon() { return currentSubWeapon; };
 	void setNX(float x) { nx = x; }
 	static CSIMON *GetInstance();
 	CSIMON() 

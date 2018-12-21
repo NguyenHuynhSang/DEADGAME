@@ -2,10 +2,10 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include<string>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
-
+using namespace std;
 #define KEYBOARD_BUFFER_SIZE 1024
 /*
 Abstract class to define keyboard event handlers
@@ -53,7 +53,7 @@ public:
 	void getCam(float &x, float &y) {  };
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int botton,int nx, int alpha = 255, bool draw=false);
-	void DrawTextUI(char * gameinfo, RECT rec);
+	void DrawTextUI(string gameinfo, RECT rec);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 

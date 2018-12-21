@@ -78,6 +78,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			item->SetPosition(x, y);
 			item->SetState(ItemState);
 			item->createItem();
+			item->mheartox = x;
 			isRemove = true;
 		}
 		

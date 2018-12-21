@@ -32,8 +32,19 @@ void CFishmen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-	
-	
+
+	if (vy==0)
+	{
+		state = FISHMAN_STATE_WALKING;
+		if (nx>1)
+		{
+			vx = -FISHMAN_WALKING_SPEED;
+		}
+		else
+		{
+			vx = FISHMAN_WALKING_SPEED;
+		}
+	}
 	vy += FISHMAN_GRAVITY*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

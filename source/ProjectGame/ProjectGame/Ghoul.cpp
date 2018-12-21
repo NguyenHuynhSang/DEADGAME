@@ -3,7 +3,6 @@
 #include"Global.h"
 #include"Camera.h"
 #include"HiddenObjects.h"
-#include <time.h>
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -31,9 +30,10 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state==GHOUL_STATE_DIE)
 	{
 		item = new CItem();
-		srand(time(NULL));
+		int random = rand() % 40 + 1;
 		item->_rank();
 		item->SetPosition(x, y);
+		item->mheartox = x;
 		CGlobal::GetInstance()->objects.push_back(item);
 	
 		this->isRemove = true;

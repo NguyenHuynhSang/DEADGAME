@@ -21,6 +21,7 @@
 class CSceneManager
 {
 	int currentScene;
+	int gameState = 0;
 	static CSceneManager * __instance;
 	CTileMap *tileG;
 	LPGAMEOBJECT * listEnermy; // lưu enermy vào danh sách riêng để reset
@@ -30,6 +31,7 @@ public:
 	 void LoadMap();
 	 void RenderMap();
 	 void initScene();
+	 int getState() { return gameState; };
 	 void sceneUpdate();
 	 int getScene() { return currentScene; }
 	 bool ReplaceScene;

@@ -1,10 +1,12 @@
 #pragma once
 #include"GameObject.h"
 
-#define ITEM_GRAVITY 0.002f
+#define ITEM_SPEED_Y 0.004f
 #define ITEM_SHOW_TIME 3000
 
+#define ITEM_GRAVITY			0.002f
 
+#define ITEM_MHEAD_OX_WEIGHT  20
 
 #define ID_TEX_ITEM_BHEART 200
 #define ID_TEX_ITEM_NWHIP 201
@@ -46,7 +48,10 @@ class CItem:public CGameObject
 {
 	DWORD timeStart;
 	DWORD timeShow;
+
+	
 public:
+	int mheartox = 0;
 	bool isShow = false;
 	bool colSimon = false;
 	virtual void Render();

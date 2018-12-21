@@ -97,11 +97,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 			
 			if (CGameObject::isColliding(this, f)==true)
 			{
-					DebugOut(L"Co va cham \n");
+					DebugOut(L"Co va cham voi torch \n");
 					// thuc ra chi ngung render neu va cham chua remove han can toi uu
 					//xong
 					f->SetState(TORCH_STATE_DISAPPEAR);
-					
+					break;
 			}
 		}
 		else if (dynamic_cast<CGhoul *>(e))
@@ -109,10 +109,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 			CGhoul * g = dynamic_cast<CGhoul*> (e);
 			if (CGameObject::isColliding(this, g) == true)
 			{
-				DebugOut(L"Co va cham \n");
+				//DebugOut(L"Co va cham \n");
 				// thuc ra chi ngung render neu va cham chua remove han can toi uu
 				//xong
 				g->SetState(GHOUL_STATE_DIE);
+				break;
 			}
 		}
 		else if (dynamic_cast<CPanther *>(e))
@@ -124,6 +125,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* cobjects)
 				// thuc ra chi ngung render neu va cham chua remove han can toi uu
 				//xong
 				p->SetState(PANTHER_STATE_DIE);
+				break;
 			}
 		}
 

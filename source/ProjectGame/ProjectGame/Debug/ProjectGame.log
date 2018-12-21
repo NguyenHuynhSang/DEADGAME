@@ -1,15 +1,37 @@
-﻿  GameObject.cpp
+﻿  SceneManager.cpp
 d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Game.cpp
-d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\game.cpp(98): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\game.cpp(99): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\game.cpp(140): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\game.cpp(361): warning C4305: '=': truncation from '__int64' to 'float'
-d:\git\projectx\source\projectgame\projectgame\game.cpp(362): warning C4305: '=': truncation from '__int64' to 'float'
-d:\git\projectx\source\projectgame\projectgame\game.cpp(372): warning C4305: '=': truncation from '__int64' to 'float'
-d:\git\projectx\source\projectgame\projectgame\game.cpp(373): warning C4305: '=': truncation from '__int64' to 'float'
-  Generating Code...
-C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1193,5): warning MSB8030: The linker switch "Minimum Required Version" requires "SubSystem" to be set.  Without "SubSystem", the "Minimum Required Version" would not be passed to linker and could prevent to the output binary from running on older Operating Systems.
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.h(99): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\panther.h(31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\bat.h(38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\fishmen.h(30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(143): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(187): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(202): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(217): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(234): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(252): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(276): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(292): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(310): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(323): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(343): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(371): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(381): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(393): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(400): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(419): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(480): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(488): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(498): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(542): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(632): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(646): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(661): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)
