@@ -77,14 +77,23 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	case DIK_F:
 		//DebugOut(L"Press Fighting  \n");
-		if (SIMON->GetState()==SIMON_STATE_UPWHIP ||SIMON->onStair==true)
+		if (SIMON->GetState()==SIMON_STATE_UPWHIP)
+		{
+			return;
+		}
+		if (SIMON->GetState() == SIMON_STATE_IDLE_UP_STAIR && SIMON->vx == 0 && SIMON->vy == 0)
+		{
+			SIMON->SetState(SIMON_STATE_UPSTAIR_FIGHTING);
+			return;
+		}
+		if (SIMON->onStair==true)
 		{
 			return;
 		}
 		SIMON->SetState(SIMON_STATE_STAND_FIGHTING);
 		break;
 	case DIK_SPACE:
-		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING || SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->isSitting==true)
+		if (SIMON->GetState() == SIMON_STATE_JUMP || SIMON->GetState()== SIMON_STATE_STAND_FIGHTING || SIMON->GetState() == SIMON_STATE_UPWHIP ||SIMON->isSitting==true|| SIMON->autoWalk==true)
 		{
 			return;
 		}
@@ -121,6 +130,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	SIMON->isJump=false;
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
+	if (SIMON->GetState() == SIMON_STATE_HIT_ENERMY) return;
 
 	if (SIMON->autoWalk==true)
 	{
@@ -216,7 +226,20 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	}
 	pressUD = false;
 	checkStair = 0;
-	
+	if (SIMON->GetState()==SIMON_STATE_UPSTAIR_FIGHTING)
+	{
+		if (CAnimations::GetInstance()->Get(SIMON_IDANI_UPSTAIR_FIGHT)->getCurrentFrame() != 3)
+		{
+			//	DebugOut(L"State fighting \n");
+			return;
+		}
+		else
+		{
+			SIMON->isDelay = false;
+			// sửa lỗi bị delay
+			CAnimations::GetInstance()->Get(SIMON_IDANI_UPSTAIR_FIGHT)->setCurrentFrame(-1);
+		}
+	}
 	if (SIMON->GetState() == SIMON_STATE_STAND_FIGHTING)
 	{
 		if (SIMON->isSitting==true)

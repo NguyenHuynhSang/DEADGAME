@@ -21,6 +21,7 @@
 class CSceneManager
 {
 	int currentScene;
+	int gameScore = 0;
 	int gameState = 0;
 	static CSceneManager * __instance;
 	CTileMap *tileG;
@@ -30,6 +31,8 @@ public:
 	 void LoadResource();
 	 void LoadMap();
 	 void RenderMap();
+	 void addScore(float point) { gameScore += point; };
+	 int getScore() { return gameScore; }
 	 void initScene();
 	 int getState() { return gameState; };
 	 void sceneUpdate();

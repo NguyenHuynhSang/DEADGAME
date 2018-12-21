@@ -8,7 +8,7 @@ CCamera *CCamera::GetInstance()
 	if (__instance == NULL) __instance = new CCamera();
 	return __instance;
 }
-void CCamera::autoCamera()
+void CCamera::autoCamera(float X)
 {
 	endautoTime = GetTickCount();
 	if (isauto == true)

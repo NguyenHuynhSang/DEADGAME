@@ -123,6 +123,9 @@
     <ClCompile Include="Fishmen.cpp">
       <Filter>GameObjects\Enermy</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>GameObjects\Static</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Fishmen.h">
       <Filter>GameObjects\Enermy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>GameObjects\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

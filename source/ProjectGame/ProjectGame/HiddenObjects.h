@@ -3,7 +3,7 @@
 
 #define HO_STATE_STAIR_TOP 100
 #define HO_STATE_STAIR_BOTTOM 200
-
+#define HO_STATE_GROUND    300
 class CHiddenObjects:public CGameObject
 {
 	int _width;

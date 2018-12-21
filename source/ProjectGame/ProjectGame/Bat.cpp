@@ -19,6 +19,7 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (x<CCamera::GetInstance()->getCamX())
 	{
 		isRemove = true;
+		
 		return;
 	}
 	if (isEnable==false)

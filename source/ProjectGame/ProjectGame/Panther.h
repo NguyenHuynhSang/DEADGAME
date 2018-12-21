@@ -22,6 +22,7 @@
 
 class CPanther:public CGameObject
 {
+	int point = 200;
 public:
 	bool isEnable = false;
 	bool isLeft = false;

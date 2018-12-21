@@ -16,13 +16,37 @@ CGameUI *CGameUI::GetInstance()
 
 void CGameUI::Update()
 {
+	int score = CSceneManager::GetInstance()->getScore();
+	string gamescore;
+	if (score<1000)
+	{
+		gamescore= "000"+std::to_string(CSceneManager::GetInstance()->getScore());
+	}
+	else if (score<10000)
+	{
+		gamescore = "00" + std::to_string(CSceneManager::GetInstance()->getScore());
+	}
+	else if (score<100000)
+	{
+		gamescore = "0" + std::to_string(CSceneManager::GetInstance()->getScore());
+	}
+	else if (score<1000000)
+	{
+		gamescore = std::to_string(CSceneManager::GetInstance()->getScore());
+	}
+	if (score ==0)
+	{
+		gamescore = "000000";
+	}
+
+
 	string state = std::to_string(CSceneManager::GetInstance()->getState());
 	string heart= std::to_string(CSIMON::GetInstance()->getHeart());
-	_UIinfor = " SCORE-000000                         ";
+	_UIinfor = " SCORE-"+gamescore+"                         ";
 	_UIinfor += "TIME 0000                       ";
 	_UIinfor += "STAGE 0"+state;
 	_UIinfor += "\n PLAYER                                                                      "+heart;
-	_UIinfor += "\n ENERMY                                                                     01";
+	_UIinfor += "\n ENERMY                                                                     03";
 }
 
 void CGameUI::Render()
@@ -56,7 +80,7 @@ CGameUI::CGameUI()
 	_UIinfor += "TIME 0000                            ";
 	_UIinfor += "STAGE 00  ";
 	_UIinfor += "\n PLAYER                                                                      05";
-	_UIinfor += "\n ENERMY                                                                     01";
+	_UIinfor += "\n ENERMY                                                                     03";
 	
 }
 

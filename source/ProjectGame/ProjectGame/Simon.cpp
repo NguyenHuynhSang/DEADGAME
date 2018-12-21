@@ -3,10 +3,12 @@
 #include "Simon.h"
 #include "Game.h"
 #include "ghoul.h"
+#include"Panther.h"
 #include"Whip.h"
 #include"Torch.h"
 #include"Brick.h"
 #include"Item.h"
+#include"Ground.h"
 #include"Stair.h"
 #include"HiddenObjects.h"
 #include"Camera.h"
@@ -17,6 +19,7 @@ CSIMON * CSIMON::GetInstance()
 	if (__instance == NULL)	__instance = new CSIMON();
 	return __instance;
 }
+
 void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 
@@ -30,10 +33,30 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x = CCamera::GetInstance()->getVPWidth() - 64;
 	}
+	
+	if (state == SIMON_STATE_HIT_ENERMY )
+	{
+		vx = nx > 0 ? -SIMON_HIT_DEFLECT_SPEED_X : SIMON_HIT_DEFLECT_SPEED_X;
+		DWORD now = GetTickCount();
+		if (now- HITENERMY_start<50) // nếu setbt sẽ bay mãi, còn set 1 lần thì lại k chạy?
+		{
+			vy = -SIMON_HIT_DEFLECT_SPEED_Y;
+		}
+		else
+		{
+			now = 0;
+			HITENERMY_start = 0;
+		}
+	
+		
+		if (vy==0)
+		{
+			state = SIMON_STATE_IDLE;
+		}
+	}
 
 
-
-	if (state!=SIMON_STATE_UP_STAIR && state != SIMON_STATE_DOWN_STAIR)
+	if (state!=SIMON_STATE_UP_STAIR && state != SIMON_STATE_DOWN_STAIR &&state != SIMON_STATE_UPSTAIR_FIGHTING)
 	{
 		vy += SIMON_GRAVITY*dt;
 		//isUpStair = false;
@@ -44,6 +67,11 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		state = SIMON_STATE_WALKING_RIGHT;
 		vx = SIMON_WALKING_SPEED / 4;
 	}
+
+	
+
+
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -52,7 +80,30 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-
+	if (state==SIMON_STATE_UPSTAIR_FIGHTING)
+	{
+		if (whip->GetState() == WHIP_STATE_WHITE)
+		{
+			if (CAnimations::GetInstance()->Get(WHIP_NOLMAL_ANI_ID)->getCurrentFrame() == 2)
+			{
+				whip->Update(dt, coObjects);
+			}
+		}
+		else if (whip->GetState() == WHIP_STATE_BLUE)
+		{
+			if (CAnimations::GetInstance()->Get(WHIP_BLUE_ANI_ID)->getCurrentFrame() == 2)
+			{
+				whip->Update(dt, coObjects);
+			}
+		}
+		else if (whip->GetState() == WHIP_STATE_RED)
+		{
+			if (CAnimations::GetInstance()->Get(WHIP_RED_ANI_ID)->getCurrentFrame() == 8)
+			{
+				whip->Update(dt, coObjects);
+			}
+		}
+	}
 	if (state==SIMON_STATE_STAND_FIGHTING)
 	{
 		
@@ -147,7 +198,37 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			//xu ly va cham voi nen nha
-			if (dynamic_cast<CBrick *>(e->obj))
+
+		    if (dynamic_cast<CGround *>(e->obj))
+			{
+				if (e->ny!=0)
+				{
+					if (onStair == true)
+					{
+						DebugOut(L"Simon leo thang \n");
+						x += dx;
+						y += dy;
+					}
+					//DebugOut(L"va cham hiden theo Y\n");
+					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					y += min_ty*dy + ny*0.4f;
+					if (nx != 0) vx = 0;
+					if (ny != 0) vy = 0;
+				
+				}
+				else if(nx!=0)
+				{
+					if (onStair == true)
+					{
+						DebugOut(L"Simon leo thang \n");
+						x += dx;
+						y += dy;
+					}
+				//	DebugOut(L"va cham hiden theo X\n");
+						
+				}
+			}
+			else if (dynamic_cast<CBrick *>(e->obj))
 			{
 				if (e->ny!=0)
 				{
@@ -162,7 +243,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 						y += min_ty*dy + ny*0.4f;
 						if (nx != 0) vx = 0;
-						if (ny != 0) vy = 0;
+						vy = 0;
 						if (state == SIMON_STATE_STAND_FIGHTING) {
 							if (vy == 0)
 							{
@@ -181,7 +262,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					else
 					{
-						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 						if (nx != 0) vx = 0;
 					}
 					
@@ -193,7 +274,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CHiddenObjects * f = dynamic_cast<CHiddenObjects*> (e->obj);
 				if (e->nx!=0)
 				{
-					
+				
 					stairState = f->getStairState();
 					if (stairState==2)
 					{
@@ -220,6 +301,7 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->ny!=0)
 				{
+			
 					stairState = f->getStairState();
 					if (stairState == 2  )
 					{
@@ -264,62 +346,32 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 				}
 			}
-			// xử lý va chạm giữa Simon và item
-			// trường hợp nếu item xuất hiện đúng vị trí
-			//bbox của simon thuật toán sẽ chạy sai
-			// cần có pp cho trường hợp đó ex:AABB
 			else if (dynamic_cast<CItem *>(e->obj))
 			{
-				DebugOut(L"\n ITEM HERE");
+				
 				CItem * f = dynamic_cast<CItem*> (e->obj);
-				if (e->nx!=0)
+				DebugOut(L"Col with item \n");
+				if (f->GetState() == ITEM_STATE_BHEART)
 				{
-					DebugOut(L"Col with item \n");
-					x += dx;
-					if (f->GetState()==ITEM_STATE_BHEART)
-					{
-						nHeart += 5;
-					}
-					else if (f->GetState()==ITEM_STATE_NWHIP)
-					{
-						isUpWhip = true;
-						DebugOut(L"Upwhiphere \n");
-					}
-					else if (f->GetState()==ITEM_STATE_MHEART)
-					{
-						nHeart += 1;
-					}
-					else if (f->GetState() == ITEM_STATE_DANGER) 
-					{
-						currentSubWeapon = 1;
-					}
-					f->isRemove = true;
+					nHeart += 5;
 				}
-				else if (e->ny!=0)
+				else if (f->GetState() == ITEM_STATE_NWHIP)
 				{
-					DebugOut(L"Col with item \n");
-					y += dy;
-					if (f->GetState() == ITEM_STATE_BHEART)
-					{
-						nHeart += 5;
-					}
-					else if (f->GetState() == ITEM_STATE_NWHIP)
-					{
-						isUpWhip = true;
-					}
-					else if (f->GetState() == ITEM_STATE_MHEART)
-					{
-						nHeart += 1;
-					}
-					else if (f->GetState() == ITEM_STATE_DANGER)
-					{
-						currentSubWeapon = 1;
-					}
-					f->isRemove = true;
+					isUpWhip = true;
 				}
-				if (isUpWhip==true)
+				else if (f->GetState() == ITEM_STATE_MHEART)
 				{
-					if (whip->GetState()==WHIP_STATE_WHITE)
+					nHeart += 1;
+				}
+				else if (f->GetState() == ITEM_STATE_DANGER)
+				{
+					currentSubWeapon = 1;
+				}
+				f->isRemove = true;
+
+				if (isUpWhip == true)
+				{
+					if (whip->GetState() == WHIP_STATE_WHITE)
 					{
 						whip->SetState(WHIP_STATE_BLUE);
 					}
@@ -358,36 +410,44 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					y += dy;
 				}
 			}
-
-			//Va cham voi ghost
-			else  if (dynamic_cast<CGhoul *>(e->obj))
+			else if (dynamic_cast<CGhoul *>(e->obj))
 			{
 				CGhoul *goomba = dynamic_cast<CGhoul *>(e->obj);
-				if (e->nx!=0)
-				{
-					//
-					//DebugOut(L"Cos event running");
-					/*vx = 0.2 * 2;*/
-					x += dx;
-				}
-				// jump on top >> kill Goomba and deflect a bit 
 
-				if (e->ny < 0)
+				if (e->nx != 0)
 				{
-					y += dy;
+					//x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					//y += min_ty*dy + ny*0.4f;
+					//if (nx != 0) vx = 0;
+					DebugOut(L"Va cham ghost theo X\n");
+
+					state = SIMON_STATE_HIT_ENERMY;
+					HITENERMY_start = GetTickCount();
+					nx = goomba->nx;
+					return;
 				}
-				else if (e->nx != 0)
-				{
-	
-				}
+
 			}
-			else 
+			else if (dynamic_cast<CPanther *>(e->obj)) 
 			{
-				x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-				y += min_ty*dy + ny*0.5f;
-				if (nx != 0) vx = 0;
+				CPanther *panther = dynamic_cast<CPanther *>(e->obj);
+				//x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				//y += min_ty*dy + ny*0.4f;
+				//if (nx != 0) vx = 0;
+				DebugOut(L"Va cham ghost theo X\n");
+				state = SIMON_STATE_HIT_ENERMY;
+				HITENERMY_start = GetTickCount();
+				nx = panther->nx;
+				return;
+			}
+			else
+			{
+				//DebugOut(L"va cham hiden theo Y\n");
+				y += min_ty*dy + ny*0.4f;
+				x += dx;
 				if (ny != 0) vy = 0;
 			}
+		
 		
 		}
 	}
@@ -403,10 +463,36 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			if (CGameObject::isColliding(this, f) == true)
 			{
-			//	DebugOut(L"Co va cham \n");
-				// thuc ra chi ngung render neu va cham chua remove han can toi uu
-				//xong
-			//	f->isRemove = true;
+				DebugOut(L"Col with item \n");
+				if (f->GetState() == ITEM_STATE_BHEART)
+				{
+					nHeart += 5;
+				}
+				else if (f->GetState() == ITEM_STATE_NWHIP)
+				{
+					isUpWhip = true;
+				}
+				else if (f->GetState() == ITEM_STATE_MHEART)
+				{
+					nHeart += 1;
+				}
+				else if (f->GetState() == ITEM_STATE_DANGER)
+				{
+					currentSubWeapon = 1;
+				}
+				f->isRemove = true;
+
+				if (isUpWhip == true)
+				{
+					if (whip->GetState() == WHIP_STATE_WHITE)
+					{
+						whip->SetState(WHIP_STATE_BLUE);
+					}
+					else if (whip->GetState() == WHIP_STATE_BLUE)
+					{
+						whip->SetState(WHIP_STATE_RED);
+					}
+				}
 			}
 		}
 		if (dynamic_cast<CHiddenObjects *>(e))
@@ -457,6 +543,26 @@ void CSIMON::Render()
 {
 	
 	int ani;
+
+	if (state == SIMON_STATE_UPSTAIR_FIGHTING)
+	{
+		
+		whip->setnx(nx);
+		whip->SetPosition(x - 85, y);
+		whip->Render();
+		ani = SIMON_ANI_UPSTAIR_FIRE;
+		animations[ani]->Render(nx, x, y, 255);
+		//	RenderBoundingBox(x + 14, y);
+		return;
+	}
+	
+	if (state == SIMON_STATE_HIT_ENERMY)
+	{
+		ani = SIMON_ANI_HITENERMY;
+		animations[ani]->Render(nx, x, y, 255);
+		//	RenderBoundingBox(x + 14, y);
+		return;
+	}
 	if (state == SIMON_STATE_UP_STAIR)
 	{
 		ani = SIMON_ANI_UPSTAIR;
@@ -600,7 +706,7 @@ void CSIMON::SetState(int state)
 		nx = -1;
 		break;
 	case SIMON_STATE_JUMP:
-		//DebugOut(L"[Line]:%d SIMON state jump\n", __LINE__);
+		DebugOut(L"[Line]:%d SIMON state jump\n");
 		
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
@@ -608,7 +714,8 @@ void CSIMON::SetState(int state)
 		vx = 0;
 		break;
 	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
+		vx = 0;
+		vy = 0;
 		break;
 	case SIMON_STATE_UPWHIP:
 		if (CAnimations::GetInstance()->Get(507)->getCurrentFrame()==4)
@@ -622,6 +729,8 @@ void CSIMON::SetState(int state)
 		vy = 0;
 		break;
 	case SIMON_STATE_STAND_FIGHTING:
+		DebugOut(L"SIMON->fighting \n");
+	//	CAnimations::GetInstance()->Get(502)->ResetCurrentFrame();
 		if (isJump==false)
 		{
 			vx = 0;	// dung khi simon dung vampie killer
@@ -679,7 +788,13 @@ void CSIMON::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
+	case SIMON_STATE_UPSTAIR_FIGHTING:
+		vx = 0;
+		vy = 0;
+		break;
 	}
+	
+
 }
 
 //get bounding box dùng để xét va chạm vì khi vẽ sprite lên khung hình thường
@@ -733,6 +848,27 @@ void CSIMON::LoadResource()
 	sprites->Add(10056, 230-30 , 67, 230 + 30, 130, texSimon);
 	sprites->Add(10057, 291-30 , 67, 291 + 30 , 130, texSimon);
 	sprites->Add(10058, 353 - 30, 67, 353 + 30 , 130, texSimon);
+
+
+
+	//Simon hit enermy
+	sprites->Add(10059, 50 - 30, 67, 50 + 30, 130, texSimon);
+
+
+	//simon up stair fight
+	sprites->Add(10060, 351 - 30, 132, 351 + 30, 196, texSimon);
+	sprites->Add(10061, 350 - 30, 132, 350 + 30, 196, texSimon);
+	sprites->Add(10062, 511 - 30, 132, 511 + 30, 196, texSimon);
+	
+
+
+
+
+
+
+
+
+
 
 
 
@@ -811,6 +947,17 @@ void CSIMON::LoadResource()
 	animations->Add(511, ani);
 
 
+	ani = new CAnimation(150); //simon hit enermy
+	ani->Add(10059);
+	animations->Add(512, ani);
+
+
+	ani = new CAnimation(WHIP_DELAY_TIME);
+	ani->Add(10060);
+	ani->Add(10061);
+	ani->Add(10062);
+	ani->Add(10057);
+	animations->Add(513, ani);
 
 
 	ani = new CAnimation(100);		// SIMON die

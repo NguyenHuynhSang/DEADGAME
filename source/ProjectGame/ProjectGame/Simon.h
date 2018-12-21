@@ -9,8 +9,8 @@
 #define SIMON_JUMP_SPEED_Y		0.55f
 #define SIMON_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_GRAVITY			0.002f
-#define SIMON_DIE_DEFLECT_SPEED	 0.5f
-
+#define SIMON_HIT_DEFLECT_SPEED_X	 0.2f
+#define SIMON_HIT_DEFLECT_SPEED_Y	 0.5f
 //Simon State
 
 #define SIMON_STATE_IDLE			0
@@ -26,6 +26,10 @@
 #define SIMON_STATE_DOWN_STAIR              1100
 #define SIMON_STATE_IDLE_UP_STAIR           1200
 #define SIMON_STATE_IDLE_DOWN_STAIR           1300
+#define SIMON_STATE_UPSTAIR_FIGHTING         1400
+#define SIMON_STATE_DOWNSTAIR_FIGHTING         1500
+#define SIMON_STATE_HIT_ENERMY                1600
+
 
 #define SIMON_ANI_IDLE              		0
 #define SIMON_ANI_WALKING			        1
@@ -37,14 +41,17 @@
 #define SIMON_ANI_DOWNSTAIR                 7
 #define SIMON_ANI_IDLE_UPSTAIR              8
 #define SIMON_ANI_IDLE_DOWNSTAIR            9
+#define SIMON_ANI_HITENERMY                 10
+#define SIMON_ANI_UPSTAIR_FIRE                 11
+#define SIMON_ANI_DOWNSTAIR_FIRE                 12
 #define SIMON_ANI_DIE				50
 
 
 #define SIMON_BIG_BBOX_WIDTH  30
 #define SIMON_BIG_BBOX_HEIGHT 60
 
-#define SIMON_MAX_LIFE_BAR 20
-#define SIMON_MAX_HEART_BAR 20
+#define SIMON_MAX_LIFE_BAR 16
+#define SIMON_MAX_HEART_BAR 99
 
 #define SIMON_IDANI_IDLE  400
 #define SIMON_IDANI_WALKING  500
@@ -56,6 +63,9 @@
 #define SIMON_IDANI_WDOWNSTAIR  509
 #define SIMON_IDANI_IDLEUSTAIR  510
 #define SIMON_IDANI_IDLEDSTAIR  511
+#define SIMON_IDANI_HITENERMY  512
+#define SIMON_IDANI_UPSTAIR_FIGHT  513
+#define SIMON_IDANI_DOWNSTAIR_FIGHT  514
 // có thể sửa lại thành invisible 
 #define SIMON_UNTOUCHABLE_TIME 5000
 
@@ -70,6 +80,7 @@ class CSIMON : public CGameObject
 	static CSIMON *__instance;
 	int untouchable;
 	DWORD untouchable_start;
+	DWORD HITENERMY_start;
 	CWhip* whip;
 	CDagger* dagger;
 	int nLife;
@@ -111,10 +122,12 @@ public:
 		AddAnimation(SIMON_IDANI_WDOWNSTAIR);      //Simon walking down stair          /7
 		AddAnimation(SIMON_IDANI_IDLEUSTAIR);      //Simon idle up stair     /8
 		AddAnimation(SIMON_IDANI_IDLEDSTAIR);      //Simon idle down stair   /9
+		AddAnimation(SIMON_IDANI_HITENERMY);     //10
+		AddAnimation(SIMON_IDANI_UPSTAIR_FIGHT);  //11
 		AddAnimation(599);		// die  /200
 
 		nLife = SIMON_MAX_LIFE_BAR;
-		nHeart = 50;
+		nHeart = 5;
 		untouchable = 0;
 		whip = CWhip::GetInstance();
 	}

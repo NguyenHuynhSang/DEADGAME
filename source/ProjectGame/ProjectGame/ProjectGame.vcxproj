@@ -129,6 +129,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HiddenObjects.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Panther.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="HiddenObjects.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Panther.h" />

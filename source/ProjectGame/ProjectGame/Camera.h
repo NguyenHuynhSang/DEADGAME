@@ -5,6 +5,7 @@
 #include"Global.h"
 
 #define CAM_AUTO_TIME 4000
+#define CAM_AUTO_SPEED 0.5f
 class CCamera
 {
 	float CamX;
@@ -19,7 +20,7 @@ public:
 	float getCamX() { return CamX; }
 	static CCamera * GetInstance();
 	void ResetCam() { CamX = 0; CamY = 0; };
-	void autoCamera();
+	void autoCamera(float X);
 	float getVPWidth() { return CamX + SCREEN_WIDTH; }
 	float getVPHeight() { return CamY + SCREEN_HEIGHT; }
 	bool isCamMove;

@@ -30,6 +30,7 @@
 
 class CBat:public CGameObject
 {
+	int point = 300;
 	float batOy;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

@@ -2,6 +2,7 @@
 #include"Textures.h"
 #include"Global.h"
 #include"Camera.h"
+#include"SceneManager.h"
 #include"HiddenObjects.h"
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -35,7 +36,7 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		item->SetPosition(x, y);
 		item->mheartox = x;
 		CGlobal::GetInstance()->objects.push_back(item);
-	
+		CSceneManager::GetInstance()->addScore(point);
 		this->isRemove = true;
 		return;
 	}
@@ -60,11 +61,13 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
+	
 		float min_tx, min_ty, nx = 0, ny;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		y += min_ty*dy + ny*0.4f;
 		x += dx;
 		if (ny != 0) vy = 0;
+	
 	}
 	// clean up collision events
 	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];

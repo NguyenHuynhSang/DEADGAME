@@ -8,6 +8,7 @@
 #include"Door.h"
 #include"Bat.h"
 #include"Fishmen.h"
+#include"Ground.h"
 #include"GameUI.h"
 CSceneManager * CSceneManager::__instance = NULL;
 
@@ -133,15 +134,22 @@ void CSceneManager::initScene()
 		simon->SetPosition(100, 375-64);
 		CGlobal::GetInstance()->objects.push_back(simon);
 
+		CGround *ground;
+		
 		CDoor* door = new CDoor();
 		door->SetPosition(1408, 87);
 		door->SetState(DOOR_STATE_BIGDOOR);
 		CGlobal::GetInstance()->objects.push_back(door);
+		
+		ground = new CGround();
+		ground->setBoundBox(1568, 32);
+		ground->SetPosition(0, 375);
+		CGlobal::GetInstance()->objects.push_back(ground);
 		for (int i = 0; i < 1536 / 32 + 4; i++)
 		{
 			CBrick *brick = new CBrick();
 			brick->SetPosition(i * 32, 350 + 25);
-			CGlobal::GetInstance()->objects.push_back(brick);
+			//CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
 		CTorch* Torch = new CTorch();
@@ -167,7 +175,7 @@ void CSceneManager::initScene()
 		Torch->SetState(TORCH_STATE_BURNING);
 		Torch->setItemState(ITEM_STATE_DANGER);
 		CGlobal::GetInstance()->objects.push_back(Torch);
-
+		
 		break;
 	}
 	case SCENE_STATE_SECOND:
@@ -192,7 +200,7 @@ void CSceneManager::initScene()
 		CHiddenObjects *hidenObject = new CHiddenObjects();
 		hidenObject->SetState(HO_STATE_STAIR_BOTTOM);
 		hidenObject->setStairState(2);
-		hidenObject->setBoundBox(96, 5);
+		hidenObject->setBoundBox(200, 5);
 		hidenObject->SetPosition(1250 - 32, 402 - 6);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
 		for (int i = 0; i < 4; i++)
@@ -615,7 +623,7 @@ void CSceneManager::Update(DWORD dt)
 	}
 	if (simon->x>3070-64 && currentScene == SCENE_STATE_SECOND)
 	{
-		CCamera::GetInstance()->autoCamera();
+		CCamera::GetInstance()->autoCamera(4000);
 		/*DebugOut(L"*********Attention scene is replaces*******\n");
 		ReplaceScene = true;
 		sceneUpdate();*/
@@ -643,13 +651,19 @@ void CSceneManager::Update(DWORD dt)
 
 	//Lấy list object để xét va chạm
 	//Chỉ lấy những object nằm trong ViewPort
-	for (int i = 1; i < CGlobal::GetInstance()->objects.size(); i++)
+	for (int  i= 1; i < CGlobal::GetInstance()->objects.size(); i++)
 	{
 		if (dynamic_cast<CStair *>(CGlobal::GetInstance()->objects[i]))
 		{
 			continue;
 		}
 
+		if (dynamic_cast<CGround *>(CGlobal::GetInstance()->objects[i]))
+		{
+			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
+			continue;
+		}
+		
 		if (CGlobal::GetInstance()->objects[i]->x+32>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
 		{
 			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
@@ -663,6 +677,11 @@ void CSceneManager::Update(DWORD dt)
 		//-64,+64 có 1 số object nếu vượt khỏi vp sẽ xóa khỏi list,
 		// nếu k + và - thêm sẽ ngừng update nên k xét đc điều kiện
 		// bên trong các object
+		if (dynamic_cast<CGround *>(CGlobal::GetInstance()->objects[i]))
+		{
+			CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
+			continue;
+		}
 		if (CGlobal::GetInstance()->objects[i]->x>(int)camX - 64 && CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH + 64)
 		{
 			CGlobal::GetInstance()->objects[i]->Update(dt, &coObjects);
@@ -676,7 +695,7 @@ CSceneManager::CSceneManager()
 {
 	
 	ReplaceScene = false;
-	switch (1)
+	switch (2)
 	{
 	case 1:
 	{
