@@ -18,7 +18,7 @@ void CFishmen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (x-CCamera::GetInstance()->getCamX()<600)
 		{
 
-			isEnable == true;
+			isEnable = true;
 		}
 		else
 		{
@@ -36,13 +36,13 @@ void CFishmen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vy==0)
 	{
 		state = FISHMAN_STATE_WALKING;
-		if (nx>1)
+		if (nx>0)
 		{
-			vx = -FISHMAN_WALKING_SPEED;
+			vx = FISHMAN_WALKING_SPEED;
 		}
 		else
 		{
-			vx = FISHMAN_WALKING_SPEED;
+			vx = -FISHMAN_WALKING_SPEED;
 		}
 	}
 	vy += FISHMAN_GRAVITY*dt;

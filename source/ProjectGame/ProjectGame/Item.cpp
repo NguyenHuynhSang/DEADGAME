@@ -1,7 +1,9 @@
 ﻿#include "Item.h"
 #include"debug.h"
 #include"Brick.h"
+#include"Ground.h"
 #include"Global.h"
+#include"HiddenObjects.h"
 #include"Textures.h"
 #include<time.h>
 void CItem::Render()
@@ -127,11 +129,19 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += ITEM_GRAVITY*dt;
 	}
-	
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	CalcPotentialCollisions(coObjects, coEvents);
+	for (int i = 0; i < coEvents.size(); i++)
+	{
+		if (!dynamic_cast<CBrick *>(coEvents[i]->obj) && !dynamic_cast<CGround *>(coEvents[i]->obj))
+		{
+			coEvents.erase(coEvents.begin() + i);
+		}
+	
+	}
 	if (coEvents.size() == 0)
 	{
 		if (state==ITEM_STATE_MHEART)

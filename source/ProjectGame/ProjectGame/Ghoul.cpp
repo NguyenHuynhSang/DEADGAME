@@ -23,21 +23,31 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-	if (x<CCamera::GetInstance()->getCamX())
+	if (x<CCamera::GetInstance()->getCamX()-45)
 	{
-		isRemove = true;
-		return;
+		nx = 1;
+		vx=GHOUL_WALKING_SPEED;
+		state = GHOUL_STATE_WALKING;
+
 	}
 	if (state==GHOUL_STATE_DIE)
 	{
-		item = new CItem();
-		int random = rand() % 40 + 1;
-		item->_rank();
-		item->SetPosition(x, y);
-		item->mheartox = x;
-		CGlobal::GetInstance()->objects.push_back(item);
-		CSceneManager::GetInstance()->addScore(point);
-		this->isRemove = true;
+		if (eff->isRemove == true)
+		{
+			item = new CItem();
+			int random = rand() % 40 + 1;
+			item->_rank();
+			item->SetPosition(x, y);
+			item->mheartox = x;
+			CGlobal::GetInstance()->objects.push_back(item);
+			CSceneManager::GetInstance()->addScore(point);
+			//this->isRemove = true;
+			CAnimations::GetInstance()->Get(9999)->ResetCurrentFrame();
+			eff->isRemove = false;
+			state = GHOUL_STATE_WALKING;
+			vx = GHOUL_WALKING_SPEED;
+			x = CCamera::GetInstance()->getCamX()-50;
+		}
 		return;
 	}
 	
@@ -49,10 +59,11 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 	for (int i = 0; i < coEvents.size(); i++)
 	{
-		if (dynamic_cast<CHiddenObjects *>(coEvents[i]->obj))
+		if (!dynamic_cast<CBrick *>(coEvents[i]->obj))
 		{
 			coEvents.erase(coEvents.begin() + i);
 		}
+	
 	}
 	if (coEvents.size() == 0)
 	{
@@ -77,11 +88,23 @@ void CGhoul::Render()
 {
 	int ani = GHOUL_ANI_WALKING;
 	if (state == GHOUL_STATE_DIE) {
+		eff->SetPosition(x, y);
+		eff->Render();
+		if (CAnimations::GetInstance()->Get(9999)->getCurrentFrame() == 3)
+		{
+			eff->isRemove = true;
+		}
 		return;
 	}
+	else
+	{
+	
+		//eff->isRemove = false;
+		
+	}
 
-	animations[ani]->Render(-1,x, y);
-	RenderBoundingBox(x,y);
+	animations[ani]->Render(nx,x, y);
+	//RenderBoundingBox(x,y);
 }
 
 void CGhoul::LoadResource()
@@ -127,9 +150,3 @@ void CGhoul::SetState(int state)
 
 }
 
-CGhoul::CGhoul()
-{
-	AddAnimation(701);
-	AddAnimation(702);		
-
-}

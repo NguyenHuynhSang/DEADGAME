@@ -27,7 +27,8 @@ class CSceneManager
 	CTileMap *tileG;
 	LPGAMEOBJECT * listEnermy; // lưu enermy vào danh sách riêng để reset
 public:
-	static CSceneManager * GetInstance();
+	 bool backscene = false;
+	 static CSceneManager * GetInstance();
 	 void LoadResource();
 	 void LoadMap();
 	 void RenderMap();

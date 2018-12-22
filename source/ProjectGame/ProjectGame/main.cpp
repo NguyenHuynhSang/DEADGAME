@@ -61,6 +61,8 @@ CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	if (SIMON->removeControl==true) return;
+
 	switch (KeyCode)
 	{
 	case DIK_C:
@@ -131,6 +133,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// disable control key when SIMON die 
 	if (SIMON->GetState() == SIMON_STATE_DIE) return;
 	if (SIMON->GetState() == SIMON_STATE_HIT_ENERMY) return;
+	if (SIMON->removeControl == true) return;
 
 	if (SIMON->autoWalk==true)
 	{

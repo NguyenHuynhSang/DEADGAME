@@ -73,10 +73,11 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 	for (int i = 0; i < coEvents.size(); i++)
 	{
-		if (dynamic_cast<CHiddenObjects *>(coEvents[i]->obj))
+		if (!dynamic_cast<CBrick *>(coEvents[i]->obj))
 		{
-			coEvents.erase(coEvents.begin()+i);
+			coEvents.erase(coEvents.begin() + i);
 		}
+
 	}
 	if (coEvents.size() == 0)
 	{
@@ -180,7 +181,7 @@ void CPanther::Render()
 		ani = PANTHER_ANI_RUNNING;
 	}
 	animations[ani]->Render(nx,x,y);
-	RenderBoundingBox(x, y);
+	//RenderBoundingBox(x, y);
 }
 
 void CPanther::LoadResource()

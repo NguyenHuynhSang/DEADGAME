@@ -43,6 +43,9 @@
     <Filter Include="GameObjects\UI">
       <UniqueIdentifier>{4c63800a-5aa7-4c59-ba0b-19bf6e396731}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Enermy\Bullet">
+      <UniqueIdentifier>{89093f9a-fc77-4796-9e82-edf5d6bf0dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,6 +129,9 @@
     <ClCompile Include="Ground.cpp">
       <Filter>GameObjects\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>GameObjects\Enermy\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Ground.h">
       <Filter>GameObjects\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>GameObjects\Enermy\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

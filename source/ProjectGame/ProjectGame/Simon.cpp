@@ -33,7 +33,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x = CCamera::GetInstance()->getVPWidth() - 64;
 	}
-	
 	if (state == SIMON_STATE_HIT_ENERMY )
 	{
 		vx = nx > 0 ? -SIMON_HIT_DEFLECT_SPEED_X : SIMON_HIT_DEFLECT_SPEED_X;
@@ -55,6 +54,21 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
+	if (untouchable==1)
+	{
+		DWORD now = GetTickCount();
+		if (now-untouchable_start>SIMON_UNTOUCHABLE_TIME)
+		{
+			untouchable = 0;
+		}
+	}
+	if (removeControl == true)
+	{
+		state = SIMON_STATE_IDLE;
+		vx = 0;
+		vy = 0;
+		return;
+	}
 
 	if (state!=SIMON_STATE_UP_STAIR && state != SIMON_STATE_DOWN_STAIR &&state != SIMON_STATE_UPSTAIR_FIGHTING)
 	{
@@ -62,6 +76,8 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//isUpStair = false;
 		//isDownStair = false;
 	}
+
+
 	if (autoWalk==true)
 	{
 		state = SIMON_STATE_WALKING_RIGHT;
@@ -69,9 +85,6 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	
-
-
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -80,6 +93,28 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	for (int i = 0; i < coEvents.size(); i++)
+	{
+		if (untouchable==1)
+		{
+			if (dynamic_cast<CGhoul *>(coEvents[i]->obj))
+			{	
+				coEvents.erase(coEvents.begin() + i);
+			}
+		}
+		else
+		{
+			if (dynamic_cast<CGhoul *>(coEvents[i]->obj))
+			{
+				if (coEvents[i]->obj->GetState() == GHOUL_STATE_DIE)
+				{
+					coEvents.erase(coEvents.begin() + i);
+				}
+			}
+		}
+	
+	}
 	if (state==SIMON_STATE_UPSTAIR_FIGHTING)
 	{
 		if (whip->GetState() == WHIP_STATE_WHITE)
@@ -420,10 +455,14 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//y += min_ty*dy + ny*0.4f;
 					//if (nx != 0) vx = 0;
 					DebugOut(L"Va cham ghost theo X\n");
-
-					state = SIMON_STATE_HIT_ENERMY;
-					HITENERMY_start = GetTickCount();
-					nx = goomba->nx;
+					if (untouchable!=1)
+					{
+						state = SIMON_STATE_HIT_ENERMY;
+						HITENERMY_start = GetTickCount();
+						untouchable_start = HITENERMY_start;
+						nx = goomba->nx;
+					}
+					untouchable = 1;
 					return;
 				}
 
@@ -543,7 +582,11 @@ void CSIMON::Render()
 {
 	
 	int ani;
-
+	int alpha = 255;
+	if (untouchable==1)
+	{
+		alpha = 128;
+	}
 	if (state == SIMON_STATE_UPSTAIR_FIGHTING)
 	{
 		
@@ -551,7 +594,7 @@ void CSIMON::Render()
 		whip->SetPosition(x - 85, y);
 		whip->Render();
 		ani = SIMON_ANI_UPSTAIR_FIRE;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 		//	RenderBoundingBox(x + 14, y);
 		return;
 	}
@@ -559,35 +602,35 @@ void CSIMON::Render()
 	if (state == SIMON_STATE_HIT_ENERMY)
 	{
 		ani = SIMON_ANI_HITENERMY;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 		//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state == SIMON_STATE_UP_STAIR)
 	{
 		ani = SIMON_ANI_UPSTAIR;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state==SIMON_STATE_IDLE_UP_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_UPSTAIR;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state== SIMON_STATE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_DOWNSTAIR;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 		//RenderBoundingBox(x + 14, y);
 		return;
 	}
 	if (state == SIMON_STATE_IDLE_DOWN_STAIR)
 	{
 		ani = SIMON_ANI_IDLE_DOWNSTAIR;
-		animations[ani]->Render(nx, x, y, 255);
+		animations[ani]->Render(nx, x, y, alpha);
 	//	RenderBoundingBox(x + 14, y);
 		return;
 	}
@@ -681,9 +724,6 @@ void CSIMON::Render()
 	}
 
 
-	int alpha = 255;
-	if (untouchable) alpha = 128;
-
 	animations[ani]->Render(nx,x, y,alpha);
 	// show boundingbox de check va cham
 	//RenderBoundingBox(x+14,y);
@@ -711,6 +751,8 @@ void CSIMON::SetState(int state)
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
+		CAnimations::GetInstance()->Get(502)->ResetCurrentFrame();
+		CAnimations::GetInstance()->Get(506)->ResetCurrentFrame();
 		vx = 0;
 		break;
 	case SIMON_STATE_DIE:

@@ -10,7 +10,7 @@
 #define SIMON_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_GRAVITY			0.002f
 #define SIMON_HIT_DEFLECT_SPEED_X	 0.2f
-#define SIMON_HIT_DEFLECT_SPEED_Y	 0.5f
+#define SIMON_HIT_DEFLECT_SPEED_Y	 0.4f
 //Simon State
 
 #define SIMON_STATE_IDLE			0
@@ -67,7 +67,7 @@
 #define SIMON_IDANI_UPSTAIR_FIGHT  513
 #define SIMON_IDANI_DOWNSTAIR_FIGHT  514
 // có thể sửa lại thành invisible 
-#define SIMON_UNTOUCHABLE_TIME 5000
+#define SIMON_UNTOUCHABLE_TIME 3000
 
 #define SIMON_ONSTAIR_TIME 100
 
@@ -101,6 +101,7 @@ public:
 	int stair_X = 0;
 	int stairState = 0;
 	bool autoWalk = false;
+	bool removeControl = false;
 	bool isTouchGr() { return vy == 0 ? true : false; };
 	void setLife(int _life) { nLife = nLife + _life > SIMON_MAX_LIFE_BAR ? SIMON_MAX_LIFE_BAR : nLife + _life; }
 	int getLife() { return nLife; }

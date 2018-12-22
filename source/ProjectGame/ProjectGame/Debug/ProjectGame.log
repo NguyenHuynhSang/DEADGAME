@@ -1,37 +1,3 @@
-﻿  Simon.cpp
-d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.h(110): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\panther.h(32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\ground.h(9): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\stair.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(149): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(171): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(281): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(286): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(290): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(294): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(308): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(312): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(316): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(320): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(426): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(440): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(457): warning C4018: '<': signed/unsigned mismatch
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(550): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(551): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(639): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(644): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(649): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(745): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(750): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(753): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(772): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(778): warning C4305: '=': truncation from 'double' to 'float'
-d:\git\projectx\source\projectgame\projectgame\simon.cpp(780): warning C4305: '=': truncation from 'double' to 'float'
+﻿  LINK : D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe not found or not built by the last incremental link; performing full link
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

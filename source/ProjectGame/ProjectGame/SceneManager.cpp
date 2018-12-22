@@ -180,11 +180,11 @@ void CSceneManager::initScene()
 	}
 	case SCENE_STATE_SECOND:
 	{
-		gameState = 2;
+		gameState = 1;
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(50, 402-64);
+		simon->SetPosition(100, 402-62);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		CBrick *brick = new CBrick();
 		CStair *stair = new CStair();
@@ -264,7 +264,7 @@ void CSceneManager::initScene()
 		CPanther* panther = new CPanther();
 		panther->SetPosition(1442 + 64 + 5 * 32, 210 - 35);
 		panther->SetState(PANTHER_STATE_LIEDOWN);
-		panther->setNx(1);
+		panther->setNx(-1);
 		CGlobal::GetInstance()->objects.push_back(panther);
 
 		//stair 3
@@ -324,11 +324,49 @@ void CSceneManager::initScene()
 		hidenObject->setStairState(3);
 		hidenObject->SetPosition(2590 + 32 * 6, 370 - 32 * 9 + 37);
 		CGlobal::GetInstance()->objects.push_back(hidenObject);
-		for (int i = 0; i < 25; i++)
+		for (int i = 0; i < 17; i++)
 		{
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(2590 + 32 * 6 + i * 32, 370 - 5 * 32);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
+
+		for (int i = 0; i < 20; i++)
+		{
+			if (i == 4) continue;
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(3104 - 64 + i * 32, 402);
+			CGlobal::GetInstance()->objects.push_back(brick);
+		}
+
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				brick = new CBrick();
+				brick->SetState(BRICK_STATE_MODERN);
+				brick->SetPosition(3584 + j * 32, 402 - i * 32);
+				CGlobal::GetInstance()->objects.push_back(brick);
+			}
+
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			stair = new CStair();
+			stair->setNx(-1);
+			stair->SetPosition(3424 + i * 32, 274 + i * 32);
+			CGlobal::GetInstance()->objects.push_back(stair);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			brick = new CBrick();
+			brick->SetState(BRICK_STATE_MODERN);
+			brick->SetPosition(3296 + 32 + i * 32, 274);
 			CGlobal::GetInstance()->objects.push_back(brick);
 		}
 
@@ -344,25 +382,68 @@ void CSceneManager::initScene()
 		panther->setNx(-1);
 		CGlobal::GetInstance()->objects.push_back(panther);
 
+		panther = new CPanther();
+		panther->SetPosition(1890 + 3 * 32 , 210 + 32 * 2-50);
+		panther->SetState(PANTHER_STATE_LIEDOWN);
+		panther->setNx(-1);
+		CGlobal::GetInstance()->objects.push_back(panther);
+
 		//and Goombas 
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			CGhoul* ghoul = new CGhoul();
-			ghoul->SetPosition(125 + i * 500, 370 - GHOUL_BBOX_HEIGHT);
+			ghoul->SetPosition(500 + i * 60, 370 - GHOUL_BBOX_HEIGHT);
+			ghoul->SetState(GHOUL_STATE_WALKING);
+			CGlobal::GetInstance()->objects.push_back(ghoul);
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			CGhoul* ghoul = new CGhoul();
+			ghoul->SetPosition(1000 + i *60 , 370 - GHOUL_BBOX_HEIGHT);
+			ghoul->SetState(GHOUL_STATE_WALKING);
+			CGlobal::GetInstance()->objects.push_back(ghoul);
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			CGhoul* ghoul = new CGhoul();
+			ghoul->SetPosition(1500 + i * 80, 370 - GHOUL_BBOX_HEIGHT);
 			ghoul->SetState(GHOUL_STATE_WALKING);
 			CGlobal::GetInstance()->objects.push_back(ghoul);
 		}
 
 
+		for (int i = 0; i < 3; i++)
+		{
+			CGhoul* ghoul = new CGhoul();
+			ghoul->SetPosition(2000 + i * 80, 370 - GHOUL_BBOX_HEIGHT);
+			ghoul->SetState(GHOUL_STATE_WALKING);
+			CGlobal::GetInstance()->objects.push_back(ghoul);
+		}
 
+		for (int i = 0; i < 3; i++)
+		{
+			CGhoul* ghoul = new CGhoul();
+			ghoul->SetPosition(2500 + i * 80, 370 - GHOUL_BBOX_HEIGHT);
+			ghoul->SetState(GHOUL_STATE_WALKING);
+			CGlobal::GetInstance()->objects.push_back(ghoul);
+		}
 		break;
 	}
 	case SCENE_STATE_THIRD:
 	{
+		gameState = 2;
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
-		simon->SetPosition(3074 + 64, 146);
+		
+		simon->SetPosition(3200, 146);
+		if (backscene == true)
+		{
+			simon->SetPosition(3160, 368);
+			backscene = false;
+		}
 		CCamera::GetInstance()->setCamera(3074, 0);
 		CGlobal::GetInstance()->objects.push_back(simon);
 		CBrick *brick ;
@@ -471,6 +552,7 @@ void CSceneManager::initScene()
 	}
 	case SCENE_STATE_FOURTH:
 	{
+		gameState = 2;
 		LoadMap();
 		CGlobal::GetInstance()->objects.clear();
 		CSIMON *simon = CSIMON::GetInstance();
@@ -483,6 +565,10 @@ void CSceneManager::initScene()
 		CHiddenObjects *hidenObject;
 		for (int i = 0; i < 30; i++)
 		{
+			if (i==14 || i == 15 || i == 18 || i == 19 || i == 28 || i == 29)
+			{
+				continue;
+			}
 			brick = new CBrick();
 			brick->SetState(BRICK_STATE_MODERN);
 			brick->SetPosition(i * 32, 160+82);
@@ -517,7 +603,7 @@ void CSceneManager::initScene()
 		fishman = new CFishmen();
 		fishman->SetPosition(800, 300);
 		fishman->SetState(FISHMAN_STATE_JUMP);
-		fishman->setNx(1);
+		fishman->setNx(-1);
 		CGlobal::GetInstance()->objects.push_back(fishman);
 		break;
 	}
@@ -531,11 +617,20 @@ void CSceneManager::sceneUpdate()
 	if (ReplaceScene==true)
 	{
 		CCamera::GetInstance()->ResetCam();
-		currentScene += 100;
+	
+		if (backscene == true)
+		{
+			currentScene -= 100;
+		}
+		else
+		{
+			currentScene += 100;
+		}
 		if (currentScene>=SCENE_STATE_FOURTH)
 		{
 			currentScene = SCENE_STATE_FOURTH;
 		}
+		
 		initScene();
 		ReplaceScene = false;
 	}
@@ -569,7 +664,6 @@ void CSceneManager::Update(DWORD dt)
 
 
 	CSIMON *simon = CSIMON::GetInstance();
-
 	CGameUI::GetInstance()->Update();
 
 	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
@@ -623,10 +717,25 @@ void CSceneManager::Update(DWORD dt)
 	}
 	if (simon->x>3070-64 && currentScene == SCENE_STATE_SECOND)
 	{
-		CCamera::GetInstance()->autoCamera(4000);
-		/*DebugOut(L"*********Attention scene is replaces*******\n");
-		ReplaceScene = true;
-		sceneUpdate();*/
+		simon->removeControl = true;
+		if (CCamera::GetInstance()->autoCamera(2900)==true)
+		{
+			simon->removeControl = false;
+			simon->autoWalk = true;
+		}
+		if (simon->x > 3200)
+		{
+			simon->removeControl = true;
+			simon->autoWalk = false;
+			simon->SetState(SIMON_STATE_IDLE);
+			if (CCamera::GetInstance()->autoCamera(3074) == true)
+			{
+				simon->removeControl = false;
+				DebugOut(L"*********Attention scene is replaces*******\n");
+				ReplaceScene = true;
+				sceneUpdate();
+			}
+		}
 	}
 	if ((int)simon->y> 370 && currentScene == SCENE_STATE_THIRD)
 	{
@@ -635,6 +744,13 @@ void CSceneManager::Update(DWORD dt)
 		sceneUpdate();
 	}
 	
+	if ((int)simon->y<65  && currentScene == SCENE_STATE_FOURTH)
+	{
+		DebugOut(L"*********Attention scene is replaces*******\n");
+		ReplaceScene = true;
+		backscene = true;
+		sceneUpdate();
+	}
 
 	//dọn rác trc khi update
 	for (int i = 0; i < CGlobal::GetInstance()->objects.size(); i++)
@@ -664,7 +780,7 @@ void CSceneManager::Update(DWORD dt)
 			continue;
 		}
 		
-		if (CGlobal::GetInstance()->objects[i]->x+32>(int)camX &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
+		if (CGlobal::GetInstance()->objects[i]->x>(int)camX-64 &&CGlobal::GetInstance()->objects[i]->x<(int)camX + SCREEN_WIDTH+64)
 		{
 			coObjects.push_back(CGlobal::GetInstance()->objects[i]);
 		}
@@ -695,7 +811,7 @@ CSceneManager::CSceneManager()
 {
 	
 	ReplaceScene = false;
-	switch (2)
+	switch (1)
 	{
 	case 1:
 	{
@@ -710,6 +826,11 @@ CSceneManager::CSceneManager()
 	case 3:
 	{
 		currentScene = SCENE_STATE_THIRD;
+		break;
+	}
+	case 4:
+	{
+		currentScene = SCENE_STATE_FOURTH;
 		break;
 	}
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include"Item.h"
+#include"Effect.h"
 #define GHOUL_WALKING_SPEED 0.13f;
 
 #define GHOUL_BBOX_WIDTH 30
@@ -16,6 +17,7 @@
 class CGhoul : public CGameObject
 {
 	CItem *item;
+	CEffect *eff;
 	int point = 300;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -23,5 +25,10 @@ public:
 	virtual void Render();
 	virtual void LoadResource();
 	virtual void SetState(int state);
-	CGhoul();
+	CGhoul() :CGameObject() 
+	{
+		AddAnimation(701);
+		AddAnimation(702);
+		eff = new CEffect();
+	};
 };

@@ -8,19 +8,22 @@ CCamera *CCamera::GetInstance()
 	if (__instance == NULL) __instance = new CCamera();
 	return __instance;
 }
-void CCamera::autoCamera(float X)
+bool CCamera::autoCamera(float X)
 {
+	if (CamX >= X)
+	{
+		return true;
+	}
 	endautoTime = GetTickCount();
 	if (isauto == true)
 	{
 		isauto = false;
 		startautoTime = GetTickCount();
 	}
-	if (endautoTime - startautoTime<CAM_AUTO_TIME)
-	{
-		CamX += 2;
-	}
 
+	CamX += 2;
+	
+	return false;
 
 }
 CCamera::CCamera()
