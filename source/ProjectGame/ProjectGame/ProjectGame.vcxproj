@@ -135,7 +135,6 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Panther.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
@@ -165,7 +164,6 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Panther.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Stair.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />

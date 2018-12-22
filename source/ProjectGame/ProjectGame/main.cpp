@@ -32,7 +32,6 @@ CGameObject::GetBoundingBox
 #include "Torch.h"
 #include "TileMap.h"
 #include"Camera.h"
-#include"Stair.h"
 #include"SceneManager.h"
 #define WINDOW_CLASS_NAME L"CastleVania"
 #define MAIN_WINDOW_TITLE L"CastleVania"

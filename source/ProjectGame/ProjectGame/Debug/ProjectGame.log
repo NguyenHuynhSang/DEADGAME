@@ -1,3 +1,24 @@
-﻿  LINK : D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe not found or not built by the last incremental link; performing full link
+﻿  SceneManager.cpp
+d:\git\projectx\source\projectgame\projectgame\sprites.h(72): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\dagger.h(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\whip.h(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\simon.h(111): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.h(35): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\hiddenobjects.h(16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\panther.h(33): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\bat.h(39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\fishmen.h(36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\ground.h(9): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(148): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(246): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(368): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(449): warning C4101: 'brick': unreferenced local variable
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(537): warning C4101: 'brick': unreferenced local variable
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(630): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(741): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(755): warning C4018: '<': signed/unsigned mismatch
+d:\git\projectx\source\projectgame\projectgame\scenemanager.cpp(772): warning C4018: '<': signed/unsigned mismatch
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.exe
   ProjectGame.vcxproj -> D:\Git\projectx\source\ProjectGame\Debug\ProjectGame.pdb (Partial PDB)

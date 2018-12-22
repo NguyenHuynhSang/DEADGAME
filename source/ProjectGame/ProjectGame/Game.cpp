@@ -264,7 +264,6 @@ void CGame::ProcessKeyboard()
 
 	if (keyHandler==NULL)
 	{
-		DebugOut(L"Loi phim \n");
 		return;
 	}
 	keyHandler->KeyState((BYTE *)&keyStates);

@@ -9,7 +9,6 @@
 #include"Brick.h"
 #include"Item.h"
 #include"Ground.h"
-#include"Stair.h"
 #include"HiddenObjects.h"
 #include"Camera.h"
 CSIMON *CSIMON::__instance = NULL;
@@ -233,74 +232,48 @@ void CSIMON::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			//xu ly va cham voi nen nha
-
+			
 		    if (dynamic_cast<CGround *>(e->obj))
 			{
 				if (e->ny!=0)
 				{
 					if (onStair == true)
 					{
-						DebugOut(L"Simon leo thang \n");
+						DebugOut(L"Simon leo thang Y \n");
 						x += dx;
 						y += dy;
 					}
-					//DebugOut(L"va cham hiden theo Y\n");
-					x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					y += min_ty*dy + ny*0.4f;
-					if (nx != 0) vx = 0;
-					if (ny != 0) vy = 0;
-				
+					else
+					{
+						//DebugOut(L"va cham hiden theo Y\n");
+						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+						y += min_ty*dy + ny*0.4f;
+						//if (nx != 0) vx = 0;
+						if (ny != 0) vy = 0;
+
+					}
+					
 				}
 				else if(nx!=0)
 				{
+				
 					if (onStair == true)
 					{
-						DebugOut(L"Simon leo thang \n");
-						x += dx;
-						y += dy;
-					}
-				//	DebugOut(L"va cham hiden theo X\n");
-						
-				}
-			}
-			else if (dynamic_cast<CBrick *>(e->obj))
-			{
-				if (e->ny!=0)
-				{
-					if (onStair == true)
-					{
-						DebugOut(L"Simon leo thang \n");
+						DebugOut(L"Simon leo thang X\n");
 						x += dx;
 						y += dy;
 					}
 					else
 					{
+					//	y += dy;
 						x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 						y += min_ty*dy + ny*0.4f;
 						if (nx != 0) vx = 0;
-						vy = 0;
-						if (state == SIMON_STATE_STAND_FIGHTING) {
-							if (vy == 0)
-							{
-								vx = 0;
-							}
-						}
+						//if (ny != 0) vy = 0;
 					}
-				}	
-				else if(e->nx!=0)
-				{
-					if (onStair == true)
-					{
-						DebugOut(L"Simon leo thang \n");
-						x += dx;
-						y += dy;
-					}
-					else
-					{
-						x += dx;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-						if (nx != 0) vx = 0;
-					}
-					
+				
+				//	DebugOut(L"va cham hiden theo X\n");
+						
 				}
 			}			
 			else if (dynamic_cast<CHiddenObjects *>(e->obj))

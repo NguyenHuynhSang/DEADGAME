@@ -2,6 +2,7 @@
 #include"Textures.h"
 #include"HiddenObjects.h"
 #include"Camera.h"
+#include"Ground.h"
 #include"Brick.h"
 #include"debug.h"
 
@@ -73,7 +74,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 	for (int i = 0; i < coEvents.size(); i++)
 	{
-		if (!dynamic_cast<CBrick *>(coEvents[i]->obj))
+		if (!dynamic_cast<CGround *>(coEvents[i]->obj))
 		{
 			coEvents.erase(coEvents.begin() + i);
 		}
@@ -90,26 +91,40 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			
+
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			//xu ly va cham voi nen nha
-			if (dynamic_cast<CBrick *>(e->obj))
+			if (dynamic_cast<CGround *>(e->obj))
 			{
-				CBrick * f = dynamic_cast<CBrick*> (e->obj);
-				if (e->ny!=0)
+				if (e->ny != 0)
 				{
-					if (f->panJump==true)
+					CGround * f = dynamic_cast<CGround*> (e->obj);
+					jump_X = f->x;
+					if (state == PANTHER_STATE_RUNNING_RIGHT)
 					{
-						state = PANTHER_STATE_JUMPING;
-						x += dx;
-						y += dy;
-						return;
-					}
-					if (state== PANTHER_STATE_JUMPING)
-					{
-						if (isLeft==false)
+						if (x > jump_X + f->getWidth())
 						{
-							
+							state = PANTHER_STATE_JUMPING;
+							x += dx;
+							y += dy;
+							return;
+						}
+					}
+					else if (state == PANTHER_STATE_RUNNING_LEFT)
+					{
+						if (x < jump_X)
+						{
+							state = PANTHER_STATE_JUMPING;
+							x += dx;
+							y += dy;
+							return;
+						}
+					}
+					if (state == PANTHER_STATE_JUMPING)
+					{
+						if (isLeft == false)
+						{
+
 							state = PANTHER_STATE_RUNNING_LEFT;
 							jump = false;
 						}
@@ -118,44 +133,23 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							state = PANTHER_STATE_RUNNING_RIGHT;
 							jump = false;
 						}
-						DebugOut(L"Co chay vao day \n");
-					}
-					if (y<210+52 && state == PANTHER_STATE_JUMPING)
-					{
-						x += dx;
-						y += dy;
-						return;
+
 					}
 					x += min_tx*dx + nx*0.4f;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
 					y += min_ty*dy + ny*0.4f;
 					if (nx != 0) vx = 0;
 					if (ny != 0) vy = 0;
 				}
-				else  if (e->nx!=0)
+				else if (e->nx != 0)
 				{
-					if (y<210 + 52 && state == PANTHER_STATE_JUMPING)
-					{
-						x += dx;
-						y += dy;
-						return;
-					}
-					x += min_tx*dx + nx*0.4f;// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					if (nx != 0) vx = 0;
-					
+					x += dx;
+					y += dy;
 				}
-				
-			}
-			else
-			{
-				x += min_tx*dx + nx*0.4f;	// nx*0.4f : need to push out a bit to avoid overlapping next frame
-				y += min_ty*dy + ny*0.4f;
-				if (nx != 0) vx = 0;
-				if (ny != 0) vy = 0;
 			}
 		}
-		
-		
+
 	}
+	
 	// clean up collision events
 	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];
 

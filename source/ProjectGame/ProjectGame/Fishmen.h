@@ -17,16 +17,22 @@
 #define FISHMAN_ANI_WALKING 1
 #define FISHMAN_ANI_FIRE    2
 
+#define FISHMAN_WALKING_TIME 1000
 
 
 class CFishmen:public CGameObject
 {
+	DWORD startFire=0;
+	DWORD contFireTime=0;
+	int walk = 0;
 public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	virtual void LoadResource();
+	bool iscont = false;
 	bool isEnable = false;
+	bool startwalking = false;
 	void setNx(float xx) { nx = xx; };
 	CFishmen();
 	~CFishmen();

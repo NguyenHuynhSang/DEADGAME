@@ -19,7 +19,13 @@ void CItem::createItem()
 void CItem::_rank()
 {
 	srand(time(NULL));
-	state= rand() % 6 + 1;
+	int random = rand() % 6 + 1;
+	if (random==2)
+	{
+		random = 3;
+	}
+	state = random;
+
 }
 void CItem::LoadResource()
 {

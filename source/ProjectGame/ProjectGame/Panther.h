@@ -27,6 +27,7 @@ public:
 	bool isEnable = false;
 	bool isLeft = false;
 	bool jump = false;
+	int jump_X;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	void setNx(float xx) { nx = xx; };

@@ -3,6 +3,7 @@
 #include"Global.h"
 #include"Camera.h"
 #include"SceneManager.h"
+#include"Ground.h"
 #include"HiddenObjects.h"
 void CGhoul::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -59,7 +60,7 @@ void CGhoul::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 	for (int i = 0; i < coEvents.size(); i++)
 	{
-		if (!dynamic_cast<CBrick *>(coEvents[i]->obj))
+		if (!dynamic_cast<CGround *>(coEvents[i]->obj))
 		{
 			coEvents.erase(coEvents.begin() + i);
 		}

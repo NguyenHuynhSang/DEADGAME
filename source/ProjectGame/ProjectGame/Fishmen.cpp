@@ -32,19 +32,50 @@ void CFishmen::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	DWORD now = GetTickCount();
 
-	if (vy==0)
+	if (state==FISHMAN_STATE_FIRE)
 	{
-		state = FISHMAN_STATE_WALKING;
-		if (nx>0)
+		if (now - startFire>FISHMAN_WALKING_TIME)
 		{
-			vx = FISHMAN_WALKING_SPEED;
-		}
-		else
-		{
-			vx = -FISHMAN_WALKING_SPEED;
+			state = FISHMAN_STATE_FIRE;
+			vx = 0;
+			startFire = 0;
 		}
 	}
+
+
+	if (startFire!=0)
+	{
+		if (now - startFire>FISHMAN_WALKING_TIME)
+		{
+			state = FISHMAN_STATE_FIRE;
+			vx = 0;
+			startFire = 0;
+		}
+	}
+
+	
+
+	if (startwalking==false)
+	{
+		if (vy == 0)
+		{
+			startFire = GetTickCount();
+			state = FISHMAN_STATE_WALKING;
+			if (nx>0)
+			{
+				vx = FISHMAN_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -FISHMAN_WALKING_SPEED;
+			}
+			startwalking = true;
+		}
+		
+	}
+	
 	vy += FISHMAN_GRAVITY*dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
